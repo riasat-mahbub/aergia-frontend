@@ -4,6 +4,7 @@ import { useState } from "react";
 import IconInput from "./IconInput";
 import { useCollapse } from "react-collapsed";
 import { ChevronDown, ChevronLeft } from "lucide-react";
+import RichTextEditor from "@/components/RichTextEditor";
 
 export default function FormHolder() {
   const [formName, setFormName] = useState("");
@@ -26,7 +27,9 @@ export default function FormHolder() {
         )}
       </div>
 
-      <div {...getCollapseProps()}>Form Content</div>
+      <div {...getCollapseProps()} className="flex flex-col mx-3">
+        <RichTextEditor/>
+      </div>
     </div>
   );
 }
