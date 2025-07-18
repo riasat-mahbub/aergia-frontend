@@ -16,7 +16,7 @@ export default function Home() {
         <p className="h-20">
 
         </p>
-        <Link href="/resume-import" className="bg-emerald-500 hover:bg-emerald-700 text-white font-bold py-2 px-4 rounded-full">
+        <Link href="/importer" className="bg-emerald-500 hover:bg-emerald-700 text-white font-bold py-2 px-4 rounded-full">
           Create Resume <span aria-hidden="true">→</span>
         </Link>
         <p className="ml-3 mt-3 text-sm text-gray-600">No sign up required</p>
