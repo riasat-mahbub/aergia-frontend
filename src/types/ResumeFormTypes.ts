@@ -43,5 +43,5 @@ export interface ResumeSkills extends ResumeFormBase{
 }
 
 export interface ResumeCustom extends ResumeFormBase{
-  descriptions: string[];
+  description: string;
 }

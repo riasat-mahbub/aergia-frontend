@@ -1,4 +1,5 @@
-import { ResumeFormBase } from "@/types/ResumeFormTypes";
+import { emptyCustom } from "@/constants/resumeFormTemplates";
+import { ResumeFormBase, ResumeCustom } from "@/types/ResumeFormTypes";
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 // import type { RootState } from "lib/redux/store";
 
@@ -7,7 +8,7 @@ interface Settings {
   fontFamily: string;
   fontSize: string;
   documentSize: string;
-  formsOrder: [ResumeFormBase, boolean][];
+  forms: [ResumeFormBase, boolean][];
   showBulletPoints: {
     educations: boolean;
     projects: boolean;
@@ -26,7 +27,7 @@ export const initialSettings: Settings = {
   fontFamily: DEFAULT_FONT_FAMILY,
   fontSize: DEFAULT_FONT_SIZE,
   documentSize: "Letter",
-  formsOrder: [],
+  forms: [[emptyCustom, true]],
   showBulletPoints: {
     educations: true,
     projects: true,
@@ -49,14 +50,18 @@ export const settingsSlice = createSlice({
     setFontSize: (state, action: PayloadAction<string>) => {
       state.fontSize = action.payload;
     },
-    setFormsOrder: (state, action: PayloadAction<[ResumeFormBase, boolean][]>) => {
-      state.formsOrder = action.payload;
+    setForms: (state, action: PayloadAction<[ResumeFormBase, boolean][]>) => {
+      state.forms = action.payload;
     },
-    setFormToShow: (state, action: PayloadAction<ResumeFormBase>) => {
-      const form = state.formsOrder.find((form) => form[0].id === action.payload.id);
+    setFormToShow: (state, action: PayloadAction<string>) => {
+      const form = state.forms.find((form) => form[0].id === action.payload);
       if (form) {
+        // the second one contains visibility
         form[1] = !form[1];
       }
+    },
+    deleteForm: (state, action: PayloadAction<string>) => {
+      state.forms = state.forms.filter((form) => form[0].id !== action.payload);
     },
   },
 });
@@ -66,5 +71,6 @@ export const {
     setFontFamily,
     setFontSize,
     setFormToShow,
-    setFormsOrder,
+    setForms,
+    deleteForm
 } = settingsSlice.actions;

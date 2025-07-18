@@ -26,7 +26,8 @@
     "react-dropzone": "^14.3.8",
     "react-hotkeys-hook": "^5.1.0",
     "react-redux": "^9.2.0",
-    "react-textarea-autosize": "^8.5.9"
+    "react-textarea-autosize": "^8.5.9",
+    "uuid": "^11.1.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
