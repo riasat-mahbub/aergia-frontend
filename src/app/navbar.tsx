@@ -10,7 +10,7 @@ export default function Navbar() {
   const toggleMenu = () => setOpen(!open);
 
   return (
-    <nav className="bg-neutral-900 shadow-md sticky top-0 z-50">
+    <nav className="bg-gray-300 shadow-md sticky top-0 z-50">
       <div className=" mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
@@ -22,9 +22,9 @@ export default function Navbar() {
 
           {/* Desktop Menu */}
           <div className="hidden md:flex space-x-6">
-            <Link href="/home" className="text-gray-200 hover:text-emerald-600">Home</Link>
-            <Link href="/importer" className="text-gray-200 hover:text-emerald-600">Builder</Link>
-            <Link href="/parser" className="text-gray-200 hover:text-emerald-600">Parser</Link>
+            <Link href="/home" className="hover:text-emerald-600">Home</Link>
+            <Link href="/importer" className="hover:text-emerald-600">Builder</Link>
+            <Link href="/parser" className="hover:text-emerald-600">Parser</Link>
           </div>
 
           {/* Mobile Hamburger */}
@@ -39,9 +39,9 @@ export default function Navbar() {
       {/* Mobile Menu */}
       {open && (
         <div className="md:hidden px-4 pt-2 pb-4 space-y-2 bg-neutral-900 border-t">
-          <Link href="/home" className="block text-gray-200 hover:text-emerald-600">Home</Link>
-          <Link href="/importer" className="block text-gray-200 hover:text-emerald-600">Builder</Link>
-          <Link href="/parser" className="block text-gray-200 hover:text-emerald-600">Parser</Link>
+          <Link href="/home" className="bloc khover:text-emerald-600">Home</Link>
+          <Link href="/importer" className="bloc khover:text-emerald-600">Builder</Link>
+          <Link href="/parser" className="block hover:text-emerald-600">Parser</Link>
         </div>
       )}
     </nav>
