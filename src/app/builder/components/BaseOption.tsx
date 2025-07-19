@@ -4,6 +4,7 @@ import { Eye, EyeClosed, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { deleteForm, setFormToShow } from "@/store/settingSlice";
+import Link from "next/link";
 
 interface BaseOptionProps {
   form: ResumeFormBase;
@@ -24,9 +25,18 @@ export default function BaseOption({ form, isVisible: initialIsVisible }: BaseOp
   }
 
 
+
   return (
     <div className="flex flex-row items-center justify-between my-4 ml-1">
-      {form.title}
+      <Link 
+        href={{
+          pathname: "/singleEditor",
+          query: { formId: form.id }
+        }}
+      >
+        {form.title}
+      </Link>
+      
       <div className="flex flex-row gap-2">
         {visibility ? <Eye onClick={onEyeClick}/> : <EyeClosed onClick={onEyeClick}/>}
         <Trash2 onClick={onTrashClick}/>

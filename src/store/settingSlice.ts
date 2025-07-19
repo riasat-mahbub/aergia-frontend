@@ -1,5 +1,5 @@
 import { emptyCustom } from "@/constants/resumeFormTemplates";
-import { ResumeFormBase, ResumeCustom } from "@/types/ResumeFormTypes";
+import { ResumeForm, ResumeFormBase, ResumeCustom } from "@/types/ResumeFormTypes";
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 // import type { RootState } from "lib/redux/store";
 
@@ -63,6 +63,15 @@ export const settingsSlice = createSlice({
     deleteForm: (state, action: PayloadAction<string>) => {
       state.forms = state.forms.filter((form) => form[0].id !== action.payload);
     },
+    addForm: (state, action: PayloadAction<[ResumeForm, boolean]>) => {
+      state.forms.push(action.payload);
+    },
+    updateForm: (state, action: PayloadAction<ResumeForm>) => {
+      const index = state.forms.findIndex((form) => form[0].id === action.payload.id);
+      if (index !== -1) {
+        state.forms[index][0] = action.payload;
+      }
+    },
   },
 });
 
@@ -72,5 +81,12 @@ export const {
     setFontSize,
     setFormToShow,
     setForms,
-    deleteForm
+    deleteForm,
+    addForm,
+    updateForm
 } = settingsSlice.actions;
+
+// Selectors
+export const getFormById = (state: { settings: Settings }, formId: string) => {
+  return state.settings.forms.find((form) => form[0].id === formId);
+};

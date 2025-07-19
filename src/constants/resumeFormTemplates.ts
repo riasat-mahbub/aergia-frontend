@@ -13,6 +13,7 @@ import { v4 as uuidv4 } from 'uuid';
 export const emptyProfile: ResumeProfile = {
   title: "Profile",
   id: uuidv4(),
+  type: "profile",
   name: "",
   email: "",
   phone: "",
@@ -24,6 +25,7 @@ export const emptyProfile: ResumeProfile = {
 export const emptyWorkExperience: ResumeWorkExperience = {
   title: "Work Experience",
   id: uuidv4(),
+  type: "workExperience",
   company: "",
   jobTitle: "",
   date: "",
@@ -33,6 +35,7 @@ export const emptyWorkExperience: ResumeWorkExperience = {
 export const emptyEducation: ResumeEducation = {
   title: "Education",
   id: uuidv4(),
+  type: "education",
   school: "",
   degree: "",
   date: "",
@@ -43,6 +46,7 @@ export const emptyEducation: ResumeEducation = {
 export const emptyProject: ResumeProject = {
   title: "Project",
   id: uuidv4(),
+  type: "project",
   project: "",
   date: "",
   descriptions: []
@@ -51,6 +55,7 @@ export const emptyProject: ResumeProject = {
 export const emptyFeaturedSkill: FeaturedSkill = {
   title: "Skill",
   id: uuidv4(),
+  type: "featuredSkill",
   skill: "",
   rating: 0
 };
@@ -58,6 +63,7 @@ export const emptyFeaturedSkill: FeaturedSkill = {
 export const emptySkills: ResumeSkills = {
   title: "Skills",
   id: uuidv4(),
+  type: "skills",
   featuredSkills: [],
   descriptions: []
 };
@@ -65,6 +71,7 @@ export const emptySkills: ResumeSkills = {
 export const emptyCustom: ResumeCustom = {
   title: "Custom Section",
   id: uuidv4(),
+  type: "custom",
   description: ""
 };
 
