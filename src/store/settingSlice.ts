@@ -12,6 +12,7 @@ interface Settings {
     skills: boolean;
     custom: boolean;
   };
+  expandedFormHolder: string | null;
 }
 
 export const DEFAULT_THEME_COLOR = "#38bdf8"; // sky-400
@@ -30,6 +31,7 @@ export const initialSettings: Settings = {
     skills: true,
     custom: true,
   },
+  expandedFormHolder: null
 };
 
 
@@ -46,11 +48,15 @@ export const settingsSlice = createSlice({
     setFontSize: (state, action: PayloadAction<string>) => {
       state.fontSize = action.payload;
     },
+    setExpandedFormHolder: (state, action: PayloadAction<string | null>) => {
+      state.expandedFormHolder = action.payload;
+    },
   },
 });
 
 export const {
     setThemeColor,
     setFontFamily,
-    setFontSize
+    setFontSize,
+    setExpandedFormHolder
 } = settingsSlice.actions;
