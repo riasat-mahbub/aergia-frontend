@@ -1,27 +1,35 @@
 "use client"
-import { ResumeFormBase } from "@/types/ResumeFormTypes";
+import { ResumeForm, ResumeFormBase } from "@/types/ResumeFormTypes";
 import { Eye, EyeClosed, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { deleteForm, setFormToShow } from "@/store/settingSlice";
+
 import Link from "next/link";
+import { deleteForm, setFormToShow, updateForm } from "@/store/formSlice";
+import { FormHolder } from "@/types/FormHolderTypes";
 
 interface BaseOptionProps {
-  form: ResumeFormBase;
-  isVisible: boolean;
+  formHolderId: string;
+  form: ResumeForm;
 }
 
-export default function BaseOption({ form, isVisible: initialIsVisible }: BaseOptionProps) {
-  const [visibility, setVisibility] = useState(initialIsVisible);
+export default function Form({ formHolderId, form}: BaseOptionProps) {
+  const [visibility, setVisibility] = useState(true);
   const dispatch = useDispatch();
   
   function onEyeClick(){
     setVisibility(!visibility);
-    dispatch(setFormToShow(form.id));
+    dispatch(setFormToShow({
+      formHolderId: formHolderId,
+      formId: form.id
+    }));
   }
 
   function onTrashClick(){
-    dispatch(deleteForm(form.id));
+    dispatch(deleteForm({
+      formHolderId: formHolderId,
+      formId: form.id
+    }));
   }
 
 
@@ -31,7 +39,9 @@ export default function BaseOption({ form, isVisible: initialIsVisible }: BaseOp
       <Link 
         href={{
           pathname: "/singleEditor",
-          query: { formId: form.id }
+          query: {
+            formHolderId: formHolderId, 
+            formId: form.id }
         }}
       >
         {form.title}

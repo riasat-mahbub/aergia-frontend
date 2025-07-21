@@ -2,6 +2,7 @@ export interface ResumeFormBase {
     title: string;
     id: string;
     type: string;
+    visible: boolean;
 }
 
 export type ResumeForm = 

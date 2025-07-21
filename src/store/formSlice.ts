@@ -1,0 +1,100 @@
+import { defaultFormHolder } from "@/constants/formHolders";
+import { FormHolder } from "@/types/FormHolderTypes";
+import { ResumeForm } from "@/types/ResumeFormTypes";
+import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
+
+interface FormState {
+  formHolders: FormHolder[];
+}
+
+export const initialFormState: FormState = {
+  formHolders: [defaultFormHolder],
+};
+
+export const formSlice = createSlice({
+  name: "forms",
+  initialState: initialFormState,
+  reducers: {
+    setFormHolders: (state, action: PayloadAction<FormHolder[]>) => {
+      state.formHolders = action.payload;
+    },
+    setFormHolderToShow: (state, action: PayloadAction<string>) => {
+      const formHolder = state.formHolders.find((holder) => holder.id === action.payload);
+      if (formHolder) {
+        formHolder.visible = !formHolder.visible
+      }
+    },
+    deleteFormHolder: (state, action: PayloadAction<string>) => {
+      state.formHolders = state.formHolders.filter((holder) => holder.id !== action.payload);
+    },
+    addFormHolder: (state, action: PayloadAction<FormHolder>) => {
+      state.formHolders.push(action.payload);
+    },
+    updateFormHolder: (state, action: PayloadAction<FormHolder>) => {
+      const index = state.formHolders.findIndex((holder) => holder.id === action.payload.id);
+      if (index !== -1) {
+        state.formHolders[index] = action.payload;
+      }
+    },
+    addForm: (state, action: PayloadAction<{formHolderId: string, form: ResumeForm}>) => {
+      const holderIndex = state.formHolders.findIndex((holder) => holder.id === action.payload.formHolderId);
+      if (holderIndex !== -1) {
+        state.formHolders[holderIndex].data.push(action.payload.form);
+      }
+    },
+    updateForm: (state, action: PayloadAction<{formHolderId: string, form: ResumeForm}>) => {
+      const holderIndex = state.formHolders.findIndex((holder) => holder.id === action.payload.formHolderId);
+      if (holderIndex !== -1) {
+        const formIndex = state.formHolders[holderIndex].data.findIndex(
+          (form) => form.id === action.payload.form.id
+        );
+        if (formIndex !== -1) {
+          state.formHolders[holderIndex].data[formIndex] = action.payload.form;
+        }
+      }
+    },
+    deleteForm: (state, action: PayloadAction<{formHolderId: string, formId: string}>) => {
+      const holderIndex = state.formHolders.findIndex((holder) => holder.id === action.payload.formHolderId);
+      if (holderIndex !== -1) {
+        state.formHolders[holderIndex].data = state.formHolders[holderIndex].data.filter(
+          (form) => form.id !== action.payload.formId
+        );
+      }
+    },
+    setFormToShow(state, action: PayloadAction<{formHolderId: string, formId: string}>){
+      const holderIndex = state.formHolders.findIndex((holder) => holder.id === action.payload.formHolderId);
+      if (holderIndex !== -1) {
+        const formIndex  = state.formHolders[holderIndex].data.findIndex(
+          (form) => form.id === action.payload.formId
+        );
+        if(formIndex !== -1){
+          state.formHolders[holderIndex].data[formIndex].visible = !state.formHolders[holderIndex].data[formIndex].visible
+        }
+      }
+    }
+  },
+});
+
+export const {
+  setFormHolders,
+  setFormHolderToShow,
+  deleteFormHolder,
+  addFormHolder,
+  updateFormHolder,
+  addForm,
+  updateForm,
+  deleteForm,
+  setFormToShow
+} = formSlice.actions;
+
+// Selectors
+export const getFormById = (state: { forms: FormState }, formHolderId: string, formId: string) => {
+  const formHolder = state.forms.formHolders.find((holder) => holder.id === formHolderId);
+  if (!formHolder) return undefined;
+  
+  return formHolder.data.find((form) => form.id === formId);
+};
+
+export const getFormHolderById = (state: { forms: FormState }, formHolderId: string) => {
+  return state.forms.formHolders.find((holder) => holder.id === formHolderId);
+};

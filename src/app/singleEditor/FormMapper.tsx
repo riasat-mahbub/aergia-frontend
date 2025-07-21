@@ -11,16 +11,17 @@ import {
 } from "@/types/ResumeFormTypes";
 import RichTextEditor from "@/components/RichTextEditor";
 import { useDispatch } from "react-redux";
-import { updateForm } from "@/store/settingSlice";
+import { updateForm } from "@/store/formSlice";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
 interface FormMapperProps {
   form: ResumeForm;
+  formHolderId: string;
 }
 
 // Form mapper component
-export default function FormMapper({ form }: FormMapperProps) {
+export default function FormMapper({ form, formHolderId }: FormMapperProps) {
   const router = useRouter();
   const dispatch = useDispatch();
   // Use a temporary form for all changes
@@ -28,7 +29,10 @@ export default function FormMapper({ form }: FormMapperProps) {
   
   const handleSave = () => {
     // Update the form with the temporary form contents
-    dispatch(updateForm(tempForm));
+    dispatch(updateForm({
+      formHolderId: formHolderId,
+      form: tempForm
+    }));
     router.back();
   };
   

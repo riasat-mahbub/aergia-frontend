@@ -19,7 +19,8 @@ export const emptyProfile: ResumeProfile = {
   phone: "",
   url: "",
   summary: "",
-  location: ""
+  location: "",
+  visible: true
 };
 
 export const emptyWorkExperience: ResumeWorkExperience = {
@@ -29,7 +30,9 @@ export const emptyWorkExperience: ResumeWorkExperience = {
   company: "",
   jobTitle: "",
   date: "",
-  descriptions: []
+  descriptions: [],
+  visible: true
+
 };
 
 export const emptyEducation: ResumeEducation = {
@@ -40,7 +43,9 @@ export const emptyEducation: ResumeEducation = {
   degree: "",
   date: "",
   gpa: "",
-  descriptions: []
+  descriptions: [],
+  visible: true
+
 };
 
 export const emptyProject: ResumeProject = {
@@ -49,7 +54,9 @@ export const emptyProject: ResumeProject = {
   type: "project",
   project: "",
   date: "",
-  descriptions: []
+  descriptions: [],
+  visible: true
+
 };
 
 export const emptyFeaturedSkill: FeaturedSkill = {
@@ -57,7 +64,8 @@ export const emptyFeaturedSkill: FeaturedSkill = {
   id: uuidv4(),
   type: "featuredSkill",
   skill: "",
-  rating: 0
+  rating: 0,
+  visible: true
 };
 
 export const emptySkills: ResumeSkills = {
@@ -65,26 +73,21 @@ export const emptySkills: ResumeSkills = {
   id: uuidv4(),
   type: "skills",
   featuredSkills: [],
-  descriptions: []
+  descriptions: [],
+  visible: true
+
 };
 
 export const emptyCustom: ResumeCustom = {
   title: "Custom Section",
   id: uuidv4(),
   type: "custom",
-  description: ""
+  description: "",
+  visible: true
+
 };
 
-// Collection of all form templates
-export const formTemplates = {
-  profile: emptyProfile,
-  workExperience: emptyWorkExperience,
-  education: emptyEducation,
-  project: emptyProject,
-  featuredSkill: emptyFeaturedSkill,
-  skills: emptySkills,
-  custom: emptyCustom
-};
+
 
 // Helper function to create a new form with a unique ID
 export const createForm = <T extends ResumeFormBase>(

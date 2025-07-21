@@ -1,35 +1,13 @@
 "use client"
 
-import { useState } from 'react';
-import { 
-  Mail, 
-  Phone, 
-  Globe, 
-  MapPin, 
-  Briefcase, 
-  GraduationCap, 
-  User,
-  X
-} from 'lucide-react';
-
-type IconOption = {
-  name: string;
-  icon: React.ReactNode;
-};
-
-const iconOptions: IconOption[] = [
-  { name: 'Email', icon: <Mail size={18} /> },
-  { name: 'Phone', icon: <Phone size={18} /> },
-  { name: 'Website', icon: <Globe size={18} /> },
-  { name: 'Location', icon: <MapPin size={18} /> },
-  { name: 'Work', icon: <Briefcase size={18} /> },
-  { name: 'Education', icon: <GraduationCap size={18} /> },
-  { name: 'Person', icon: <User size={18} /> },
-];
+import { useState, useEffect } from 'react';
+import { X } from 'lucide-react';
+import { IconOption, iconOptions } from './FormHolderCard';
 
 interface IconInputProps {
   placeholder?: string;
   value?: string;
+  iconValue?: string;
   onChange?: (value: string) => void;
   onIconChange?: (iconName: string) => void;
 }
@@ -37,12 +15,25 @@ interface IconInputProps {
 export default function IconInput({ 
   placeholder = "Enter text", 
   value = "", 
+  iconValue = "Email",
   onChange,
   onIconChange
 }: IconInputProps) {
   const [text, setText] = useState(value);
-  const [selectedIcon, setSelectedIcon] = useState<IconOption>(iconOptions[0]);
+  const [selectedIcon, setSelectedIcon] = useState<IconOption>(
+    iconOptions.find(icon => icon.name === iconValue) || iconOptions[0]
+  );
   const [showIconSelector, setShowIconSelector] = useState(false);
+  
+  // Update text and icon when props change
+  useEffect(() => {
+    setText(value);
+  }, [value]);
+  
+  useEffect(() => {
+    const icon = iconOptions.find(icon => icon.name === iconValue);
+    if (icon) setSelectedIcon(icon);
+  }, [iconValue]);
 
   const handleTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value;

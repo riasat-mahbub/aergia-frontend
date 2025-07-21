@@ -2,7 +2,7 @@ import FormCollection from "./FormCollection";
 
 export default function Builder(){
     return(
-        <div className="flex flex-row">
+        <div className="flex lg:flex-row flex-col">
             <FormCollection/>
                 
 
