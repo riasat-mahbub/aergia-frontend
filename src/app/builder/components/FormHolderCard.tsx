@@ -145,7 +145,7 @@ export default function FormHolderCard({ formHolder }: FormHolderOptions) {
 
         <div className="flex justify-center items-center border-t-2 border-neutral-300 py-4">
           <div
-            className="flex flex-row gap-2 rounded-full border-2 p-2 border-gray-500 hover:bg-gray-100 cursor-pointer"
+            className="flex flex-row gap-2 rounded-full border-1 p-2 border-gray-500 hover:bg-emerald-500 hover:text-white hover:shadow-lg hover:scale-105 transition-all duration-300 cursor-pointer"
             onClick={addNewForm}
           >
             <Plus />
