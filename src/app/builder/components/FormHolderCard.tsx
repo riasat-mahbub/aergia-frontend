@@ -17,8 +17,10 @@ import {
 } from "lucide-react";
 import Form from "./Form";
 import { FormHolder } from "@/types/FormHolderTypes";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addForm, updateFormHolder } from "@/store/formSlice";
+import { setExpandedFormHolder } from "@/store/settingSlice";
+import { RootState } from "@/store/store";
 import { 
   emptyCustom, 
   emptyProfile, 
@@ -48,12 +50,29 @@ export const iconOptions: IconOption[] = [
   { name: "Person", icon: <User size={18} /> },
 ];
 
+
+
 export default function FormHolderCard({ formHolder }: FormHolderOptions) {
   const [formHolderTitle, setformHolderTitle] = useState(formHolder.title);
   const [formHolderIcon, setformHolderIcon] = useState(formHolder.icon);
   const dispatch = useDispatch();
-
-  const { getCollapseProps, getToggleProps, isExpanded } = useCollapse();
+  
+  // Get expandedFormHolder from Redux store
+  const expandedFormHolder = useSelector((state: RootState) => state.settings.expandedFormHolder);
+  const isExpanded = expandedFormHolder === formHolder.id;
+  
+  const { getCollapseProps, getToggleProps } = useCollapse({
+    isExpanded
+  });
+  
+  // Handle toggle click
+  const handleToggle = () => {
+    if (isExpanded) {
+      dispatch(setExpandedFormHolder(null));
+    } else {
+      dispatch(setExpandedFormHolder(formHolder.id));
+    }
+  };
 
   useEffect(() => {
     setformHolderTitle(formHolder.title);
@@ -132,9 +151,9 @@ export default function FormHolderCard({ formHolder }: FormHolderOptions) {
           </div>
         )}
         {isExpanded ? (
-          <ChevronDown {...getToggleProps()} size={32} />
+          <ChevronDown onClick={handleToggle} size={32} />
         ) : (
-          <ChevronLeft {...getToggleProps()} size={32} />
+          <ChevronLeft onClick={handleToggle} size={32} />
         )}
       </div>
 
