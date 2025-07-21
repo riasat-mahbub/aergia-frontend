@@ -9,9 +9,9 @@ import {
 export const defaultFormHolder: FormHolder =
   {
     id: uuidv4(),
-    title: "Personal Information",
-    icon: "Person",
-    type: "personal",
+    title: "Custom Form",
+    icon: "Email",
+    type: "custom",
     data: [emptyCustom],
     visible: true
   };
