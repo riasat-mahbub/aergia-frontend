@@ -81,6 +81,20 @@ export const formSlice = createSlice({
           state.formHolders[holderIndex].data[formIndex].visible = !state.formHolders[holderIndex].data[formIndex].visible
         }
       }
+    },
+    reorderForms(state, action: PayloadAction<{formHolderId: string, activeId: string, overId: string}>){
+      const { formHolderId, activeId, overId } = action.payload;
+      const holderIndex = state.formHolders.findIndex((holder) => holder.id === formHolderId);
+      
+      if (holderIndex !== -1) {
+        const oldIndex = state.formHolders[holderIndex].data.findIndex(form => form.id === activeId);
+        const newIndex = state.formHolders[holderIndex].data.findIndex(form => form.id === overId);
+        
+        if (oldIndex !== -1 && newIndex !== -1) {
+          const [movedItem] = state.formHolders[holderIndex].data.splice(oldIndex, 1);
+          state.formHolders[holderIndex].data.splice(newIndex, 0, movedItem);
+        }
+      }
     }
   },
 });
@@ -95,7 +109,8 @@ export const {
   updateForm,
   deleteForm,
   setFormToShow,
-  reorderFormHolders
+  reorderFormHolders,
+  reorderForms
 } = formSlice.actions;
 
 // Selectors

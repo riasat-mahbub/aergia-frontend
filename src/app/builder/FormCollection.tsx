@@ -13,6 +13,7 @@ import {
   useSensors,
   DragEndEvent
 } from "@dnd-kit/core";
+import { restrictToVerticalAxis } from "@dnd-kit/modifiers";
 import {
   SortableContext,
   sortableKeyboardCoordinates,
@@ -54,6 +55,7 @@ export default function FormCollection() {
       sensors={sensors}
       collisionDetection={closestCenter}
       onDragEnd={handleDragEnd}
+      modifiers={[restrictToVerticalAxis]}
     >
       <SortableContext
         items={formHolders.map(holder => holder.id)}

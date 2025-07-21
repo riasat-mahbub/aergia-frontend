@@ -19,11 +19,26 @@ import {
 import Form from "./Form";
 import { FormHolder } from "@/types/FormHolderTypes";
 import { useDispatch, useSelector } from "react-redux";
-import { addForm, updateFormHolder } from "@/store/formSlice";
+import { addForm, updateFormHolder, reorderForms } from "@/store/formSlice";
 import { setExpandedFormHolder } from "@/store/settingSlice";
 import { RootState } from "@/store/store";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  DragEndEvent
+} from "@dnd-kit/core";
+import { restrictToVerticalAxis } from "@dnd-kit/modifiers";
+import {
+  SortableContext,
+  sortableKeyboardCoordinates,
+  verticalListSortingStrategy
+} from "@dnd-kit/sortable";
 import { 
   emptyCustom, 
   emptyProfile, 
@@ -60,7 +75,32 @@ export default function FormHolderCard({ formHolder }: FormHolderOptions) {
   const [formHolderIcon, setformHolderIcon] = useState(formHolder.icon);
   const dispatch = useDispatch();
   
-  // Setup sortable functionality
+  // Setup sensors for drag and drop
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 8, // Minimum distance before a drag starts
+      },
+    }),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    })
+  );
+  
+  // Handle drag end event for forms
+  const handleFormDragEnd = (event: DragEndEvent) => {
+    const { active, over } = event;
+    
+    if (over && active.id !== over.id) {
+      dispatch(reorderForms({
+        formHolderId: formHolder.id,
+        activeId: active.id.toString(),
+        overId: over.id.toString()
+      }));
+    }
+  };
+  
+  // Setup sortable functionality for the form holder itself
   const {
     attributes,
     listeners,
@@ -190,9 +230,21 @@ export default function FormHolderCard({ formHolder }: FormHolderOptions) {
       </div>
 
       <div {...getCollapseProps()} className="flex flex-col mx-3">
-        {formHolder.data.map((form) => (
-          <Form key={form.id} formHolderId={formHolder.id} form={form} />
-        ))}
+        <DndContext
+          sensors={sensors}
+          collisionDetection={closestCenter}
+          onDragEnd={handleFormDragEnd}
+          modifiers={[restrictToVerticalAxis]}
+        >
+          <SortableContext
+            items={formHolder.data.map(form => form.id)}
+            strategy={verticalListSortingStrategy}
+          >
+            {formHolder.data.map((form) => (
+              <Form key={form.id} formHolderId={formHolder.id} form={form} />
+            ))}
+          </SortableContext>
+        </DndContext>
 
         <div className="flex justify-center items-center border-t-2 border-neutral-300 py-4">
           <div

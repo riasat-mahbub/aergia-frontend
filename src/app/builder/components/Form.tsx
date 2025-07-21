@@ -1,11 +1,13 @@
 "use client"
 import { ResumeForm, ResumeFormBase } from "@/types/ResumeFormTypes";
-import { Eye, EyeClosed, Trash2 } from "lucide-react";
+import { Eye, EyeClosed, Trash2, GripVertical } from "lucide-react";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 
 import Link from "next/link";
 import { deleteForm, setFormToShow, updateForm } from "@/store/formSlice";
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 import { FormHolder } from "@/types/FormHolderTypes";
 
 interface BaseOptionProps {
@@ -16,6 +18,24 @@ interface BaseOptionProps {
 export default function Form({ formHolderId, form}: BaseOptionProps) {
   const [visibility, setVisibility] = useState(true);
   const dispatch = useDispatch();
+  
+  // Setup sortable functionality
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging
+  } = useSortable({ id: form.id });
+  
+  // Apply styles for dragging
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    opacity: isDragging ? 0.5 : 1,
+    zIndex: isDragging ? 1000 : 1
+  };
   
   function onEyeClick(){
     setVisibility(!visibility);
@@ -35,17 +55,30 @@ export default function Form({ formHolderId, form}: BaseOptionProps) {
 
 
   return (
-    <div className="flex flex-row items-center justify-between my-4 ml-1">
-      <Link 
-        href={{
-          pathname: "/singleEditor",
-          query: {
-            formHolderId: formHolderId, 
-            formId: form.id }
-        }}
-      >
-        {form.title}
-      </Link>
+    <div 
+      ref={setNodeRef}
+      style={style}
+      className="flex flex-row items-center justify-between my-4 ml-1"
+    >
+      <div className="flex flex-row items-center">
+        <div 
+          {...attributes} 
+          {...listeners} 
+          className="cursor-grab hover:text-emerald-500 mr-3"
+        >
+          <GripVertical size={16} />
+        </div>
+        <Link 
+          href={{
+            pathname: "/singleEditor",
+            query: {
+              formHolderId: formHolderId, 
+              formId: form.id }
+          }}
+        >
+          {form.title}
+        </Link>
+      </div>
       
       <div className="flex flex-row gap-2">
         {visibility ? <Eye onClick={onEyeClick}/> : <EyeClosed onClick={onEyeClick}/>}
