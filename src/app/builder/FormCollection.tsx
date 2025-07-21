@@ -12,7 +12,7 @@ export default function FormCollection(){
   const formHolders = useSelector((state: RootState) => state.forms.formHolders);
 
     return(
-        <div className="lg:w-1/2 w-full">
+        <div className="w-11/12 my-6">
             {formHolders.map((formHolder) => (
                 <FormHolderCard key={formHolder.id} formHolder={formHolder}/>
             ))}
