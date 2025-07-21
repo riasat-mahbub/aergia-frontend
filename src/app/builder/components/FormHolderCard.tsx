@@ -14,6 +14,7 @@ import {
   GraduationCap,
   User,
   Plus,
+  GripVertical,
 } from "lucide-react";
 import Form from "./Form";
 import { FormHolder } from "@/types/FormHolderTypes";
@@ -21,6 +22,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { addForm, updateFormHolder } from "@/store/formSlice";
 import { setExpandedFormHolder } from "@/store/settingSlice";
 import { RootState } from "@/store/store";
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 import { 
   emptyCustom, 
   emptyProfile, 
@@ -56,6 +59,16 @@ export default function FormHolderCard({ formHolder }: FormHolderOptions) {
   const [formHolderTitle, setformHolderTitle] = useState(formHolder.title);
   const [formHolderIcon, setformHolderIcon] = useState(formHolder.icon);
   const dispatch = useDispatch();
+  
+  // Setup sortable functionality
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging
+  } = useSortable({ id: formHolder.id });
   
   // Get expandedFormHolder from Redux store
   const expandedFormHolder = useSelector((state: RootState) => state.settings.expandedFormHolder);
@@ -131,9 +144,28 @@ export default function FormHolderCard({ formHolder }: FormHolderOptions) {
       })
     );
   };
+  // Apply styles for dragging
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    opacity: isDragging ? 0.5 : 1,
+    zIndex: isDragging ? 1000 : 1
+  };
+
   return (
-    <div className="flex flex-col gap-3 rounded-md bg-white shadow transition-opacity duration-200">
+    <div 
+      ref={setNodeRef}
+      style={style}
+      className="flex flex-col gap-3 rounded-md bg-white shadow transition-opacity duration-200"
+    >
       <div className="flex flex-row items-center gap-4 pl-4 py-4 pr-3">
+        <div 
+          {...attributes} 
+          {...listeners} 
+          className="cursor-grab hover:text-emerald-500 mr-1"
+        >
+          <GripVertical size={20} />
+        </div>
         {isExpanded ? (
           <IconInput
             value={formHolderTitle}

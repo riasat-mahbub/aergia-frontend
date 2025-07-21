@@ -18,6 +18,16 @@ export const formSlice = createSlice({
     setFormHolders: (state, action: PayloadAction<FormHolder[]>) => {
       state.formHolders = action.payload;
     },
+    reorderFormHolders: (state, action: PayloadAction<{activeId: string, overId: string}>) => {
+      const { activeId, overId } = action.payload;
+      const oldIndex = state.formHolders.findIndex(holder => holder.id === activeId);
+      const newIndex = state.formHolders.findIndex(holder => holder.id === overId);
+      
+      if (oldIndex !== -1 && newIndex !== -1) {
+        const [movedItem] = state.formHolders.splice(oldIndex, 1);
+        state.formHolders.splice(newIndex, 0, movedItem);
+      }
+    },
     setFormHolderToShow: (state, action: PayloadAction<string>) => {
       const formHolder = state.formHolders.find((holder) => holder.id === action.payload);
       if (formHolder) {
@@ -84,7 +94,8 @@ export const {
   addForm,
   updateForm,
   deleteForm,
-  setFormToShow
+  setFormToShow,
+  reorderFormHolders
 } = formSlice.actions;
 
 // Selectors
