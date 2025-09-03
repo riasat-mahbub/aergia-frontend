@@ -43,7 +43,7 @@ export const emptyEducation: ResumeEducation = {
   degree: "",
   date: "",
   gpa: "",
-  descriptions: [],
+  description: "",
   visible: true
 
 };

@@ -36,7 +36,7 @@ export interface ResumeEducation extends ResumeFormBase {
   degree: string;
   date: string;
   gpa: string;
-  descriptions: string[];
+  description: string;
 }
 
 export interface ResumeProject extends ResumeFormBase {

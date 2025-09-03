@@ -6,12 +6,6 @@ interface Settings {
   fontFamily: string;
   fontSize: string;
   documentSize: string;
-  showBulletPoints: {
-    educations: boolean;
-    projects: boolean;
-    skills: boolean;
-    custom: boolean;
-  };
   expandedFormHolder: string | null;
 }
 
@@ -25,12 +19,6 @@ export const initialSettings: Settings = {
   fontFamily: DEFAULT_FONT_FAMILY,
   fontSize: DEFAULT_FONT_SIZE,
   documentSize: "Letter",
-  showBulletPoints: {
-    educations: true,
-    projects: true,
-    skills: true,
-    custom: true,
-  },
   expandedFormHolder: null
 };
 
