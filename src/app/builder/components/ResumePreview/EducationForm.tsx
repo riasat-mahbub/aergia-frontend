@@ -1,15 +1,9 @@
-"use client";
-
 import { EducationFormHolder } from "@/types/FormHolderTypes";
-import { ResumeCustom, ResumeEducation } from "@/types/ResumeFormTypes";
+import { ResumeEducation } from "@/types/ResumeFormTypes";
 
 
 export default function EducationForm({eduFormHolder}: { eduFormHolder: EducationFormHolder }) {
 
-  // Client-side only component
-  if (typeof window === "undefined") {
-    return null; // Return null during SSR
-  }
 
   return (
     <div className="flex flex-col educationHolder">

@@ -1,14 +1,7 @@
-"use client";
-
 import { ProjectFormHolder } from "@/types/FormHolderTypes";
 import { ResumeProject } from "@/types/ResumeFormTypes";
 
 export default function ProjectForm({projectFormHolder}: { projectFormHolder: ProjectFormHolder }) {
-
-  if (typeof window === "undefined") {
-    return null;
-  }
-
   return (
     <div className="flex flex-col projectHolder">
       <div className="projectHolderTitle">{projectFormHolder.title}</div>

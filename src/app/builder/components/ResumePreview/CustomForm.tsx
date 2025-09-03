@@ -1,16 +1,9 @@
-"use client";
-
-import { useSelector } from "react-redux";
 import { CustomFormHolder, FormHolder } from "@/types/FormHolderTypes";
 import { ResumeCustom } from "@/types/ResumeFormTypes";
 
 
 export default function CustomForm({customFormHolder}: { customFormHolder: CustomFormHolder }) {
 
-  // Client-side only component
-  if (typeof window === "undefined") {
-    return null; // Return null during SSR
-  }
 
   return (
     <div className="flex flex-col customHolder">

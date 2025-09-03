@@ -1,13 +1,7 @@
-"use client";
-
 import { WorkExperienceFormHolder } from "@/types/FormHolderTypes";
 import { ResumeWorkExperience } from "@/types/ResumeFormTypes";
 
 export default function WorkExperienceForm({workExperienceFormHolder}: { workExperienceFormHolder: WorkExperienceFormHolder }) {
-
-  if (typeof window === "undefined") {
-    return null;
-  }
 
   return (
     <div className="flex flex-col workExperienceHolder">

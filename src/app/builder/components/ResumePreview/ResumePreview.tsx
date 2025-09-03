@@ -1,15 +1,10 @@
-"use client";
-
-import { RootState } from "@/store/store";
 import { FormHolder, CustomFormHolder, EducationFormHolder, WorkExperienceFormHolder, ProjectFormHolder, SkillsFormHolder, ProfileFormHolder } from "@/types/FormHolderTypes";
-import { useSelector } from "react-redux";
 import CustomForm from "./CustomForm";
 import EducationForm from "./EducationForm";
 import WorkExperienceForm from "./WorkExperienceForm";
 import ProjectForm from "./ProjectForm";
 import SkillsForm from "./SkillsForm";
 import ProfileForm from "./ProfileForm";
-import { resumeStyles } from "../ResumeStyles";
 
 export default function ResumePreview({ formHolders }: { formHolders: FormHolder[] }) {
 

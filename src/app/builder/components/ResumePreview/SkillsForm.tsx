@@ -1,14 +1,7 @@
-"use client";
-
 import { SkillsFormHolder } from "@/types/FormHolderTypes";
 import { ResumeSkills } from "@/types/ResumeFormTypes";
 
 export default function SkillsForm({skillsFormHolder}: { skillsFormHolder: SkillsFormHolder }) {
-
-  if (typeof window === "undefined") {
-    return null;
-  }
-
   return (
     <div className="flex flex-col skillsHolder">
       <div className="skillsHolderTitle">{skillsFormHolder.title}</div>
