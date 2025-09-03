@@ -2,8 +2,7 @@
 
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
-import PDFDownload from "./PDFDownload";
-import ResumePreview from "./ResumePreview";
+import ResumePreview from "./ResumePreview/ResumePreview";
 
 export default function FormToPDF() {
   const formHolders = useSelector((state: RootState) =>
@@ -18,13 +17,9 @@ export default function FormToPDF() {
   return (
     <div className="flex flex-col items-center w-full">
       {formHolders.length > 0 ? (
-        <>
-          <div className=" shadow-md mb-6 w-full bg-white">
-            <ResumePreview formHolders={formHolders} />
-          </div>
-
-          <PDFDownload formHolders={formHolders} />
-        </>
+        <div className="mb-6 overflow-auto flex justify-center">
+          <ResumePreview formHolders={formHolders} />
+        </div>
       ) : (
         <div className="text-gray-500">Add content to generate a PDF</div>
       )}
