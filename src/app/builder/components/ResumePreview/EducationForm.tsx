@@ -9,15 +9,17 @@ export default function EducationForm({eduFormHolder}: { eduFormHolder: Educatio
     <div className="flex flex-col educationHolder">
       <div className="educationHolderTitle">{eduFormHolder.title}</div>
         {eduFormHolder.data.map((form:ResumeEducation, index) => {
-        return (
-          <div key={form.id} className="educationForm">
-            <div className="educationFormDegree">{form.degree}</div>
-            <div className="educationFormSchool">{form.school}</div>
-            <div className="educationFormDescription">{form.description}</div>
-            <div className="educationFormDate">{form.date}</div>
-            <div className="educationFormGPA">{form.gpa}</div>
-          </div>
-        );
+        if(form.visible){
+          return (
+            <div key={form.id} className="educationForm">
+              <div className="educationFormDegree">{form.degree}</div>
+              <div className="educationFormSchool">{form.school}</div>
+              <div className="educationFormDescription">{form.description}</div>
+              <div className="educationFormDate">{form.date}</div>
+              <div className="educationFormGPA">{form.gpa}</div>
+            </div>
+          );
+      }
       })}
     </div>
   );

@@ -14,9 +14,7 @@ export default function SkillsForm({skillsFormHolder}: { skillsFormHolder: Skill
                 <div className="featuredSkillRating">{skill.rating}</div>
               </div>
             ))}
-            {form.descriptions.map((desc, descIndex) => (
-              <div key={descIndex} className="skillsFormDescription">{desc}</div>
-            ))}
+            <div className="skillsDescription">{form.description}</div>
           </div>
         );
       })}

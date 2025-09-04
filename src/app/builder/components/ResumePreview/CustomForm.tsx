@@ -9,12 +9,15 @@ export default function CustomForm({customFormHolder}: { customFormHolder: Custo
     <div className="flex flex-col customHolder">
       <div className="customHolderTitle">{customFormHolder.title}</div>
       {customFormHolder.data.map((form:ResumeCustom, index) => {
-        return (
-          <div key={form.id} className="customForm">
-            <h3 className="customFormTitle">{form.title}</h3>
-            <div className="customFormDescription" dangerouslySetInnerHTML={{ __html: form.description }}></div>
-          </div>
-        );
+        if(form.visible){
+          return (
+            <div key={form.id} className="customForm" >
+              <h3 className="customFormTitle">{form.title}</h3>
+              <div className="customFormDescription" dangerouslySetInnerHTML={{ __html: form.description }}></div>
+            </div>
+          );
+        }
+
       })}
     </div>
   );

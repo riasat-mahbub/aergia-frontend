@@ -61,7 +61,7 @@ export default function Form({ formHolderId, form, onFormClick}: BaseOptionProps
       style={style}
       className="flex flex-row items-center justify-between my-4 ml-1"
     >
-      <div className="flex flex-row items-center">
+      <div className="flex flex-row items-center cursor-pointer w-auto" onClick={() => onFormClick(formHolderId, form)}>
         <div 
           {...attributes} 
           {...listeners} 
@@ -69,12 +69,7 @@ export default function Form({ formHolderId, form, onFormClick}: BaseOptionProps
         >
           <GripVertical size={16} />
         </div>
-        <span 
-          className="cursor-pointer hover:text-blue-600"
-          onClick={() => onFormClick(formHolderId, form)}
-        >
-          {form.title}
-        </span>
+        {form.title}
       </div>
       
       <div className="flex flex-row gap-2">
