@@ -12,11 +12,12 @@ export default function EducationForm({eduFormHolder}: { eduFormHolder: Educatio
         if(form.visible){
           return (
             <div key={form.id} className="educationForm">
-              <div className="educationFormDegree">{form.degree}</div>
               <div className="educationFormSchool">{form.school}</div>
-              <div className="educationFormDescription">{form.description}</div>
+              <div className="educationFormLocation">{form.location}</div>
+              <div className="educationFormDegree">{form.degree}</div>
               <div className="educationFormDate">{form.date}</div>
               <div className="educationFormGPA">{form.gpa}</div>
+              <div className="educationFormDescription">{form.description}</div>
             </div>
           );
       }

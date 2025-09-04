@@ -5,6 +5,7 @@ import WorkExperienceForm from "./WorkExperienceForm";
 import ProjectForm from "./ProjectForm";
 import SkillsForm from "./SkillsForm";
 import ProfileForm from "./ProfileForm";
+import "@/styles/resume-styles.css";
 
 export default function ResumePreview({ formHolders }: { formHolders: FormHolder[] }) {
 

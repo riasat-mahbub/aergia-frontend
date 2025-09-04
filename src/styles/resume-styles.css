@@ -1,0 +1,190 @@
+/* Profile Section */
+.profileForm {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+.profileFormName {
+  font-size: 20px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.profileFormContact{
+  font-size: 11px;
+  margin: 1px 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: center
+}
+
+.profileFormEmail::after,
+.profileFormPhone::after,
+.profileFormLocation::after {
+  content: ",";
+  margin-right: 4px;
+}
+
+.profileFormUrl:empty ~ .profileFormEmail::after {
+  content: "";
+  margin: 0;
+}
+
+.profileFormSummary {
+  font-size: 11px;
+  margin-top: 4px;
+  line-height: 1.4;
+  text-align: left;
+}
+
+
+
+/* Section Titles */
+.educationHolderTitle,
+.workExperienceHolderTitle,
+.projectHolderTitle,
+.skillsHolderTitle,
+.customHolderTitle {
+  font-size: 12px;
+  font-weight: bold;
+  text-transform: uppercase;
+  border-bottom: 1px solid #000;
+  margin: 15px 0 8px 0;
+  padding-bottom: 2px;
+  letter-spacing: 0.5px;
+}
+
+/* Education Section */
+
+.educationForm{
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  font-size: 12px;
+}
+
+.educationFormSchool {
+  font-weight: bold;
+  font-size: 13px;
+  text-transform: uppercase;
+}
+
+.educationFormLocation, .educationFormDate{
+  text-align: end;
+}
+
+.educationFormDescription{
+  grid-column: span 2/ span 2;
+}
+
+
+
+
+/* Work Experience Section */
+.workExperienceHolder {
+  margin-bottom: 12px;
+}
+
+.workExperienceForm {
+  margin-bottom: 12px;
+  line-height: 1.3;
+}
+
+.workExperienceFormJobTitle {
+  font-weight: bold;
+  font-size: 11px;
+}
+
+.workExperienceFormCompany {
+  font-style: italic;
+  font-size: 11px;
+  margin-bottom: 2px;
+}
+
+.workExperienceFormDate {
+  font-size: 11px;
+  color: #000;
+  margin-bottom: 3px;
+}
+
+.workExperienceFormDescription {
+  font-size: 11px;
+  line-height: 1.4;
+}
+
+/* Project Section */
+.projectHolder {
+  margin-bottom: 12px;
+}
+
+.projectForm {
+  margin-bottom: 10px;
+  line-height: 1.3;
+}
+
+.projectFormProject {
+  font-weight: bold;
+  font-size: 11px;
+  margin-bottom: 2px;
+}
+
+.projectFormDate {
+  font-size: 11px;
+  color: #000;
+  margin-bottom: 2px;
+}
+
+/* Skills Section */
+.skillsHolder {
+  margin-bottom: 12px;
+}
+
+.skillsForm {
+  line-height: 1.3;
+}
+
+.featuredSkill {
+  display: inline-block;
+  margin-right: 15px;
+  margin-bottom: 4px;
+}
+
+.featuredSkillName {
+  font-weight: bold;
+  font-size: 11px;
+  display: inline;
+}
+
+.featuredSkillRating {
+  font-size: 11px;
+  color: #000;
+  display: inline;
+  margin-left: 3px;
+}
+
+.skillsDescription {
+  font-size: 11px;
+  margin-top: 6px;
+  line-height: 1.4;
+}
+
+/* Custom Section */
+.customHolder {
+  margin-bottom: 12px;
+}
+
+.customForm {
+  margin-bottom: 10px;
+  line-height: 1.3;
+}
+
+.customFormTitle {
+  font-weight: bold;
+  font-size: 11px;
+  margin-bottom: 3px;
+}
+
+.customFormDescription {
+  font-size: 11px;
+  line-height: 1.4;
+}

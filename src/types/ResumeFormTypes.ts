@@ -36,6 +36,7 @@ export interface ResumeEducation extends ResumeFormBase {
   degree: string;
   date: string;
   gpa: string;
+  location: string;
   description: string;
 }
 

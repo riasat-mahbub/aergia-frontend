@@ -30,7 +30,7 @@ export const emptyWorkExperience: ResumeWorkExperience = {
   company: "",
   jobTitle: "",
   date: "",
-  descriptions: [],
+  description: "",
   visible: true
 
 };
@@ -43,6 +43,7 @@ export const emptyEducation: ResumeEducation = {
   degree: "",
   date: "",
   gpa: "",
+  location: "",
   description: "",
   visible: true
 
@@ -54,7 +55,7 @@ export const emptyProject: ResumeProject = {
   type: "project",
   project: "",
   date: "",
-  descriptions: [],
+  description: "",
   visible: true
 
 };
@@ -73,7 +74,7 @@ export const emptySkills: ResumeSkills = {
   id: uuidv4(),
   type: "skills",
   featuredSkills: [],
-  descriptions: [],
+  description: "",
   visible: true
 
 };
