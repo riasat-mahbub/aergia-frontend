@@ -21,11 +21,8 @@ import {
   verticalListSortingStrategy
 } from "@dnd-kit/sortable";
 
-interface FormCollectionProps {
-  onFormClick: (formHolderId: string, form: ResumeForm) => void;
-}
 
-export default function FormCollection({ onFormClick }: FormCollectionProps) {
+export default function FormCollection() {
   const dispatch = useDispatch();
   
   // Get forms from Redux store
@@ -68,7 +65,7 @@ export default function FormCollection({ onFormClick }: FormCollectionProps) {
       >
         <div className="w-11/12 my-6 flex flex-col gap-4">
           {formHolders.map((formHolder) => (
-            <FormHolderCard key={formHolder.id} formHolder={formHolder} onFormClick={onFormClick}/>
+            <FormHolderCard key={formHolder.id} formHolder={formHolder}/>
           ))}
         </div>
       </SortableContext>

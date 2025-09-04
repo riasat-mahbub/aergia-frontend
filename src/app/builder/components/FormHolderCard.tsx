@@ -20,7 +20,7 @@ import Form from "./Form";
 import { FormHolder } from "@/types/FormHolderTypes";
 import { ResumeForm } from "@/types/ResumeFormTypes";
 import { useDispatch, useSelector } from "react-redux";
-import { addForm, updateFormHolder, reorderForms } from "@/store/formSlice";
+import { addForm, updateFormHolder, reorderForms, setSelectedForm } from "@/store/formSlice";
 import { setExpandedFormHolder } from "@/store/settingSlice";
 import { RootState } from "@/store/store";
 import { useSortable } from "@dnd-kit/sortable";
@@ -52,7 +52,6 @@ import { v4 as uuidv4 } from "uuid";
 
 interface FormHolderOptions {
   formHolder: FormHolder;
-  onFormClick: (formHolderId: string, form: ResumeForm) => void;
 }
 
 export type IconOption = {
@@ -72,7 +71,7 @@ export const iconOptions: IconOption[] = [
 
 
 
-export default function FormHolderCard({ formHolder, onFormClick }: FormHolderOptions) {
+export default function FormHolderCard({ formHolder }: FormHolderOptions) {
   const [formHolderTitle, setformHolderTitle] = useState(formHolder.title);
   const [formHolderIcon, setformHolderIcon] = useState(formHolder.icon);
   const dispatch = useDispatch();
@@ -185,6 +184,13 @@ export default function FormHolderCard({ formHolder, onFormClick }: FormHolderOp
         form: newForm,
       })
     );
+
+    dispatch(      
+      setSelectedForm({
+        formHolderId: formHolder.id,
+        form: newForm
+    }))
+
   };
   // Apply styles for dragging
   const style = {
@@ -243,7 +249,7 @@ export default function FormHolderCard({ formHolder, onFormClick }: FormHolderOp
             strategy={verticalListSortingStrategy}
           >
             {formHolder.data.map((form) => (
-              <Form key={form.id} formHolderId={formHolder.id} form={form} onFormClick={onFormClick} />
+              <Form key={form.id} formHolderId={formHolder.id} form={form}/>
             ))}
           </SortableContext>
         </DndContext>

@@ -1,7 +1,7 @@
 'use client'
 import { ResumeCustom, ResumeEducation, ResumeForm, ResumeProfile, ResumeProject, ResumeSkills, ResumeWorkExperience } from "@/types/ResumeFormTypes";
 import { useDispatch } from "react-redux";
-import { updateForm } from "@/store/formSlice";
+import { setSelectedForm, updateForm } from "@/store/formSlice";
 import ProfileFormEditor from "./ProfileFormEditor";
 import WorkExperienceFormEditor from "./WorkExperienceFormEditor";
 import EducationFormEditor from "./EducationFormEditor";
@@ -12,10 +12,9 @@ import CustomFormEditor from "./CustomFormEditor";
 interface FormEditorProps {
   form: ResumeForm;
   formHolderId: string;
-  onBack?: () => void;
 }
 
-export default function FormEditor({ form, formHolderId, onBack }: FormEditorProps) {
+export default function FormEditor({ form, formHolderId }: FormEditorProps) {
   const dispatch = useDispatch();
   
   const handleSave = (updatedForm: ResumeForm) => {
@@ -23,8 +22,11 @@ export default function FormEditor({ form, formHolderId, onBack }: FormEditorPro
       formHolderId: formHolderId,
       form: updatedForm
     }));
-    onBack?.();
   };
+
+  const onBack = () => {
+    dispatch(setSelectedForm(null));
+  }
 
   return (
     <div className="w-11/12 my-6">

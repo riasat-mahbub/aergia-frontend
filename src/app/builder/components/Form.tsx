@@ -5,20 +5,30 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 
 
-import { deleteForm, setFormToShow, updateForm } from "@/store/formSlice";
+import { deleteForm, setFormToShow, setSelectedForm, updateForm } from "@/store/formSlice";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { FormHolder } from "@/types/FormHolderTypes";
+
 
 interface BaseOptionProps {
   formHolderId: string;
   form: ResumeForm;
-  onFormClick: (formHolderId: string, form: ResumeForm) => void;
 }
 
-export default function Form({ formHolderId, form, onFormClick}: BaseOptionProps) {
+
+
+export default function Form({ formHolderId, form}: BaseOptionProps) {
   const [visibility, setVisibility] = useState(true);
   const dispatch = useDispatch();
+
+  const onFormClick = (formHolderId: string, form: ResumeForm) => {
+  dispatch(
+    setSelectedForm({
+      formHolderId: formHolderId,
+      form: form
+    })
+  );
+}
   
   // Setup sortable functionality
   const {

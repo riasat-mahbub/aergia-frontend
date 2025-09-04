@@ -6,18 +6,12 @@ import FormEditor from "./components/FormEditor/FormEditor";
 import AddFormHolderPopover from "./components/AddFormHolderPopover";
 import { useState } from "react";
 import { ResumeForm } from "@/types/ResumeFormTypes";
+import { RootState } from "@/store/store";
+import { useSelector } from "react-redux";
 
 export default function LeftSide(){
     const [showPopover, setShowPopover] = useState(false);
-    const [selectedForm, setSelectedForm] = useState<{formHolderId: string, form: ResumeForm} | null>(null);
-    
-    const handleFormClick = (formHolderId: string, form: ResumeForm) => {
-        setSelectedForm({formHolderId, form});
-    };
-    
-    const handleBackToCollection = () => {
-        setSelectedForm(null);
-    };
+    const selectedForm = useSelector((state: RootState) => state.forms.selectedForm);
     
     return(
         <div className="lg:w-5/12 w-full flex flex-col items-center">
@@ -25,11 +19,10 @@ export default function LeftSide(){
                 <FormEditor 
                     form={selectedForm.form} 
                     formHolderId={selectedForm.formHolderId}
-                    onBack={handleBackToCollection}
                 />
             ) : (
                 <>
-                    <FormCollection onFormClick={handleFormClick}/>
+                    <FormCollection/>
                     <div 
                         className="rounded-full text-white bg-emerald-500 flex mt-6 max-w-40 p-4 hover:shadow-lg hover:scale-105 transition-all duration-300 cursor-pointer"
                         onClick={() => setShowPopover(true)}

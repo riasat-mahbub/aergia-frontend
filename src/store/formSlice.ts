@@ -4,12 +4,19 @@ import { FormHolder } from "@/types/FormHolderTypes";
 import { ResumeForm } from "@/types/ResumeFormTypes";
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 
+interface selectedForm{
+  formHolderId: string;
+  form: ResumeForm;
+}
+
 interface FormState {
   formHolders: FormHolder[];
+  selectedForm: selectedForm | null;
 }
 
 export const initialFormState: FormState = {
   formHolders: [createFormHolder("Profile Form", "Person", "profile", [emptyProfile], true)],
+  selectedForm: null
 };
 
 export const formSlice = createSlice({
@@ -96,6 +103,9 @@ export const formSlice = createSlice({
           state.formHolders[holderIndex].data.splice(newIndex, 0, movedItem);
         }
       }
+    },
+    setSelectedForm(state, action: PayloadAction<{formHolderId: string, form: ResumeForm} | null>){
+      state.selectedForm = action.payload;
     }
   },
 });
@@ -111,7 +121,8 @@ export const {
   deleteForm,
   setFormToShow,
   reorderFormHolders,
-  reorderForms
+  reorderForms,
+  setSelectedForm
 } = formSlice.actions;
 
 // Selectors
