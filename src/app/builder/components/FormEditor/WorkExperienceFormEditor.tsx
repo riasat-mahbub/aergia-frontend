@@ -58,8 +58,8 @@ export default function WorkExperienceFormEditor({ form, onSave, onCancel }: Wor
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">Descriptions</label>
           <RichTextEditor 
-            content={formData.descriptions?.join('<br>') || ''} 
-            onChange={(html) => handleChange('descriptions', html.split('<br>'))} 
+            content={formData.description} 
+            onChange={(html) => handleChange('description', html.split('<br>'))} 
           />
         </div>
       </div>
