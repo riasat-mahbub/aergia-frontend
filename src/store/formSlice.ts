@@ -1,4 +1,5 @@
-import { defaultFormHolder } from "@/constants/formHolders";
+import { createFormHolder } from "@/constants/formHolders";
+import { emptyProfile } from "@/constants/resumeFormTemplates";
 import { FormHolder } from "@/types/FormHolderTypes";
 import { ResumeForm } from "@/types/ResumeFormTypes";
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
@@ -8,7 +9,7 @@ interface FormState {
 }
 
 export const initialFormState: FormState = {
-  formHolders: [defaultFormHolder],
+  formHolders: [createFormHolder("Profile Form", "Person", "profile", [emptyProfile], true)],
 };
 
 export const formSlice = createSlice({

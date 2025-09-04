@@ -3,6 +3,7 @@
 import { useSelector, useDispatch } from "react-redux";
 import FormHolderCard from "./FormHolderCard"
 import { RootState } from "@/store/store";
+import { ResumeForm } from "@/types/ResumeFormTypes";
 import { reorderFormHolders } from "@/store/formSlice";
 import {
   DndContext,
@@ -20,7 +21,11 @@ import {
   verticalListSortingStrategy
 } from "@dnd-kit/sortable";
 
-export default function FormCollection() {
+interface FormCollectionProps {
+  onFormClick: (formHolderId: string, form: ResumeForm) => void;
+}
+
+export default function FormCollection({ onFormClick }: FormCollectionProps) {
   const dispatch = useDispatch();
   
   // Get forms from Redux store
@@ -63,7 +68,7 @@ export default function FormCollection() {
       >
         <div className="w-11/12 my-6 flex flex-col gap-4">
           {formHolders.map((formHolder) => (
-            <FormHolderCard key={formHolder.id} formHolder={formHolder}/>
+            <FormHolderCard key={formHolder.id} formHolder={formHolder} onFormClick={onFormClick}/>
           ))}
         </div>
       </SortableContext>

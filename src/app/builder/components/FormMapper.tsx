@@ -12,16 +12,14 @@ import RichTextEditor from "@/components/RichTextEditor";
 import { useDispatch } from "react-redux";
 import { updateForm } from "@/store/formSlice";
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
-
 interface FormMapperProps {
   form: ResumeForm;
   formHolderId: string;
+  onBack?: () => void;
 }
 
 // Form mapper component
-export default function FormMapper({ form, formHolderId }: FormMapperProps) {
-  const router = useRouter();
+export default function FormMapper({ form, formHolderId, onBack }: FormMapperProps) {
   const dispatch = useDispatch();
   // Use a temporary form for all changes
   const [tempForm, setTempForm] = useState<ResumeForm>(form);
@@ -32,11 +30,11 @@ export default function FormMapper({ form, formHolderId }: FormMapperProps) {
       formHolderId: formHolderId,
       form: tempForm
     }));
-    router.back();
+    onBack?.();
   };
   
   const handleCancel = () => {
-    router.back();
+    onBack?.();
   };
   // Common buttons for all form types
   const renderButtons = () => (

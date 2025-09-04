@@ -18,6 +18,7 @@ import {
 } from "lucide-react";
 import Form from "./Form";
 import { FormHolder } from "@/types/FormHolderTypes";
+import { ResumeForm } from "@/types/ResumeFormTypes";
 import { useDispatch, useSelector } from "react-redux";
 import { addForm, updateFormHolder, reorderForms } from "@/store/formSlice";
 import { setExpandedFormHolder } from "@/store/settingSlice";
@@ -51,6 +52,7 @@ import { v4 as uuidv4 } from "uuid";
 
 interface FormHolderOptions {
   formHolder: FormHolder;
+  onFormClick: (formHolderId: string, form: ResumeForm) => void;
 }
 
 export type IconOption = {
@@ -70,7 +72,7 @@ export const iconOptions: IconOption[] = [
 
 
 
-export default function FormHolderCard({ formHolder }: FormHolderOptions) {
+export default function FormHolderCard({ formHolder, onFormClick }: FormHolderOptions) {
   const [formHolderTitle, setformHolderTitle] = useState(formHolder.title);
   const [formHolderIcon, setformHolderIcon] = useState(formHolder.icon);
   const dispatch = useDispatch();
@@ -241,7 +243,7 @@ export default function FormHolderCard({ formHolder }: FormHolderOptions) {
             strategy={verticalListSortingStrategy}
           >
             {formHolder.data.map((form) => (
-              <Form key={form.id} formHolderId={formHolder.id} form={form} />
+              <Form key={form.id} formHolderId={formHolder.id} form={form} onFormClick={onFormClick} />
             ))}
           </SortableContext>
         </DndContext>

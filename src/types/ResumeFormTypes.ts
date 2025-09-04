@@ -27,7 +27,7 @@ export interface ResumeWorkExperience extends ResumeFormBase {
   company: string;
   jobTitle: string;
   date: string;
-  descriptions: string[];
+  description: string;
 }
 
 export interface ResumeEducation extends ResumeFormBase {
@@ -43,7 +43,7 @@ export interface ResumeProject extends ResumeFormBase {
   type: string;
   project: string;
   date: string;
-  descriptions: string[];
+  description: string;
 }
 
 export interface FeaturedSkill extends ResumeFormBase {
@@ -55,7 +55,7 @@ export interface FeaturedSkill extends ResumeFormBase {
 export interface ResumeSkills extends ResumeFormBase {
   type: string;
   featuredSkills: FeaturedSkill[];
-  descriptions: string[];
+  description: string;
 }
 
 export interface ResumeCustom extends ResumeFormBase {

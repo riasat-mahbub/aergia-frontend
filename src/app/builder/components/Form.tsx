@@ -4,7 +4,7 @@ import { Eye, EyeClosed, Trash2, GripVertical } from "lucide-react";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 
-import Link from "next/link";
+
 import { deleteForm, setFormToShow, updateForm } from "@/store/formSlice";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
@@ -13,9 +13,10 @@ import { FormHolder } from "@/types/FormHolderTypes";
 interface BaseOptionProps {
   formHolderId: string;
   form: ResumeForm;
+  onFormClick: (formHolderId: string, form: ResumeForm) => void;
 }
 
-export default function Form({ formHolderId, form}: BaseOptionProps) {
+export default function Form({ formHolderId, form, onFormClick}: BaseOptionProps) {
   const [visibility, setVisibility] = useState(true);
   const dispatch = useDispatch();
   
@@ -68,16 +69,12 @@ export default function Form({ formHolderId, form}: BaseOptionProps) {
         >
           <GripVertical size={16} />
         </div>
-        <Link 
-          href={{
-            pathname: "/singleEditor",
-            query: {
-              formHolderId: formHolderId, 
-              formId: form.id }
-          }}
+        <span 
+          className="cursor-pointer hover:text-blue-600"
+          onClick={() => onFormClick(formHolderId, form)}
         >
           {form.title}
-        </Link>
+        </span>
       </div>
       
       <div className="flex flex-row gap-2">
