@@ -5,14 +5,13 @@ import { useDispatch } from "react-redux";
 import { addFormHolder } from "@/store/formSlice";
 import { createFormHolder } from "@/constants/formHolders";
 
-// Define form holder types
 export const formHolderTypes = [
   { id: "profile", name: "Profile", icon: "Person" },
   { id: "workExperience", name: "Work Experience", icon: "Briefcase" },
   { id: "education", name: "Education", icon: "GraduationCap" },
-  { id: "project", name: "Project", icon: "Globe" },
-  { id: "skills", name: "Skills", icon: "Star" },
-  { id: "custom", name: "Custom", icon: "File" }
+  { id: "project", name: "Project", icon: "Folder" },
+  { id: "skills", name: "Skills", icon: "Library" },
+  { id: "custom", name: "Custom", icon: "Star" }
 ];
 
 interface AddFormHolderPopoverProps {

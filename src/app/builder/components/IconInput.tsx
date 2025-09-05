@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { X } from 'lucide-react';
 import { IconOption, iconOptions } from './FormHolderCard';
+import { createPortal } from 'react-dom';
 
 interface IconInputProps {
   placeholder?: string;
@@ -23,7 +24,7 @@ export default function IconInput({
   const [selectedIcon, setSelectedIcon] = useState<IconOption>(
     iconOptions.find(icon => icon.name === iconValue) || iconOptions[0]
   );
-  const [showIconSelector, setShowIconSelector] = useState(false);
+  // const [showIconSelector, setShowIconSelector] = useState(false);
   
   // Update text and icon when props change
   useEffect(() => {
@@ -43,7 +44,7 @@ export default function IconInput({
 
   const handleIconSelect = (icon: IconOption) => {
     setSelectedIcon(icon);
-    setShowIconSelector(false);
+    // setShowIconSelector(false);
     if (onIconChange) onIconChange(icon.name);
   };
 
@@ -52,7 +53,7 @@ export default function IconInput({
       <div className="flex items-center w-full border rounded-md overflow-hidden focus-within:ring-2 focus-within:ring-blue-500">
         <button 
           type="button"
-          onClick={() => setShowIconSelector(!showIconSelector)}
+          // onClick={() => setShowIconSelector(!showIconSelector)}
           className="p-2 bg-gray-100 hover:bg-gray-200 transition-colors"
           aria-label="Select icon"
         >
@@ -67,31 +68,36 @@ export default function IconInput({
         />
       </div>
 
-      {showIconSelector && (
-        <div className="absolute z-10 mt-1 w-full bg-white border rounded-md shadow-lg">
-          <div className="flex justify-between items-center p-2 border-b">
-            <button 
-              onClick={() => setShowIconSelector(false)}
-              className="text-gray-500 hover:text-gray-700"
-            >
-              <X size={16} />
-            </button>
-          </div>
-          <div className="grid grid-cols-4 gap-2 p-2">
-            {iconOptions.map((icon) => (
-              <button
-                key={icon.name}
-                onClick={() => handleIconSelect(icon)}
-                className={`p-2 flex flex-col items-center justify-center rounded hover:bg-gray-100 ${
-                  selectedIcon.name === icon.name ? 'bg-blue-100' : ''
-                }`}
+    {/* {showIconSelector &&
+      createPortal(
+        <div className="fixed inset-0 z-[9999]">
+          <div className="absolute mt-1 w-64 bg-white border rounded-md shadow-lg">
+            <div className="flex justify-between items-center p-2 border-b">
+              <button 
+                onClick={() => setShowIconSelector(false)}
+                className="text-gray-500 hover:text-gray-700"
               >
-                {icon.icon}
+                <X size={16} />
               </button>
-            ))}
+            </div>
+            <div className="grid grid-cols-4 gap-2 p-2">
+              {iconOptions.map((icon) => (
+                <button
+                  key={icon.name}
+                  onClick={() => handleIconSelect(icon)}
+                  className={`p-2 flex flex-col items-center justify-center rounded hover:bg-gray-100 ${
+                    selectedIcon.name === icon.name ? 'bg-blue-100' : ''
+                  }`}
+                >
+                  {icon.icon}
+                </button>
+              ))}
+            </div>
           </div>
-        </div>
-      )}
+        </div>,
+        document.body
+      )
+    } */}
     </div>
   );
 }

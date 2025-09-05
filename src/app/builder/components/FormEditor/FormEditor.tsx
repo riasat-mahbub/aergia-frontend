@@ -22,6 +22,7 @@ export default function FormEditor({ form, formHolderId }: FormEditorProps) {
       formHolderId: formHolderId,
       form: updatedForm
     }));
+    dispatch(setSelectedForm(null));
   };
 
   const onBack = () => {

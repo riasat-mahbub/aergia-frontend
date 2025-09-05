@@ -1,20 +1,7 @@
 import { FormHolder } from "@/types/FormHolderTypes";
 import { v4 as uuidv4 } from "uuid";
-import {
-  emptyCustom,
-  emptyProfile,
-} from "./resumeFormTemplates";
 
 
-export const defaultFormHolder: FormHolder =
-  {
-    id: uuidv4(),
-    title: "Custom Form",
-    icon: "Email",
-    type: "custom",
-    data: [emptyCustom],
-    visible: true
-  };
 
 /**
  * Creates a new form holder with a unique ID
