@@ -7,8 +7,9 @@ import { useState } from "react";
 import { RootState } from "@/store/store";
 import { useSelector } from "react-redux";
 import PopoverDirector from "./components/popovers/PopoverDirector";
+import { popover } from "@/constants/popovers";
 
-export type popover = "AddFormHolder" | "DeleteFormHolder" | null;
+
 
 export default function LeftSide(){
     const [activePopover, setActivePopover] = useState<popover>(null);
@@ -33,7 +34,7 @@ export default function LeftSide(){
                     </div>
                     
                     {/* Popover Menu */}
-                    <PopoverDirector activePopover={activePopover}  onClose={() => setActivePopover(null)} />
+                    <PopoverDirector activePopover={activePopover}  popoverData={null} onClose={() => setActivePopover(null)} />
                 </>
             )}
         </div>

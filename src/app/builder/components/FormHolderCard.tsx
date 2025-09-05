@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect, useState } from "react";
 import IconInput from "./IconInput";
 import { useCollapse } from "react-collapsed";
@@ -50,7 +52,9 @@ import {
   emptySkills 
 } from "@/constants/resumeFormTemplates";
 import { v4 as uuidv4 } from "uuid";
-import DeleteFormHolderPopover from "./DeleteFormHolderPopover";
+import DeleteFormHolderPopover from "./popovers/DeleteFormHolderPopover";
+import { popover } from "@/constants/popovers";
+import PopoverDirector from "./popovers/PopoverDirector";
 
 interface FormHolderOptions {
   formHolder: FormHolder;
@@ -78,7 +82,7 @@ export const iconOptions: IconOption[] = [
 export default function FormHolderCard({ formHolder }: FormHolderOptions) {
   const [formHolderTitle, setformHolderTitle] = useState(formHolder.title);
   const [formHolderIcon, setformHolderIcon] = useState(formHolder.icon);
-  const [showDeletePopover, setShowDeletePopover] = useState(false);
+  const [activePopover, setActivePopover] = useState<popover>(null);
   const dispatch = useDispatch();
   
   // Setup sensors for drag and drop
@@ -269,18 +273,13 @@ export default function FormHolderCard({ formHolder }: FormHolderOptions) {
             <Plus />
             {formHolder.type[0].toUpperCase() + formHolder.type.slice(1)}
           </div>
-          <div className="ml-auto cursor-pointer" onClick={() => setShowDeletePopover(true)}>
+          <div className="ml-auto cursor-pointer" onClick={() => setActivePopover("DeleteFormHolder")}>
             <Trash2 className="text-red-600"/>
           </div>
         </div>
       </div>
 
-      {showDeletePopover && (
-        <DeleteFormHolderPopover
-          formHolderId={formHolder.id}
-          onClose={() => setShowDeletePopover(false)}
-        />
-      )}
+      <PopoverDirector activePopover={activePopover}  popoverData={formHolder.id} onClose={() => setActivePopover(null)} />
     </div>
   );
 }
