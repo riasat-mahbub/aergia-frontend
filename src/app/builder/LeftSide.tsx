@@ -3,14 +3,15 @@
 import { Plus } from "lucide-react";
 import FormCollection from "./components/FormCollection";
 import FormEditor from "./components/FormEditor/FormEditor";
-import AddFormHolderPopover from "./components/AddFormHolderPopover";
 import { useState } from "react";
-import { ResumeForm } from "@/types/ResumeFormTypes";
 import { RootState } from "@/store/store";
 import { useSelector } from "react-redux";
+import PopoverDirector from "./components/popovers/PopoverDirector";
+
+export type popover = "AddFormHolder" | "DeleteFormHolder" | null;
 
 export default function LeftSide(){
-    const [showPopover, setShowPopover] = useState(false);
+    const [activePopover, setActivePopover] = useState<popover>(null);
     const selectedForm = useSelector((state: RootState) => state.forms.selectedForm);
     
     return(
@@ -25,14 +26,14 @@ export default function LeftSide(){
                     <FormCollection/>
                     <div 
                         className="rounded-full text-white bg-emerald-500 flex mt-6 max-w-40 p-4 hover:shadow-lg hover:scale-105 transition-all duration-300 cursor-pointer"
-                        onClick={() => setShowPopover(true)}
+                        onClick={() => setActivePopover("AddFormHolder")}
                     >
                         <Plus/>
                         Add Content
                     </div>
                     
                     {/* Popover Menu */}
-                    {showPopover && <AddFormHolderPopover onClose={() => setShowPopover(false)} />}
+                    <PopoverDirector activePopover={activePopover}  onClose={() => setActivePopover(null)} />
                 </>
             )}
         </div>

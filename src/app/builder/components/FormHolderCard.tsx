@@ -1,5 +1,3 @@
-"use client";
-
 import { useEffect, useState } from "react";
 import IconInput from "./IconInput";
 import { useCollapse } from "react-collapsed";
@@ -17,6 +15,7 @@ import {
   FolderOpen,
   Library,
   Star,
+  Trash2,
 } from "lucide-react";
 import Form from "./Form";
 import { FormHolder } from "@/types/FormHolderTypes";
@@ -51,6 +50,7 @@ import {
   emptySkills 
 } from "@/constants/resumeFormTemplates";
 import { v4 as uuidv4 } from "uuid";
+import DeleteFormHolderPopover from "./DeleteFormHolderPopover";
 
 interface FormHolderOptions {
   formHolder: FormHolder;
@@ -78,6 +78,7 @@ export const iconOptions: IconOption[] = [
 export default function FormHolderCard({ formHolder }: FormHolderOptions) {
   const [formHolderTitle, setformHolderTitle] = useState(formHolder.title);
   const [formHolderIcon, setformHolderIcon] = useState(formHolder.icon);
+  const [showDeletePopover, setShowDeletePopover] = useState(false);
   const dispatch = useDispatch();
   
   // Setup sensors for drag and drop
@@ -260,16 +261,26 @@ export default function FormHolderCard({ formHolder }: FormHolderOptions) {
           </SortableContext>
         </DndContext>
 
-        <div className="flex justify-center items-center border-t-2 border-neutral-300 py-4">
+        <div className="flex justify-center items-center border-t-2 border-neutral-300 py-4 w-full">
           <div
-            className="flex flex-row gap-2 rounded-full border-1 p-2 border-gray-500 hover:bg-emerald-500 hover:text-white hover:shadow-lg hover:scale-105 transition-all duration-300 cursor-pointer"
+            className="flex flex-row gap-2 rounded-full border-1 p-2 border-gray-500 hover:bg-emerald-500 hover:text-white hover:shadow-lg hover:scale-105 transition-all duration-300 cursor-pointer pr-5 ml-auto"
             onClick={addNewForm}
           >
             <Plus />
             {formHolder.type[0].toUpperCase() + formHolder.type.slice(1)}
           </div>
+          <div className="ml-auto cursor-pointer" onClick={() => setShowDeletePopover(true)}>
+            <Trash2 className="text-red-600"/>
+          </div>
         </div>
       </div>
+
+      {showDeletePopover && (
+        <DeleteFormHolderPopover
+          formHolderId={formHolder.id}
+          onClose={() => setShowDeletePopover(false)}
+        />
+      )}
     </div>
   );
 }

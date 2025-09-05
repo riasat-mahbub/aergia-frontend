@@ -45,8 +45,14 @@ export const formSlice = createSlice({
     deleteFormHolder: (state, action: PayloadAction<string>) => {
       state.formHolders = state.formHolders.filter((holder) => holder.id !== action.payload);
     },
-    addFormHolder: (state, action: PayloadAction<FormHolder>) => {
-      state.formHolders.push(action.payload);
+    addFormHolder: (state, action: PayloadAction<{formHolderTitle:string, formHolderIcon:string, formHolderType:string, formHolderData:any[]}>) => {
+      const newFormHolder = createFormHolder(
+        action.payload.formHolderTitle,
+        action.payload.formHolderIcon,
+        action.payload.formHolderType,
+        action.payload.formHolderData
+      );
+      state.formHolders.push(newFormHolder);
     },
     updateFormHolder: (state, action: PayloadAction<FormHolder>) => {
       const index = state.formHolders.findIndex((holder) => holder.id === action.payload.id);

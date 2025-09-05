@@ -3,15 +3,14 @@
 import { X } from "lucide-react";
 import { useDispatch } from "react-redux";
 import { addFormHolder } from "@/store/formSlice";
-import { createFormHolder } from "@/constants/formHolders";
 
 export const formHolderTypes = [
-  { id: "profile", name: "Profile", icon: "Person" },
-  { id: "workExperience", name: "Work Experience", icon: "Briefcase" },
-  { id: "education", name: "Education", icon: "GraduationCap" },
-  { id: "project", name: "Project", icon: "Folder" },
-  { id: "skills", name: "Skills", icon: "Library" },
-  { id: "custom", name: "Custom", icon: "Star" }
+  { type: "profile", name: "Profile", icon: "Person" },
+  { type: "workExperience", name: "Work Experience", icon: "Briefcase" },
+  { type: "education", name: "Education", icon: "GraduationCap" },
+  { type: "project", name: "Project", icon: "Folder" },
+  { type: "skills", name: "Skills", icon: "Library" },
+  { type: "custom", name: "Custom", icon: "Star" }
 ];
 
 interface AddFormHolderPopoverProps {
@@ -22,17 +21,11 @@ export default function AddFormHolderPopover({ onClose }: AddFormHolderPopoverPr
   const dispatch = useDispatch();
   
   const handleAddFormHolder = (type: string) => {
-    const selectedType = formHolderTypes.find(t => t.id === type);
+    const selectedType = formHolderTypes.find(t => t.type === type);
     if (!selectedType) return;
     
-    const newFormHolder = createFormHolder(
-      selectedType.name,
-      selectedType.icon,
-      selectedType.id,
-      []
-    );
     
-    dispatch(addFormHolder(newFormHolder));
+    dispatch(addFormHolder({formHolderTitle:selectedType.name, formHolderIcon:selectedType.icon, formHolderType:selectedType.type, formHolderData:[]}));
     onClose();
   };
 
@@ -49,11 +42,11 @@ export default function AddFormHolderPopover({ onClose }: AddFormHolderPopoverPr
           </button>
         </div>
         <div className="grid grid-cols-2 gap-3">
-          {formHolderTypes.map((type) => (
+          {formHolderTypes.map((type, idx) => (
             <button
-              key={type.id}
+              key={idx}
               className="p-3 border rounded-md hover:bg-emerald-50 hover:border-emerald-500 transition-colors flex flex-col items-center"
-              onClick={() => handleAddFormHolder(type.id)}
+              onClick={() => handleAddFormHolder(type.type)}
             >
               <span className="text-sm font-medium">{type.name}</span>
             </button>
