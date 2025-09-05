@@ -223,7 +223,7 @@ export default function FormHolderCard({ formHolder }: FormHolderOptions) {
             placeholder="Custom Form"
           />
         ) : (
-          <div className="w-full flex items-center p-2">
+          <div className="w-full flex items-center p-2 cursor-pointer" onClick={handleToggle} >
             <span className="mr-2">
               {iconOptions.find((icon) => icon.name === formHolderIcon)?.icon}
             </span>

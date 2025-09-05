@@ -71,7 +71,7 @@ export default function Form({ formHolderId, form}: BaseOptionProps) {
       style={style}
       className="flex flex-row items-center justify-between my-4 ml-1"
     >
-      <div className="flex flex-row items-center cursor-pointer w-auto" onClick={() => onFormClick(formHolderId, form)}>
+      <div className="flex flex-row items-center cursor-pointer w-full" onClick={() => onFormClick(formHolderId, form)}>
         <div 
           {...attributes} 
           {...listeners} 
