@@ -19,7 +19,7 @@ export default function SkillsForm({skillsFormHolder}: { skillsFormHolder: Skill
                 return ratings;
               })()}
             </div>
-            <div className="skillsDescription">{form.description}</div>
+            <div className="skillFormDescription">{form.description}</div>
           </div>
         );
       })}

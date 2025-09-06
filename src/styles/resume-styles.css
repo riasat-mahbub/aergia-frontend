@@ -138,6 +138,10 @@
   fill: #000;
 }
 
+.skillFormDescription{
+  grid-column: span 2/ span 2;
+}
+
 /* Custom Section */
 .customHolder {
   margin-bottom: 12px;
