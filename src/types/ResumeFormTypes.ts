@@ -27,6 +27,7 @@ export interface ResumeWorkExperience extends ResumeFormBase {
   company: string;
   jobTitle: string;
   date: string;
+  location: string;
   description: string;
 }
 

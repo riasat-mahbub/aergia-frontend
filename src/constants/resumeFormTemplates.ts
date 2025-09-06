@@ -31,6 +31,7 @@ export const emptyWorkExperience: ResumeWorkExperience = {
   jobTitle: "",
   date: "",
   description: "",
+  location: "",
   visible: true
 
 };

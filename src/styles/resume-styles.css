@@ -77,40 +77,28 @@
   grid-column: span 2/ span 2;
 }
 
-
-
-
 /* Work Experience Section */
-.workExperienceHolder {
-  margin-bottom: 12px;
-}
 
-.workExperienceForm {
-  margin-bottom: 12px;
-  line-height: 1.3;
-}
-
-.workExperienceFormJobTitle {
-  font-weight: bold;
-  font-size: 11px;
+.workExperienceForm{
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  font-size: 12px;
 }
 
 .workExperienceFormCompany {
-  font-style: italic;
-  font-size: 11px;
-  margin-bottom: 2px;
+  font-weight: bold;
+  font-size: 13px;
+  text-transform: uppercase;
 }
 
-.workExperienceFormDate {
-  font-size: 11px;
-  color: #000;
-  margin-bottom: 3px;
+.workExperienceFormLocation, .workExperienceFormDate{
+  text-align: end;
 }
 
-.workExperienceFormDescription {
-  font-size: 11px;
-  line-height: 1.4;
+.workExperienceFormDescription{
+  grid-column: span 2/ span 2;
 }
+
 
 /* Project Section */
 .projectHolder {
