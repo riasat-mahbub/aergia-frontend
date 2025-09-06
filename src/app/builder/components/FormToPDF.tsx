@@ -18,7 +18,13 @@ export default function FormToPDF() {
     <div className="flex flex-col items-center w-full">
       {formHolders.length > 0 ? (
         <div className="mb-6 overflow-auto flex justify-center">
-          <ResumePreview formHolders={formHolders} />
+          <div className="bg-white w-[794] h-[1123] p-6 rounded-lg shadow-lg">
+              {formHolders.map((formHolder) =>{
+                return(
+                  <ResumePreview formHolder={formHolder} key={formHolder.id}/>
+                )
+              })}
+          </div>
         </div>
       ) : (
         <div className="text-gray-500">Add content to generate a PDF</div>
