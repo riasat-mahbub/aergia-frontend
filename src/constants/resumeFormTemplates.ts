@@ -4,9 +4,8 @@ import {
   ResumeWorkExperience,
   ResumeEducation,
   ResumeProject,
-  FeaturedSkill,
-  ResumeSkills,
-  ResumeCustom
+  ResumeCustom,
+  ResumeSkills
 } from '@/types/ResumeFormTypes';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -62,24 +61,16 @@ export const emptyProject: ResumeProject = {
 
 };
 
-export const emptyFeaturedSkill: FeaturedSkill = {
+export const emptySkills: ResumeSkills = {
   title: "Skill",
   id: uuidv4(),
-  type: "featuredSkill",
+  type: "skills",
   skill: "",
   rating: 0,
-  visible: true
-};
-
-export const emptySkills: ResumeSkills = {
-  title: "Skills",
-  id: uuidv4(),
-  type: "skills",
-  featuredSkills: [],
   description: "",
   visible: true
-
 };
+
 
 export const emptyCustom: ResumeCustom = {
   title: "Custom Section",

@@ -10,7 +10,6 @@ export type ResumeForm =
   | ResumeWorkExperience 
   | ResumeEducation 
   | ResumeProject 
-  | ResumeSkills 
   | ResumeCustom;
 export interface ResumeProfile extends ResumeFormBase {
   type: string;
@@ -49,15 +48,10 @@ export interface ResumeProject extends ResumeFormBase {
   description: string;
 }
 
-export interface FeaturedSkill extends ResumeFormBase {
+export interface ResumeSkills extends ResumeFormBase {
   type: string;
   skill: string;
   rating: number;
-}
-
-export interface ResumeSkills extends ResumeFormBase {
-  type: string;
-  featuredSkills: FeaturedSkill[];
   description: string;
 }
 
