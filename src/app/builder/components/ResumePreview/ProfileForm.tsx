@@ -15,10 +15,10 @@ export default function ProfileForm({profileFormHolder}: { profileFormHolder: Pr
             <div key={form.id} className="profileForm">
               <div className="profileFormName">{form.name}</div>
               <div className="profileFormContact">
-                <div className="profileFormLocation">{form.location}</div>
-                <div className="profileFormPhone">{form.phone}</div>
-                <div className="profileFormEmail">{form.email}</div>
-                <div className="profileFormUrl">{form.url}</div>
+                {form.location && <div className="profileFormLocation">{form.location}</div>}
+                {form.phone && <div className="profileFormPhone">{form.phone}</div>}
+                {form.email && <div className="profileFormEmail">{form.email}</div>}
+                {form.url && <div className="profileFormUrl">{form.url}</div>}
               </div>
               <SafeHTML className="profileFormSummary" html={form.summary}/>
             </div>

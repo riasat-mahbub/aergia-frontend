@@ -26,10 +26,7 @@
   margin-right: 4px;
 }
 
-.profileFormUrl:empty ~ .profileFormEmail::after {
-  content: "";
-  margin: 0;
-}
+
 
 .profileFormSummary {
   font-size: 11px;
@@ -38,6 +35,10 @@
   text-align: left;
 }
 
+.profileFormContact > div:not(:last-child)::after {
+  content: ",";
+  margin-right: 4px;
+}
 
 
 /* Section Titles */
