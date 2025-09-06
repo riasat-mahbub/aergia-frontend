@@ -1,4 +1,4 @@
-import { ResumeCustom, ResumeEducation, ResumeForm, ResumeProfile, ResumeProject, ResumeSkills, ResumeWorkExperience } from "./ResumeFormTypes";
+import { ResumeCustom, ResumeEducation, ResumeForm, ResumeProfile, ResumeProject, ResumeSkills, ResumeExperience } from "./ResumeFormTypes";
 
 export interface FormHolder{
     id: string;
@@ -17,8 +17,8 @@ export interface EducationFormHolder extends FormHolder {
     data: ResumeEducation[];
 }
 
-export interface WorkExperienceFormHolder extends FormHolder {
-    data: ResumeWorkExperience[];
+export interface ExperienceFormHolder extends FormHolder {
+    data: ResumeExperience[];
 }
 
 export interface ProjectFormHolder extends FormHolder {

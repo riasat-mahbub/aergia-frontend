@@ -42,7 +42,7 @@
 
 /* Section Titles */
 .educationHolderTitle,
-.workExperienceHolderTitle,
+.ExperienceHolderTitle,
 .projectHolderTitle,
 .skillsHolderTitle,
 .customHolderTitle {
@@ -79,32 +79,32 @@
 
 /* Work Experience Section */
 
-.workExperienceForm{
+.ExperienceForm{
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   font-size: 12px;
 }
 
-.workExperienceFormCompany {
+.ExperienceFormCompany {
   font-weight: bold;
   font-size: 13px;
   text-transform: uppercase;
 }
 
-.workExperienceFormLocation, .workExperienceFormDate{
+.ExperienceFormLocation, .ExperienceFormDate{
   text-align: end;
 }
 
-.workExperienceFormDate{
+.ExperienceFormDate{
   display: flex;
   justify-content: end;
 }
 
-.workExperienceFormStartDate:has(+ .workExperienceFormEndDate:not(:empty))::after {
+.ExperienceFormStartDate:has(+ .ExperienceFormEndDate:not(:empty))::after {
   content: '-';
 }
 
-.workExperienceFormDescription{
+.ExperienceFormDescription{
   grid-column: span 2/ span 2;
 }
 

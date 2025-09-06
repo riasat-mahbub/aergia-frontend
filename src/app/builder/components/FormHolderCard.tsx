@@ -49,7 +49,7 @@ import {
 import { 
   emptyCustom, 
   emptyProfile, 
-  emptyWorkExperience, 
+  emptyExperience, 
   emptyEducation, 
   emptyProject, 
   emptySkills 
@@ -180,8 +180,8 @@ export default function FormHolderCard({ formHolder }: FormHolderOptions) {
       case 'profile':
         newForm = { ...emptyProfile, id: uuidv4(), title: `Profile ${count}` };
         break;
-      case 'workExperience':
-        newForm = { ...emptyWorkExperience, id: uuidv4(), title: `Work Experience ${count}` };
+      case 'Experience':
+        newForm = { ...emptyExperience, id: uuidv4(), title: `Work Experience ${count}` };
         break;
       case 'education':
         newForm = { ...emptyEducation, id: uuidv4(), title: `Education ${count}` };

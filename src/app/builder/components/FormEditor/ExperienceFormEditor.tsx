@@ -1,18 +1,18 @@
 'use client'
-import { ResumeWorkExperience } from "@/types/ResumeFormTypes";
+import { ResumeExperience } from "@/types/ResumeFormTypes";
 import { useState } from "react";
 import RichTextEditor from "@/components/RichTextEditor";
 
-interface WorkExperienceFormEditorProps {
-  form: ResumeWorkExperience;
-  onSave: (updatedForm: ResumeWorkExperience) => void;
+interface ExperienceFormEditorProps {
+  form: ResumeExperience;
+  onSave: (updatedForm: ResumeExperience) => void;
   onCancel?: () => void;
 }
 
-export default function WorkExperienceFormEditor({ form, onSave, onCancel }: WorkExperienceFormEditorProps) {
+export default function ExperienceFormEditor({ form, onSave, onCancel }: ExperienceFormEditorProps) {
   const [formData, setFormData] = useState(form);
   
-  const handleChange = (field: keyof ResumeWorkExperience, value: string) => {
+  const handleChange = (field: keyof ResumeExperience, value: string) => {
     setFormData({ ...formData, [field]: value });
   };
   
@@ -22,7 +22,7 @@ export default function WorkExperienceFormEditor({ form, onSave, onCancel }: Wor
 
   return (
     <div className="rounded-md bg-white shadow p-6">
-      <h2 className="font-bold text-lg mb-4">Work Experience</h2>
+      <h2 className="font-bold text-lg mb-4">Experience</h2>
       
       <div className="space-y-4">
         <div>

@@ -1,7 +1,7 @@
-import { FormHolder, CustomFormHolder, EducationFormHolder, WorkExperienceFormHolder, ProjectFormHolder, SkillsFormHolder, ProfileFormHolder } from "@/types/FormHolderTypes";
+import { FormHolder, CustomFormHolder, EducationFormHolder, ExperienceFormHolder, ProjectFormHolder, SkillsFormHolder, ProfileFormHolder } from "@/types/FormHolderTypes";
 import CustomForm from "./CustomForm";
 import EducationForm from "./EducationForm";
-import WorkExperienceForm from "./WorkExperienceForm";
+import ExperienceForm from "./ExperienceForm";
 import ProjectForm from "./ProjectForm";
 import SkillsForm from "./SkillsForm";
 import ProfileForm from "./ProfileForm";
@@ -15,8 +15,8 @@ export default function ResumePreview({ formHolders }: { formHolders: FormHolder
                 return <CustomForm key={holder.id} customFormHolder={holder as CustomFormHolder} />;
             case 'education':
                 return <EducationForm key={holder.id} eduFormHolder={holder as EducationFormHolder} />;
-            case 'workExperience':
-                return <WorkExperienceForm key={holder.id} workExperienceFormHolder={holder as WorkExperienceFormHolder} />;
+            case 'Experience':
+                return <ExperienceForm key={holder.id} ExperienceFormHolder={holder as ExperienceFormHolder} />;
             case 'project':
                 return <ProjectForm key={holder.id} projectFormHolder={holder as ProjectFormHolder} />;
             case 'skills':

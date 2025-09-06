@@ -1,9 +1,9 @@
 'use client'
-import { ResumeCustom, ResumeEducation, ResumeForm, ResumeProfile, ResumeProject, ResumeSkills, ResumeWorkExperience } from "@/types/ResumeFormTypes";
+import { ResumeCustom, ResumeEducation, ResumeForm, ResumeProfile, ResumeProject, ResumeSkills, ResumeExperience } from "@/types/ResumeFormTypes";
 import { useDispatch } from "react-redux";
 import { setSelectedForm, updateForm } from "@/store/formSlice";
 import ProfileFormEditor from "./ProfileFormEditor";
-import WorkExperienceFormEditor from "./WorkExperienceFormEditor";
+import ExperienceFormEditor from "./ExperienceFormEditor";
 import EducationFormEditor from "./EducationFormEditor";
 import ProjectFormEditor from "./ProjectFormEditor";
 import SkillsFormEditor from "./SkillsFormEditor";
@@ -36,8 +36,8 @@ export default function FormEditor({ form, formHolderId }: FormEditorProps) {
           case 'profile':
             return <ProfileFormEditor form={form as ResumeProfile} onSave={handleSave} onCancel={onBack} />;
             
-          case 'workExperience':
-            return <WorkExperienceFormEditor form={form as ResumeWorkExperience} onSave={handleSave} onCancel={onBack} />;
+          case 'Experience':
+            return <ExperienceFormEditor form={form as ResumeExperience} onSave={handleSave} onCancel={onBack} />;
             
           case 'education':
             return <EducationFormEditor form={form as ResumeEducation} onSave={handleSave} onCancel={onBack} />;

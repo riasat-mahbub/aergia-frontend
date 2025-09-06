@@ -1,7 +1,7 @@
 import { 
   ResumeFormBase,
   ResumeProfile,
-  ResumeWorkExperience,
+  ResumeExperience,
   ResumeEducation,
   ResumeProject,
   ResumeCustom,
@@ -22,10 +22,10 @@ export const emptyProfile: ResumeProfile = {
   visible: true
 };
 
-export const emptyWorkExperience: ResumeWorkExperience = {
+export const emptyExperience: ResumeExperience = {
   title: "Work Experience",
   id: uuidv4(),
-  type: "workExperience",
+  type: "Experience",
   company: "",
   jobTitle: "",
   startDate: "",

@@ -7,7 +7,7 @@ export interface ResumeFormBase {
 
 export type ResumeForm = 
   | ResumeProfile 
-  | ResumeWorkExperience 
+  | ResumeExperience 
   | ResumeEducation 
   | ResumeProject 
   | ResumeSkills
@@ -22,7 +22,7 @@ export interface ResumeProfile extends ResumeFormBase {
   location: string;
 }
 
-export interface ResumeWorkExperience extends ResumeFormBase {
+export interface ResumeExperience extends ResumeFormBase {
   company: string;
   jobTitle: string;
   startDate: string;
