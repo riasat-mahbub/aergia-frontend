@@ -95,6 +95,15 @@
   text-align: end;
 }
 
+.workExperienceFormDate{
+  display: flex;
+  justify-content: end;
+}
+
+.workExperienceFormStartDate:has(+ .workExperienceFormEndDate:not(:empty))::after {
+  content: '-';
+}
+
 .workExperienceFormDescription{
   grid-column: span 2/ span 2;
 }
@@ -114,7 +123,12 @@
 }
 
 .projectFormDate{
-  text-align: end;
+  display: flex;
+  justify-content: end;
+}
+
+.projectFormStartDate:has(+ .projectFormEndDate:not(:empty))::after {
+  content: '-';
 }
 
 .projectFormSubtitle,  .projectFormDescription{
@@ -155,6 +169,14 @@
   margin-bottom: 3px;
 }
 
+.customFormDate{
+  display: flex;
+  justify-content: end;
+}
+
+.customFormStartDate:has(+ .customFormEndDate:not(:empty))::after {
+  content: '-';
+}
 
 .customFormDate, .customFormLocation{
   text-align: end;

@@ -11,9 +11,12 @@ export default function WorkExperienceForm({workExperienceFormHolder}: { workExp
           return (
             <div key={form.id} className="workExperienceForm">
               <div className="workExperienceFormCompany">{form.company}</div>
-              <div className="workExperienceFormLocation">{form.location}</div>
+              <div className="workExperienceFormDate">
+                <div className="workExperienceFormStartDate">  {form.startDate}</div>
+                <div className="workExperienceFormEndDate">  {form.endDate}</div>
+              </div>
               <div className="workExperienceFormJobTitle">{form.jobTitle}</div>
-              <div className="workExperienceFormDate">{form.date}</div>
+              <div className="workExperienceFormLocation">{form.location}</div>
               <div className="workExperienceFormDescription">{form.description}</div>
             </div>
           );

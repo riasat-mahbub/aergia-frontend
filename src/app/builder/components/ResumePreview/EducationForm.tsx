@@ -15,7 +15,10 @@ export default function EducationForm({eduFormHolder}: { eduFormHolder: Educatio
               <div className="educationFormSchool">{form.school}</div>
               <div className="educationFormLocation">{form.location}</div>
               <div className="educationFormDegree">{form.degree}</div>
-              <div className="educationFormDate">{form.date}</div>
+              <div className="educationFormDate">
+                <div className="educationFormStartDate">  {form.startDate}</div>
+                <div className="educationFormEndDate">  {form.endDate}</div>
+              </div>
               <div className="educationFormGPA">{form.gpa}</div>
               <div className="educationFormDescription">{form.description}</div>
             </div>

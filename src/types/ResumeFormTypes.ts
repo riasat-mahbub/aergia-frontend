@@ -25,7 +25,8 @@ export interface ResumeProfile extends ResumeFormBase {
 export interface ResumeWorkExperience extends ResumeFormBase {
   company: string;
   jobTitle: string;
-  date: string;
+  startDate: string;
+  endDate: string;
   location: string;
   description: string;
 }
@@ -33,7 +34,8 @@ export interface ResumeWorkExperience extends ResumeFormBase {
 export interface ResumeEducation extends ResumeFormBase {
   school: string;
   degree: string;
-  date: string;
+  startDate: string;
+  endDate: string;
   gpa: string;
   location: string;
   description: string;
@@ -42,7 +44,8 @@ export interface ResumeEducation extends ResumeFormBase {
 export interface ResumeProject extends ResumeFormBase {
   project: string;
   subtitle: string;
-  date: string;
+  startDate: string;
+  endDate: string;
   description: string;
 }
 
@@ -55,7 +58,8 @@ export interface ResumeSkills extends ResumeFormBase {
 export interface ResumeCustom extends ResumeFormBase {
   title: string;
   subtitle: string;
-  date: string;
+  startDate: string;
+  endDate: string;
   location: string;
   description: string;
 }
