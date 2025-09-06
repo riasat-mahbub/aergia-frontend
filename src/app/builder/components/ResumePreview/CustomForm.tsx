@@ -1,3 +1,4 @@
+import SafeHTML from "@/components/SafeHTML";
 import { CustomFormHolder, FormHolder } from "@/types/FormHolderTypes";
 import { ResumeCustom } from "@/types/ResumeFormTypes";
 
@@ -19,7 +20,7 @@ export default function CustomForm({customFormHolder}: { customFormHolder: Custo
               </div>
               <div className="customFormSubtitle">{form.subtitle}</div>
               <div className="customFormLocation">{form.location}</div>
-              <div className="customFormDescription" dangerouslySetInnerHTML={{ __html: form.description }}></div>
+              <SafeHTML className="customFormDescription" html={form.description}/>
             </div>
           );
         }

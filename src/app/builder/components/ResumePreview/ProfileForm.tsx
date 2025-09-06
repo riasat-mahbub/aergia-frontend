@@ -1,3 +1,4 @@
+import SafeHTML from "@/components/SafeHTML";
 import { ProfileFormHolder } from "@/types/FormHolderTypes";
 import { ResumeProfile } from "@/types/ResumeFormTypes";
 
@@ -19,7 +20,7 @@ export default function ProfileForm({profileFormHolder}: { profileFormHolder: Pr
                 <div className="profileFormEmail">{form.email}</div>
                 <div className="profileFormUrl">{form.url}</div>
               </div>
-              <div className="profileFormSummary">{form.summary}</div>
+              <SafeHTML className="profileFormSummary" html={form.summary}/>
             </div>
           );
         }

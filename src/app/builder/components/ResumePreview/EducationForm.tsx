@@ -1,3 +1,4 @@
+import SafeHTML from "@/components/SafeHTML";
 import { EducationFormHolder } from "@/types/FormHolderTypes";
 import { ResumeEducation } from "@/types/ResumeFormTypes";
 
@@ -20,7 +21,7 @@ export default function EducationForm({eduFormHolder}: { eduFormHolder: Educatio
                 <div className="educationFormEndDate">  {form.endDate}</div>
               </div>
               <div className="educationFormGPA">{form.gpa}</div>
-              <div className="educationFormDescription">{form.description}</div>
+              <SafeHTML className="educationFormDescription" html={form.description}/>
             </div>
           );
       }

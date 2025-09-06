@@ -1,3 +1,4 @@
+import SafeHTML from "@/components/SafeHTML";
 import { ProjectFormHolder } from "@/types/FormHolderTypes";
 import { ResumeProject } from "@/types/ResumeFormTypes";
 
@@ -15,7 +16,7 @@ export default function ProjectForm({projectFormHolder}: { projectFormHolder: Pr
                 <div className="projectFormEndDate">{form.endDate}</div>
               </div>
               <div className="projectFormSubtitle">{form.subtitle}</div>
-              <div className="projectFormDescription">{form.description}</div>
+              <SafeHTML className="projectFormDescription" html={form.description}/>
             </div>
           );
       }

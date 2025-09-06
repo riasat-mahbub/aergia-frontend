@@ -1,3 +1,4 @@
+import SafeHTML from "@/components/SafeHTML";
 import { ExperienceFormHolder } from "@/types/FormHolderTypes";
 import { ResumeExperience } from "@/types/ResumeFormTypes";
 
@@ -17,7 +18,7 @@ export default function ExperienceForm({ExperienceFormHolder}: { ExperienceFormH
               </div>
               <div className="ExperienceFormJobTitle">{form.jobTitle}</div>
               <div className="ExperienceFormLocation">{form.location}</div>
-              <div className="ExperienceFormDescription">{form.description}</div>
+              <SafeHTML className="ExperienceFormDescription" html={form.description}/>
             </div>
           );
           }

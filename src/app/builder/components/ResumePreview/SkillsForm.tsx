@@ -1,3 +1,4 @@
+import SafeHTML from "@/components/SafeHTML";
 import { SkillsFormHolder } from "@/types/FormHolderTypes";
 import { ResumeSkills } from "@/types/ResumeFormTypes";
 import { Circle } from "lucide-react";
@@ -14,12 +15,12 @@ export default function SkillsForm({skillsFormHolder}: { skillsFormHolder: Skill
               {(() => {
                 let ratings = []
                 for (let i = 0; i < form.rating; i++) {
-                  ratings.push(<Circle key={i} className="SkillFormRatingGraphic"/>)
+                  ratings.push(<Circle key={i} className="skillFormRatingGraphic"/>)
                 }
                 return ratings;
               })()}
             </div>
-            <div className="skillFormDescription">{form.description}</div>
+            <SafeHTML className="skillFormDescription" html={form.description}/>
           </div>
         );
       })}
