@@ -3,6 +3,7 @@
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import ResumePreview from "./ResumePreview/ResumePreview";
+import FormHolderPreview from "./ResumePreview/FormHolderPreview";
 
 export default function FormToPDF() {
   const formHolders = useSelector((state: RootState) =>
@@ -21,7 +22,7 @@ export default function FormToPDF() {
           <div className="bg-white w-[794] h-[1123] p-6 rounded-lg shadow-lg">
               {formHolders.map((formHolder) =>{
                 return(
-                  <ResumePreview formHolder={formHolder} key={formHolder.id}/>
+                  <FormHolderPreview formHolder={formHolder} key={formHolder.id}/>
                 )
               })}
           </div>

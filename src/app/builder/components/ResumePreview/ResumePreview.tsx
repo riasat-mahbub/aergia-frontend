@@ -6,25 +6,26 @@ import ProjectForm from "./ProjectForm";
 import SkillsForm from "./SkillsForm";
 import ProfileForm from "./ProfileForm";
 import "@/styles/resume-styles.css";
+import { ResumeCustom, ResumeEducation, ResumeExperience, ResumeForm, ResumeProfile, ResumeProject, ResumeSkills } from "@/types/ResumeFormTypes";
 
-export default function ResumePreview({ formHolder }: { formHolder: FormHolder }) {
+export default function ResumePreview({ form }: { form: ResumeForm }) {
 
    return (
        <>
        {(() =>{
-            switch (formHolder.type) {
+            switch (form.type) {
                 case 'custom':
-                    return <CustomForm key={formHolder.id} customFormHolder={formHolder as CustomFormHolder} />;
+                    return <CustomForm key={form.id} form={form as ResumeCustom} />;
                 case 'education':
-                    return <EducationForm key={formHolder.id} eduFormHolder={formHolder as EducationFormHolder} />;
+                    return <EducationForm key={form.id} form={form as ResumeEducation} />;
                 case 'Experience':
-                    return <ExperienceForm key={formHolder.id} ExperienceFormHolder={formHolder as ExperienceFormHolder} />;
+                    return <ExperienceForm key={form.id} form={form as ResumeExperience} />;
                 case 'project':
-                    return <ProjectForm key={formHolder.id} projectFormHolder={formHolder as ProjectFormHolder} />;
+                    return <ProjectForm key={form.id} form={form as ResumeProject} />;
                 case 'skills':
-                    return <SkillsForm key={formHolder.id} skillsFormHolder={formHolder as SkillsFormHolder} />;
+                    return <SkillsForm key={form.id} form={form as ResumeSkills} />;
                 case 'profile':
-                    return <ProfileForm key={formHolder.id} profileFormHolder={formHolder as ProfileFormHolder} />;
+                    return <ProfileForm key={form.id} form={form as ResumeProfile} />;
                 default:
                     return null;
             }

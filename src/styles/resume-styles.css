@@ -42,11 +42,7 @@
 
 
 /* Section Titles */
-.educationHolderTitle,
-.ExperienceHolderTitle,
-.projectHolderTitle,
-.skillsHolderTitle,
-.customHolderTitle {
+.FormHolderTitle {
   font-size: 12px;
   font-weight: bold;
   text-transform: uppercase;
