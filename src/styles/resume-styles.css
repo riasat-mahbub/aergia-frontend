@@ -73,6 +73,15 @@
   text-align: end;
 }
 
+.educationFormDate{
+  display: flex;
+  justify-content: end;
+}
+
+.educationFormStartDate:has(+ .educationFormEndDate:not(:empty))::after {
+  content: '-';
+}
+
 .educationFormDescription{
   grid-column: span 2/ span 2;
 }

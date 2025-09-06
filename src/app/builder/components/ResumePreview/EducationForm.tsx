@@ -14,12 +14,12 @@ export default function EducationForm({eduFormHolder}: { eduFormHolder: Educatio
           return (
             <div key={form.id} className="educationForm">
               <div className="educationFormSchool">{form.school}</div>
-              <div className="educationFormLocation">{form.location}</div>
-              <div className="educationFormDegree">{form.degree}</div>
               <div className="educationFormDate">
                 <div className="educationFormStartDate">  {form.startDate}</div>
                 <div className="educationFormEndDate">  {form.endDate}</div>
               </div>
+              <div className="educationFormDegree">{form.degree}</div>
+              <div className="educationFormLocation">{form.location}</div>
               <div className="educationFormGPA">{form.gpa}</div>
               <SafeHTML className="educationFormDescription" html={form.description}/>
             </div>
