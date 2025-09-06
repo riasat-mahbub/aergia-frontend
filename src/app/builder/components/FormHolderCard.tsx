@@ -18,12 +18,15 @@ import {
   Library,
   Star,
   Trash2,
+  Eye,
+  EyeClosed,
+  EyeOff,
 } from "lucide-react";
 import Form from "./Form";
 import { FormHolder } from "@/types/FormHolderTypes";
 import { ResumeForm } from "@/types/ResumeFormTypes";
 import { useDispatch, useSelector } from "react-redux";
-import { addForm, updateFormHolder, reorderForms, setSelectedForm } from "@/store/formSlice";
+import { addForm, updateFormHolder, reorderForms, setSelectedForm, setFormHolderToShow } from "@/store/formSlice";
 import { setExpandedFormHolder } from "@/store/settingSlice";
 import { RootState } from "@/store/store";
 import { useSortable } from "@dnd-kit/sortable";
@@ -96,6 +99,12 @@ export default function FormHolderCard({ formHolder }: FormHolderOptions) {
       coordinateGetter: sortableKeyboardCoordinates,
     })
   );
+
+  const [isVisible, setIsVisible] = useState(true);
+  const onEyeClick = () =>{
+    setIsVisible(!isVisible);
+    dispatch(setFormHolderToShow(formHolder.id));
+  }
   
   // Handle drag end event for forms
   const handleFormDragEnd = (event: DragEndEvent) => {
@@ -273,8 +282,12 @@ export default function FormHolderCard({ formHolder }: FormHolderOptions) {
             <Plus />
             {formHolder.type[0].toUpperCase() + formHolder.type.slice(1)}
           </div>
-          <div className="ml-auto cursor-pointer" onClick={() => setActivePopover("DeleteFormHolder")}>
-            <Trash2 className="text-red-600"/>
+          <div className="flex flex-row  justify-between ml-auto cursor-pointer">
+            {isVisible ? 
+            <Eye className="text-red-950 mr-2" onClick={() => onEyeClick()}/>:
+             <EyeOff className="text-red-950 mr-2" onClick={() => onEyeClick()}/>}
+            
+            <Trash2 className="text-red-600" onClick={() => setActivePopover("DeleteFormHolder")}/>
           </div>
         </div>
       </div>

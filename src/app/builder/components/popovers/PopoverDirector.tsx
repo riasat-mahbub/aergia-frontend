@@ -19,8 +19,6 @@ export default function PopoverDirector({ activePopover, onClose, popoverData }:
                 return <AddFormHolderPopover onClose={onClose}/>;
             case "DeleteFormHolder":
                 return <DeleteFormHolderPopover onClose={onClose} formHolderId={popoverData}/>
-            
-            
           default:
             return (
                 <></>

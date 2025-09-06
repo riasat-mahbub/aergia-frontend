@@ -1,6 +1,6 @@
 "use client"
 import { ResumeForm, ResumeFormBase } from "@/types/ResumeFormTypes";
-import { Eye, EyeClosed, Trash2, GripVertical } from "lucide-react";
+import { Eye, EyeClosed, Trash2, GripVertical, EyeOff } from "lucide-react";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 
@@ -83,7 +83,7 @@ export default function Form({ formHolderId, form}: BaseOptionProps) {
       </div>
       
       <div className="flex flex-row gap-2">
-        {visibility ? <Eye onClick={onEyeClick}/> : <EyeClosed onClick={onEyeClick}/>}
+        {visibility ? <Eye onClick={onEyeClick}/> : <EyeOff onClick={onEyeClick}/>}
         <Trash2 onClick={onTrashClick}/>
       </div>
     </div>
