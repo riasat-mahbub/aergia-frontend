@@ -12,7 +12,10 @@ export default function CustomForm({customFormHolder}: { customFormHolder: Custo
         if(form.visible){
           return (
             <div key={form.id} className="customForm" >
-              <h3 className="customFormTitle">{form.title}</h3>
+              <div className="customFormTitle">{form.title}</div>
+              <div className="customFormDate">{form.date}</div>
+              <div className="customFormSubtitle">{form.subtitle}</div>
+              <div className="customFormLocation">{form.location}</div>
               <div className="customFormDescription" dangerouslySetInnerHTML={{ __html: form.description }}></div>
             </div>
           );

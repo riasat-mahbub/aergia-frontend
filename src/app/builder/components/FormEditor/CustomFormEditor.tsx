@@ -12,18 +12,8 @@ interface CustomFormEditorProps {
 export default function CustomFormEditor({ form, onSave, onCancel }: CustomFormEditorProps) {
   const [formData, setFormData] = useState(form);
   
-  const handleDescriptionChange = (html: string) => {
-    setFormData({
-      ...formData,
-      description: html
-    });
-  };
-
-  const handleTitleChange = (title: string) => {
-    setFormData({
-      ...formData,
-      title: title
-    });
+  const handleChange = (field: keyof ResumeCustom, value: string) => {
+    setFormData({ ...formData, [field]: value });
   };
   
   const handleSave = () => {
@@ -40,7 +30,37 @@ export default function CustomFormEditor({ form, onSave, onCancel }: CustomFormE
           <input
             type="text"
             value={formData.title || ''}
-            onChange={(e) => handleTitleChange(e.target.value)}
+            onChange={(e) => handleChange('title', e.target.value)}
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+          />
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">Subtitle</label>
+          <input
+            type="text"
+            value={formData.subtitle || ''}
+            onChange={(e) => handleChange('subtitle', e.target.value)}
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+          />
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">Date</label>
+          <input
+            type="text"
+            value={formData.date || ''}
+            onChange={(e) => handleChange('date', e.target.value)}
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+          />
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">Location</label>
+          <input
+            type="text"
+            value={formData.location || ''}
+            onChange={(e) => handleChange('location', e.target.value)}
             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
           />
         </div>
@@ -49,7 +69,7 @@ export default function CustomFormEditor({ form, onSave, onCancel }: CustomFormE
           <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
           <RichTextEditor 
             content={formData.description || ''} 
-            onChange={handleDescriptionChange} 
+            onChange={(html) => handleChange('description', html)} 
           />
         </div>
       </div>

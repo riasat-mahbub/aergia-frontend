@@ -10,9 +10,10 @@ export type ResumeForm =
   | ResumeWorkExperience 
   | ResumeEducation 
   | ResumeProject 
+  | ResumeSkills
   | ResumeCustom;
+
 export interface ResumeProfile extends ResumeFormBase {
-  type: string;
   name: string;
   email: string;
   phone: string;
@@ -22,7 +23,6 @@ export interface ResumeProfile extends ResumeFormBase {
 }
 
 export interface ResumeWorkExperience extends ResumeFormBase {
-  type: string;
   company: string;
   jobTitle: string;
   date: string;
@@ -31,7 +31,6 @@ export interface ResumeWorkExperience extends ResumeFormBase {
 }
 
 export interface ResumeEducation extends ResumeFormBase {
-  type: string;
   school: string;
   degree: string;
   date: string;
@@ -41,7 +40,6 @@ export interface ResumeEducation extends ResumeFormBase {
 }
 
 export interface ResumeProject extends ResumeFormBase {
-  type: string;
   project: string;
   subtitle: string;
   date: string;
@@ -49,13 +47,15 @@ export interface ResumeProject extends ResumeFormBase {
 }
 
 export interface ResumeSkills extends ResumeFormBase {
-  type: string;
   skill: string;
   rating: number;
   description: string;
 }
 
 export interface ResumeCustom extends ResumeFormBase {
-  type: string;
+  title: string;
+  subtitle: string;
+  date: string;
+  location: string;
   description: string;
 }

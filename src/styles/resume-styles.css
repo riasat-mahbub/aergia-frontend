@@ -143,13 +143,10 @@
 }
 
 /* Custom Section */
-.customHolder {
-  margin-bottom: 12px;
-}
-
 .customForm {
-  margin-bottom: 10px;
-  line-height: 1.3;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  font-size: 12px;
 }
 
 .customFormTitle {
@@ -158,7 +155,11 @@
   margin-bottom: 3px;
 }
 
+
+.customFormDate, .customFormLocation{
+  text-align: end;
+}
+
 .customFormDescription {
-  font-size: 11px;
-  line-height: 1.4;
+  grid-column: span 2/ span 2;
 }

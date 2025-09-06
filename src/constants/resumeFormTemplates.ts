@@ -73,7 +73,10 @@ export const emptySkills: ResumeSkills = {
 
 
 export const emptyCustom: ResumeCustom = {
-  title: "Custom Section",
+  title: "Custom",
+  subtitle: "",
+  location: "",
+  date: "",
   id: uuidv4(),
   type: "custom",
   description: "",
