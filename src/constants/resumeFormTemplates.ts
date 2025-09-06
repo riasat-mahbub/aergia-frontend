@@ -52,6 +52,7 @@ export const emptyEducation: ResumeEducation = {
 
 export const emptyProject: ResumeProject = {
   title: "Project",
+  subtitle: "",
   id: uuidv4(),
   type: "project",
   project: "",

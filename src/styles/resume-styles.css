@@ -101,27 +101,25 @@
 
 
 /* Project Section */
-.projectHolder {
-  margin-bottom: 12px;
-}
-
-.projectForm {
-  margin-bottom: 10px;
-  line-height: 1.3;
+.projectForm{
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  font-size: 12px;
 }
 
 .projectFormProject {
   font-weight: bold;
-  font-size: 11px;
-  margin-bottom: 2px;
+  font-size: 13px;
+  text-transform: uppercase;
 }
 
-.projectFormDate {
-  font-size: 11px;
-  color: #000;
-  margin-bottom: 2px;
+.projectFormDate{
+  text-align: end;
 }
 
+.projectFormSubtitle,  .projectFormDescription{
+  grid-column: span 2/ span 2;
+}
 /* Skills Section */
 .skillsHolder {
   margin-bottom: 12px;

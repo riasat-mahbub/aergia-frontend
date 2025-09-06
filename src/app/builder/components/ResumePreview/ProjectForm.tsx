@@ -11,7 +11,8 @@ export default function ProjectForm({projectFormHolder}: { projectFormHolder: Pr
             <div key={form.id} className="projectForm">
               <div className="projectFormProject">{form.project}</div>
               <div className="projectFormDate">{form.date}</div>
-              <div className="projectFormDate">{form.description}</div>
+              <div className="projectFormSubtitle">{form.subtitle}</div>
+              <div className="projectFormDescription">{form.description}</div>
             </div>
           );
       }

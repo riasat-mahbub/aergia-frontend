@@ -44,6 +44,7 @@ export interface ResumeEducation extends ResumeFormBase {
 export interface ResumeProject extends ResumeFormBase {
   type: string;
   project: string;
+  subtitle: string;
   date: string;
   description: string;
 }
