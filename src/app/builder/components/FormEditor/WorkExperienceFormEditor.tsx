@@ -12,7 +12,7 @@ interface WorkExperienceFormEditorProps {
 export default function WorkExperienceFormEditor({ form, onSave, onCancel }: WorkExperienceFormEditorProps) {
   const [formData, setFormData] = useState(form);
   
-  const handleChange = (field: keyof ResumeWorkExperience, value: string | string[]) => {
+  const handleChange = (field: keyof ResumeWorkExperience, value: string) => {
     setFormData({ ...formData, [field]: value });
   };
   
@@ -69,7 +69,7 @@ export default function WorkExperienceFormEditor({ form, onSave, onCancel }: Wor
           <label className="block text-sm font-medium text-gray-700 mb-1">Descriptions</label>
           <RichTextEditor 
             content={formData.description} 
-            onChange={(html) => handleChange('description', html.split('<br>'))} 
+            onChange={(html) => handleChange('description', html)} 
           />
         </div>
       </div>
