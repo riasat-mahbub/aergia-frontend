@@ -191,3 +191,15 @@
 .customFormDescription {
   grid-column: span 2/ span 2;
 }
+
+/* Print Styles */
+@media print {
+  body { 
+    padding: 20px; 
+    font-family: Arial, sans-serif; 
+  }
+  @page { 
+    size: A4; 
+    margin: 0;
+  }
+}
