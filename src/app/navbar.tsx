@@ -39,7 +39,7 @@ export default function Navbar() {
 
           {/* Mobile Hamburger */}
           <div className="md:hidden">
-            <button onClick={toggleMenu} className="text-gray-200 focus:outline-none">
+            <button onClick={toggleMenu} className="text-gray-700 focus:outline-none">
               {open ? <X size={24} /> : <Menu size={24} />}
             </button>
           </div>
@@ -48,7 +48,7 @@ export default function Navbar() {
 
       {/* Mobile Menu */}
       {open && (
-        <div className="md:hidden px-4 pt-2 pb-4 space-y-2 bg-neutral-900 border-t">
+        <div className="md:hidden flex flex-row gap-4 px-4 pt-2 pb-4 space-y-2 bg-white">
             <Link href="/home" className="hover:text-emerald-600">Home</Link>
             {pathname!="/builder" && <Link href="/builder" className="hover:text-emerald-600">Builder</Link> }
             {pathname!="/parser" && <Link href="/parser" className="hover:text-emerald-600">Parser</Link>}
