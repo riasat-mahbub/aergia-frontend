@@ -1,23 +1,31 @@
-import SafeHTML from "@/components/SafeHTML";
-import { EducationFormHolder } from "@/types/FormHolderTypes";
+import { View, Text } from "@react-pdf/renderer";
 import { ResumeEducation } from "@/types/ResumeFormTypes";
+import { styles } from './pdfStyles';
 
 
 export default function EducationForm({form}: { form: ResumeEducation }) {
+  if(!form.visible) return <View />;
+  
+  return (
+    <View style={styles.formContainer}>
 
-  if(form.visible){
-    return (
-      <div key={form.id} className="educationForm">
-        <div className="educationFormSchool">{form.school}</div>
-        <div className="educationFormDate">
-          <div className="educationFormStartDate">  {form.startDate}</div>
-          <div className="educationFormEndDate">  {form.endDate}</div>
-        </div>
-        <div className="educationFormDegree">{form.degree}</div>
-        <div className="educationFormLocation">{form.location}</div>
-        <div className="educationFormGPA">{form.gpa}</div>
-        <SafeHTML className="educationFormDescription" html={form.description}/>
-      </div>
-    );
-}
+      <View style={styles.spaceBetween}>
+        <Text style={styles.formTitle}>{form.school}</Text>
+        <View style={styles.formDateRow}>
+          <Text style={styles.formDate}>{form.startDate}</Text>
+          {form.startDate && form.endDate && <Text style={styles.formDateSeperator}>{"-"}</Text>}
+          <Text style={styles.formDate}>{form.endDate}</Text>
+        </View>
+      </View>
+
+      <View style={styles.spaceBetween}>
+        <Text style={styles.formSubtitle}>{form.degree}</Text>
+        <Text style={styles.formLocation}>{form.location}</Text>
+      </View>
+
+     
+      <Text style={styles.educationGPA}>GPA: {form.gpa}</Text>
+      <Text style={styles.formDescription}>{form.description?.replace(/<[^>]*>/g, '')}</Text>
+    </View>
+  );
 }

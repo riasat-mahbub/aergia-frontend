@@ -1,24 +1,17 @@
-import SafeHTML from "@/components/SafeHTML";
+import { View, Text } from "@react-pdf/renderer";
 import { ResumeSkills } from "@/types/ResumeFormTypes";
-import { Circle } from "lucide-react";
+import { styles } from './pdfStyles';
 
 export default function SkillsForm({form}: { form: ResumeSkills }) {
-    if(form.visible){
-      return(
-        <div key={form.id} className="skillForm">
-          <div className="skillFormSkill">{form.skill}</div>
-          <div className="skillFormRating">
-            {(() => {
-              let ratings = []
-              for (let i = 0; i < form.rating; i++) {
-                ratings.push(<Circle key={i} className="skillFormRatingGraphic"/>)
-              }
-              return ratings;
-            })()}
-          </div>
-          <SafeHTML className="skillFormDescription" html={form.description}/>
-        </div>
-      )
-
-    }
+    if(!form.visible) return <View />;
+    
+    return(
+        <View style={styles.skillsContainer}>
+            <View style={styles.skillsRow}>
+                <Text style={styles.skillName}>{form.skill}</Text>
+                <Text style={styles.skillRating}>{'●'.repeat(form.rating || 0)}</Text>
+            </View>
+            <Text style={styles.skillDescription}>{form.description?.replace(/<[^>]*>/g, '')}</Text>
+        </View>
+    );
 }
