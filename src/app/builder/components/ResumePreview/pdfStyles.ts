@@ -60,7 +60,9 @@ export const styles = StyleSheet.create({
   },
   formDescription: {
     fontSize: 10,
-    marginTop: 4,
+    margin: 0,
+    padding: 0,
+    lineHeight:1,
   },
 
   spaceBetween: {

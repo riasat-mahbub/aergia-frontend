@@ -1,6 +1,8 @@
 import { View, Text } from "@react-pdf/renderer";
 import { ResumeExperience } from "@/types/ResumeFormTypes";
 import { styles } from './pdfStyles';
+import Html from "react-pdf-html";
+import SafeHTML from "@/components/SafeHTML";
 
 export default function ExperienceForm({form}: { form: ResumeExperience }) {
   if(!form.visible) return <View />;
@@ -13,8 +15,7 @@ export default function ExperienceForm({form}: { form: ResumeExperience }) {
         <Text style={styles.formDate}>{form.endDate}</Text>
       </View>
       <Text style={styles.formSubtitle}>{form.jobTitle}</Text>
-      <Text style={styles.formLocation}>{form.location}</Text>
-      <Text style={styles.formDescription}>{form.description?.replace(/<[^>]*>/g, '')}</Text>
+      <Html style={styles.formDescription}>{SafeHTML(form.description)}</Html>
     </View>
   );
 }

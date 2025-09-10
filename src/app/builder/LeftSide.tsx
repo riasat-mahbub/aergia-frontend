@@ -1,5 +1,3 @@
-"use client"
-
 import { Plus } from "lucide-react";
 import FormCollection from "./components/FormCollection";
 import FormEditor from "./components/FormEditor/FormEditor";
@@ -8,7 +6,6 @@ import { RootState } from "@/store/store";
 import { useSelector } from "react-redux";
 import PopoverDirector from "./components/popovers/PopoverDirector";
 import { popover } from "@/constants/popovers";
-
 
 
 export default function LeftSide(){

@@ -1,6 +1,8 @@
 import { View, Text } from "@react-pdf/renderer";
 import { ResumeSkills } from "@/types/ResumeFormTypes";
 import { styles } from './pdfStyles';
+import Html from "react-pdf-html";
+import SafeHTML from "@/components/SafeHTML";
 
 export default function SkillsForm({form}: { form: ResumeSkills }) {
     if(!form.visible) return <View />;
@@ -11,7 +13,7 @@ export default function SkillsForm({form}: { form: ResumeSkills }) {
                 <Text style={styles.skillName}>{form.skill}</Text>
                 <Text style={styles.skillRating}>{'●'.repeat(form.rating || 0)}</Text>
             </View>
-            <Text style={styles.skillDescription}>{form.description?.replace(/<[^>]*>/g, '')}</Text>
+            <Html style={styles.formDescription}>{SafeHTML(form.description)}</Html>
         </View>
     );
 }

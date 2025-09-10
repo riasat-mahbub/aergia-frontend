@@ -1,6 +1,8 @@
 import { View, Text } from "@react-pdf/renderer";
 import { ResumeCustom } from "@/types/ResumeFormTypes";
 import { styles } from './pdfStyles';
+import Html from "react-pdf-html";
+import SafeHTML from "@/components/SafeHTML";
 
 
 export default function CustomForm({form}: { form: ResumeCustom }) {
@@ -15,7 +17,7 @@ export default function CustomForm({form}: { form: ResumeCustom }) {
             </View>
             <Text style={styles.formSubtitle}>{form.subtitle}</Text>
             <Text style={styles.formLocation}>{form.location}</Text>
-            <Text style={styles.formDescription}>{form.description?.replace(/<[^>]*>/g, '')}</Text>
+            <Html style={styles.formDescription}>{SafeHTML(form.description)}</Html>
         </View>
     );
 }

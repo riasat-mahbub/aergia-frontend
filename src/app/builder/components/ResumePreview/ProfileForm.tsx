@@ -1,6 +1,8 @@
 import { View, Text } from "@react-pdf/renderer";
 import { ResumeProfile } from "@/types/ResumeFormTypes";
 import { styles } from './pdfStyles';
+import Html from "react-pdf-html";
+import SafeHTML from "@/components/SafeHTML";
 
 
 export default function ProfileForm({form}: { form: ResumeProfile }) {
@@ -15,7 +17,7 @@ export default function ProfileForm({form}: { form: ResumeProfile }) {
         {form.email && <Text style={styles.profileContactItem}>{form.email}</Text>}
         {form.url && <Text style={styles.profileContactItem}>{form.url}</Text>}
       </View>
-      <Text style={styles.profileSummary}>{form.summary?.replace(/<[^>]*>/g, '')}</Text>
+      <Html style={styles.formDescription}>{SafeHTML(form.summary)}</Html>
     </View>
   );
 }
