@@ -1,6 +1,8 @@
 import { View, Text } from "@react-pdf/renderer";
 import { ResumeProject } from "@/types/ResumeFormTypes";
 import { styles } from './pdfStyles';
+import Html from "react-pdf-html";
+import SafeHTML from "@/components/SafeHTML";
 
 export default function ProjectForm({form}: { form: ResumeProject }) {
     if(!form.visible) return <View />;
@@ -18,7 +20,7 @@ export default function ProjectForm({form}: { form: ResumeProject }) {
             </View>
 
             <Text style={styles.formSubtitle}>{form.subtitle}</Text>
-            <Text style={styles.formDescription}>{form.description?.replace(/<[^>]*>/g, '')}</Text>
+            <Html style={styles.formDescription}>{SafeHTML(form.description)}</Html>
         </View>
     );
 }

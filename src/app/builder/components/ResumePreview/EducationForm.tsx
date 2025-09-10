@@ -24,7 +24,6 @@ export default function EducationForm({form}: { form: ResumeEducation }) {
         <Text style={styles.formLocation}>{form.location}</Text>
       </View>
       <Text style={styles.educationGPA}>GPA: {form.gpa}</Text>
-      <Text>{form.description}</Text>
       <Html style={styles.formDescription}>{SafeHTML(form.description)}</Html>
     </View>
   );

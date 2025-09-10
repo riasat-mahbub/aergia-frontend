@@ -76,7 +76,9 @@ export const styles = StyleSheet.create({
     marginBottom: 8,
   },
   skillsRow: {
-    flexDirection: 'row',
+    display:'flex',
+    flexDirection:'row',
+    justifyContent:'space-between',
     alignItems: 'center',
   },
   skillName: {
@@ -84,7 +86,8 @@ export const styles = StyleSheet.create({
     marginRight: 8,
   },
   skillRating: {
-    fontSize: 10,
+    fontSize: 16,
+    fontWeight: "bold"
   },
   skillDescription: {
     fontSize: 10,

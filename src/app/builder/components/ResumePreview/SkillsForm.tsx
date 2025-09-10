@@ -11,7 +11,7 @@ export default function SkillsForm({form}: { form: ResumeSkills }) {
         <View style={styles.skillsContainer}>
             <View style={styles.skillsRow}>
                 <Text style={styles.skillName}>{form.skill}</Text>
-                <Text style={styles.skillRating}>{'●'.repeat(form.rating || 0)}</Text>
+                <Text style={styles.skillRating}>{'.'.repeat(form.rating || 0)}</Text>
             </View>
             <Html style={styles.formDescription}>{SafeHTML(form.description)}</Html>
         </View>
