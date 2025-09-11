@@ -39,6 +39,10 @@ class ApiService {
       this.request('/auth/logout', {
         method: 'POST',
       }),
+    
+      isLoggedIn: () =>{
+        this.request('/auth/isLoggedIn')
+      }
   };
 
   // CV endpoints

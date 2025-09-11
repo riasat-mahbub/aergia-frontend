@@ -1,7 +1,31 @@
+"use client"
+import { useApi } from "@/hooks/useApi";
+import { apiService } from "@/services/api";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 
 export default function Home() {
+
+  const { execute, loading, error } = useApi();
+  const router = useRouter();
+
+  useEffect(() =>{
+
+    const checkIfLoggedIn = async() =>{
+       const result = await execute(async () => apiService.auth.isLoggedIn());
+       
+      if (result) {
+        router.push('/');
+      }else{
+        router.push('/login')
+      }
+    }
+   
+
+  }, [])
+
   return (
     <section className="lg:flex lg:h-[825px] lg:justify-center lg:items-center">
       <div className="mx-auto max-w-xl pt-8 text-center lg:mx-0 lg:grow lg:pt-32 lg:text-left">
