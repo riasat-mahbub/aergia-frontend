@@ -34,7 +34,7 @@ export default function Home() {
 
 
   return (
-    <section className="lg:flex lg:h-[825px] lg:justify-center lg:items-center">
+    <section className="lg:flex  lg:justify-center lg:items-center">
       <div className="mx-auto max-w-xl pt-8 text-center lg:mx-0 lg:grow lg:pt-32 lg:text-left">
         <h1 className="text-primary pb-2 text-4xl font-bold lg:text-5xl">
           Create a professional
