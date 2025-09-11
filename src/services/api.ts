@@ -48,7 +48,11 @@ class ApiService {
   cvs = {
     getAll: () => this.request('/cv'),
     
-    create: () => this.request('/cv', { method: 'POST' }),
+    create: (data: { title: string;}) =>
+      this.request(`/cv`, {
+        method: 'POST',
+        body: JSON.stringify(data),
+      }),
     
     get: (id: string) => this.request(`/cv/${id}`),
     
