@@ -1,14 +1,22 @@
 'use client';
 
 import Link from 'next/link';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Menu, X } from 'lucide-react';
 import { useReactToPrint } from 'react-to-print';
 import { printRef } from './builder/components/printRef';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
+import { useApi } from '@/hooks/useApi';
+import { apiService } from '@/services/api';
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const { execute, loading, error } = useApi();
+  const router = useRouter()
+  
+  const pathname = usePathname();
+
 
   const toggleMenu = () => setOpen(!open);
 
@@ -16,7 +24,28 @@ export default function Navbar() {
     contentRef: printRef
   });
 
-  const pathname = usePathname();
+  const handleLogout = async () => {
+    if(isLoggedIn){
+      const result = await execute( () => apiService.auth.logout())
+
+      if(result){
+        setIsLoggedIn(false)
+        router.push('/')
+      }
+    }
+  }
+
+  useEffect(() => {
+    const checkIfLoggedIn = async () => {
+      const result = await execute(() => apiService.auth.isLoggedIn());
+      
+      if (result) {
+       setIsLoggedIn(true)
+      }
+    }
+
+    checkIfLoggedIn();
+  }, [pathname])
 
   return (
     <nav className="bg-gray-300 shadow-md sticky top-0 z-50">
@@ -32,9 +61,12 @@ export default function Navbar() {
           {/* Desktop Menu */}
           <div className="hidden md:flex space-x-6">
             <Link href="/home" className="hover:text-emerald-600">Home</Link>
+            {!isLoggedIn &&  <Link href="/register" className="hover:text-emerald-600">Register</Link> }
+            {!isLoggedIn &&  <Link href="/login" className="hover:text-emerald-600">Login</Link> }
             {pathname!="/builder" && <Link href="/builder" className="hover:text-emerald-600">Builder</Link> }
             {pathname!="/parser" && <Link href="/parser" className="hover:text-emerald-600">Parser</Link>}
             {pathname=="/builder"  && <div onClick={handlePrint} className="hover:text-emerald-600 cursor-pointer">Print</div>}
+            {isLoggedIn &&   <div onClick={handleLogout} className="hover:text-emerald-600 cursor-pointer">Logout</div>}
           </div>
 
           {/* Mobile Hamburger */}
@@ -50,9 +82,12 @@ export default function Navbar() {
       {open && (
         <div className="md:hidden flex flex-row gap-4 px-4 pt-2 pb-4 space-y-2 bg-white">
             <Link href="/home" className="hover:text-emerald-600">Home</Link>
+            {!isLoggedIn &&  <Link href="/register" className="hover:text-emerald-600">Register</Link> }
+            {!isLoggedIn &&  <Link href="/login" className="hover:text-emerald-600">Login</Link> }
             {pathname!="/builder" && <Link href="/builder" className="hover:text-emerald-600">Builder</Link> }
             {pathname!="/parser" && <Link href="/parser" className="hover:text-emerald-600">Parser</Link>}
             {pathname=="/builder"  && <div onClick={handlePrint} className="hover:text-emerald-600 cursor-pointer">Print</div>}
+            {isLoggedIn &&   <div onClick={handleLogout} className="hover:text-emerald-600 cursor-pointer">Logout</div>}
         </div>
       )}
     </nav>

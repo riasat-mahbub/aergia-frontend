@@ -40,9 +40,8 @@ class ApiService {
         method: 'POST',
       }),
     
-      isLoggedIn: () =>{
+      isLoggedIn: () =>
         this.request('/auth/isLoggedIn')
-      }
   };
 
   // CV endpoints
