@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useApi } from '@/hooks/useApi';
 import { apiService } from '@/services/api';
+import Link from 'next/link';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
@@ -65,6 +66,9 @@ export default function LoginPage() {
         >
           {loading ? 'Logging in...' : 'Login'}
         </button>
+        <div>
+          Dont have an account? register <Link href='/register' className='border-b cursor-pointer'> here </Link>
+        </div>
       </form>
     </div>
   );
