@@ -70,7 +70,7 @@ export default function CVsPage() {
         {cvs.map((cv) => (
           <div key={cv.id} className="border rounded-lg p-6 shadow-md hover:shadow-lg flex flex-row justify-between items-center" >
             
-            <div className="text-black text-3xl mb-4 w-full cursor-pointer" onClick={() => router.push(`/builder/${cv.id}`)}>
+            <div className="text-black text-3xl mb-4 w-full cursor-pointer" onClick={() => router.push(`/builder/?cvId=${cv.id}`)}>
               {cv.title}
             </div>
 

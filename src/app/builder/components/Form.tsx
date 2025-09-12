@@ -2,12 +2,14 @@
 import { ResumeForm, ResumeFormBase } from "@/types/ResumeFormTypes";
 import { Eye, EyeClosed, Trash2, GripVertical, EyeOff } from "lucide-react";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 
 import { deleteForm, setFormToShow, setSelectedForm, updateForm } from "@/store/formSlice";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+import { useFormHolders } from "@/hooks/useFormHolders";
+import { RootState } from "@/store/store";
 
 
 interface BaseOptionProps {
@@ -20,6 +22,9 @@ interface BaseOptionProps {
 export default function Form({ formHolderId, form}: BaseOptionProps) {
   const [visibility, setVisibility] = useState(true);
   const dispatch = useDispatch();
+  const cvId = useSelector((state: RootState) => state.forms.cvId);
+  const formHolders = useSelector((state: RootState) => state.forms.formHolders);
+  const { updateFormHolder } = useFormHolders(cvId);
 
   const onFormClick = (formHolderId: string, form: ResumeForm) => {
   dispatch(
@@ -56,12 +61,23 @@ export default function Form({ formHolderId, form}: BaseOptionProps) {
     }));
   }
 
-  function onTrashClick(){
+  const onTrashClick = async () => {
+    const currentFormHolder = formHolders.find(fh => fh.id === formHolderId);
+    if (currentFormHolder) {
+      const updatedData = currentFormHolder.data.filter(f => f.id !== form.id);
+      const updatedFormHolder = {
+        ...currentFormHolder,
+        data: updatedData
+      };
+      
+      await updateFormHolder(updatedFormHolder);
+    }
+    
     dispatch(deleteForm({
       formHolderId: formHolderId,
       formId: form.id
     }));
-  }
+  };
 
 
 

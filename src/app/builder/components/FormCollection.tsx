@@ -21,7 +21,6 @@ import {
   verticalListSortingStrategy
 } from "@dnd-kit/sortable";
 
-
 export default function FormCollection() {
   const dispatch = useDispatch();
   

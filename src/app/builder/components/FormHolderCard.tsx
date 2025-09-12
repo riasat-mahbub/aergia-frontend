@@ -29,6 +29,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addForm, updateFormHolder, reorderForms, setSelectedForm, setFormHolderToShow } from "@/store/formSlice";
 import { setExpandedFormHolder } from "@/store/settingSlice";
 import { RootState } from "@/store/store";
+import { useFormHolders } from "@/hooks/useFormHolders";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import {
@@ -59,7 +60,7 @@ import DeleteFormHolderPopover from "./popovers/DeleteFormHolderPopover";
 import { popover } from "@/constants/popovers";
 import PopoverDirector from "./popovers/PopoverDirector";
 
-interface FormHolderOptions {
+interface FormHolderProps {
   formHolder: FormHolder;
 }
 
@@ -82,11 +83,13 @@ export const iconOptions: IconOption[] = [
 
 
 
-export default function FormHolderCard({ formHolder }: FormHolderOptions) {
+export default function FormHolderCard({ formHolder }: FormHolderProps) {
   const [formHolderTitle, setformHolderTitle] = useState(formHolder.title);
   const [formHolderIcon, setformHolderIcon] = useState(formHolder.icon);
   const [activePopover, setActivePopover] = useState<popover>(null);
   const dispatch = useDispatch();
+  const cvId = useSelector((state: RootState) => state.forms.cvId);
+  const { updateFormHolder: updateFormHolderAPI } = useFormHolders(cvId);
   
   // Setup sensors for drag and drop
   const sensors = useSensors(
@@ -151,27 +154,21 @@ export default function FormHolderCard({ formHolder }: FormHolderOptions) {
     setformHolderIcon(formHolder.icon);
   }, [formHolder]);
 
-  const handleTitleChange = (title: string) => {
+  const handleTitleChange = async (title: string) => {
     setformHolderTitle(title);
-    dispatch(
-      updateFormHolder({
-        ...formHolder,
-        title,
-      })
-    );
+    const updatedFormHolder = { ...formHolder, title };
+    await updateFormHolderAPI(updatedFormHolder);
+    dispatch(updateFormHolder(updatedFormHolder));
   };
 
-  const handleIconChange = (icon: string) => {
+  const handleIconChange = async (icon: string) => {
     setformHolderIcon(icon);
-    dispatch(
-      updateFormHolder({
-        ...formHolder,
-        icon,
-      })
-    );
+    const updatedFormHolder = { ...formHolder, icon };
+    await updateFormHolderAPI(updatedFormHolder);
+    dispatch(updateFormHolder(updatedFormHolder));
   };
 
-  const addNewForm = () => {
+  const addNewForm = async () => {
     let newForm;
     const count = formHolder.data.length + 1;
     
@@ -195,6 +192,13 @@ export default function FormHolderCard({ formHolder }: FormHolderOptions) {
       default:
         newForm = { ...emptyCustom, id: uuidv4(), title: `Custom Section ${count}` };
     }
+    
+    const updatedFormHolder = {
+      ...formHolder,
+      data: [...formHolder.data, newForm]
+    };
+    
+    await updateFormHolderAPI(updatedFormHolder);
     
     dispatch(
       addForm({
@@ -292,7 +296,7 @@ export default function FormHolderCard({ formHolder }: FormHolderOptions) {
         </div>
       </div>
 
-      <PopoverDirector activePopover={activePopover}  popoverData={formHolder.id} onClose={() => setActivePopover(null)} />
+      <PopoverDirector activePopover={activePopover} popoverData={formHolder.id} onClose={() => setActivePopover(null)} />
     </div>
   );
 }

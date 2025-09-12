@@ -21,7 +21,7 @@ export default function LeftSide(){
                 />
             ) : (
                 <>
-                    <FormCollection/>
+                    <FormCollection />
                     <div 
                         className="rounded-full text-white bg-emerald-500 flex mt-6 max-w-40 p-4 hover:shadow-lg hover:scale-105 transition-all duration-300 cursor-pointer"
                         onClick={() => setActivePopover("AddFormHolder")}
@@ -31,7 +31,7 @@ export default function LeftSide(){
                     </div>
                     
                     {/* Popover Menu */}
-                    <PopoverDirector activePopover={activePopover}  popoverData={null} onClose={() => setActivePopover(null)} />
+                    <PopoverDirector activePopover={activePopover} popoverData={null} onClose={() => setActivePopover(null)} />
                 </>
             )}
         </div>

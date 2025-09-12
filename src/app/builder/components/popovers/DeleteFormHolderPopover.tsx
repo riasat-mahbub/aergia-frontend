@@ -1,8 +1,10 @@
 "use client";
 
 import { X } from "lucide-react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { deleteFormHolder } from "@/store/formSlice";
+import { useFormHolders } from "@/hooks/useFormHolders";
+import { RootState } from "@/store/store";
 
 
 interface AddFormHolderPopoverProps {
@@ -12,8 +14,11 @@ interface AddFormHolderPopoverProps {
 
 export default function DeleteFormHolderPopover({formHolderId, onClose }: AddFormHolderPopoverProps) {
   const dispatch = useDispatch();
+  const cvId = useSelector((state: RootState) => state.forms.cvId);
+  const { deleteFormHolder: deleteFormHolderAPI } = useFormHolders(cvId);
   
-  const handleDeleteFormHolder = () => {
+  const handleDeleteFormHolder = async () => {
+    await deleteFormHolderAPI(formHolderId);
     dispatch(deleteFormHolder(formHolderId));
     onClose();
   };

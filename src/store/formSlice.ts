@@ -12,11 +12,13 @@ interface selectedForm{
 interface FormState {
   formHolders: FormHolder[];
   selectedForm: selectedForm | null;
+  cvId: string | null;
 }
 
 export const initialFormState: FormState = {
   formHolders: [createFormHolder("Profile Form", "Person", "profile", [emptyProfile], true)],
-  selectedForm: null
+  selectedForm: null,
+  cvId: null
 };
 
 export const formSlice = createSlice({
@@ -112,6 +114,9 @@ export const formSlice = createSlice({
     },
     setSelectedForm(state, action: PayloadAction<{formHolderId: string, form: ResumeForm} | null>){
       state.selectedForm = action.payload;
+    },
+    setCvId(state, action: PayloadAction<string | null>){
+      state.cvId = action.payload;
     }
   },
 });
@@ -128,7 +133,8 @@ export const {
   setFormToShow,
   reorderFormHolders,
   reorderForms,
-  setSelectedForm
+  setSelectedForm,
+  setCvId
 } = formSlice.actions;
 
 // Selectors
