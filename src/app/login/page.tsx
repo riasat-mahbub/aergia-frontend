@@ -19,7 +19,7 @@ export default function LoginPage() {
       apiService.auth.login({ email, password, rememberMe })
     );
     if (result) {
-      router.push('/');
+      router.push('/cvs');
     }
   };
 

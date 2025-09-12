@@ -14,7 +14,7 @@ export default function Home() {
 
   const handleBuilder = () => {
     if(isLoggedIn){
-      router.push('/builder')
+      router.push('/cvs')
     }else{
       router.push('/login')
     }
