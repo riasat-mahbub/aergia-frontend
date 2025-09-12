@@ -84,18 +84,15 @@ export const iconOptions: IconOption[] = [
 
 
 export default function FormHolderCard({ formHolder }: FormHolderProps) {
-  const [formHolderTitle, setformHolderTitle] = useState(formHolder.title);
-  const [formHolderIcon, setformHolderIcon] = useState(formHolder.icon);
   const [activePopover, setActivePopover] = useState<popover>(null);
   const dispatch = useDispatch();
   const cvId = useSelector((state: RootState) => state.forms.cvId);
   const { updateFormHolder: updateFormHolderAPI } = useFormHolders(cvId);
   
-  // Setup sensors for drag and drop
   const sensors = useSensors(
     useSensor(PointerSensor, {
       activationConstraint: {
-        distance: 8, // Minimum distance before a drag starts
+        distance: 8, 
       },
     }),
     useSensor(KeyboardSensor, {
@@ -103,11 +100,6 @@ export default function FormHolderCard({ formHolder }: FormHolderProps) {
     })
   );
 
-  const [isVisible, setIsVisible] = useState(true);
-  const onEyeClick = () =>{
-    setIsVisible(!isVisible);
-    dispatch(setFormHolderToShow(formHolder.id));
-  }
   
   // Handle drag end event for forms
   const handleFormDragEnd = (event: DragEndEvent) => {
@@ -149,24 +141,31 @@ export default function FormHolderCard({ formHolder }: FormHolderProps) {
     }
   };
 
-  useEffect(() => {
-    setformHolderTitle(formHolder.title);
-    setformHolderIcon(formHolder.icon);
-  }, [formHolder]);
-
   const handleTitleChange = async (title: string) => {
-    setformHolderTitle(title);
-    const updatedFormHolder = { ...formHolder, title };
-    await updateFormHolderAPI(updatedFormHolder);
-    dispatch(updateFormHolder(updatedFormHolder));
+    const updatedFormHolder = { ...formHolder, title: title };
+
+    try{
+      await updateFormHolderAPI(updatedFormHolder);    
+      dispatch(updateFormHolder(updatedFormHolder));
+    }catch(exception){
+      console.error("Failed to update title:", exception);
+    }
+
   };
 
-  const handleIconChange = async (icon: string) => {
-    setformHolderIcon(icon);
-    const updatedFormHolder = { ...formHolder, icon };
-    await updateFormHolderAPI(updatedFormHolder);
-    dispatch(updateFormHolder(updatedFormHolder));
+
+  const onEyeClick = async () => {
+
+    const updatedFormHolder = { ...formHolder, visible: !formHolder.visible };
+
+    try {
+      await updateFormHolderAPI(updatedFormHolder);
+      dispatch(updateFormHolder(updatedFormHolder));
+    } catch (err) {
+      console.error("Failed to update visibility:", err);
+    }
   };
+
 
   const addNewForm = async () => {
     let newForm;
@@ -192,13 +191,6 @@ export default function FormHolderCard({ formHolder }: FormHolderProps) {
       default:
         newForm = { ...emptyCustom, id: uuidv4(), title: `Custom Section ${count}` };
     }
-    
-    const updatedFormHolder = {
-      ...formHolder,
-      data: [...formHolder.data, newForm]
-    };
-    
-    await updateFormHolderAPI(updatedFormHolder);
     
     dispatch(
       addForm({
@@ -240,18 +232,17 @@ export default function FormHolderCard({ formHolder }: FormHolderProps) {
         </div>
         {isExpanded ? (
           <IconInput
-            value={formHolderTitle}
-            iconValue={formHolderIcon}
+            value={formHolder.title}
+            iconValue={formHolder.icon}
             onChange={handleTitleChange}
-            onIconChange={handleIconChange}
             placeholder="Custom Form"
           />
         ) : (
           <div className="w-full flex items-center p-2 cursor-pointer" onClick={handleToggle} >
             <span className="mr-2">
-              {iconOptions.find((icon) => icon.name === formHolderIcon)?.icon}
+              {iconOptions.find((icon) => icon.name === formHolder.icon)?.icon}
             </span>
-            <div className="ml-2">{formHolderTitle}</div>
+            <div className="ml-2">{formHolder.title}</div>
           </div>
         )}
         {isExpanded ? (
@@ -287,7 +278,7 @@ export default function FormHolderCard({ formHolder }: FormHolderProps) {
             {formHolder.type[0].toUpperCase() + formHolder.type.slice(1)}
           </div>
           <div className="flex flex-row  justify-between ml-auto cursor-pointer">
-            {isVisible ? 
+            {formHolder.visible ? 
             <Eye className="text-red-950 mr-2" onClick={() => onEyeClick()}/>:
              <EyeOff className="text-red-950 mr-2" onClick={() => onEyeClick()}/>}
             

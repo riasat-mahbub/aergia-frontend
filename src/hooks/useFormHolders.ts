@@ -20,7 +20,7 @@ export function useFormHolders(cvId: string | null) {
           icon: 'default',
           type: formGroup.type,
           data: JSON.parse(formGroup.data),
-          visible: true
+          visible: formGroup.visible
         }));
         dispatch(setFormHolders(formHolders));
       }
@@ -35,7 +35,7 @@ export function useFormHolders(cvId: string | null) {
     const data = {
       title: formHolder.title,
       type: formHolder.type,
-      data: JSON.stringify(formHolder.data)
+      data: JSON.stringify(formHolder.data),
     };
 
     return execute(() => api.formGroups.create(cvId, data));
@@ -47,7 +47,8 @@ export function useFormHolders(cvId: string | null) {
     const data = {
       title: formHolder.title,
       type: formHolder.type,
-      data: JSON.stringify(formHolder.data)
+      data: JSON.stringify(formHolder.data),
+      visible: formHolder.visible
     };
 
     return execute(() => api.formGroups.update(cvId, formHolder.id, data));
