@@ -61,9 +61,9 @@ export default function Navbar() {
           {/* Desktop Menu */}
           <div className="hidden md:flex space-x-6">
             <Link href="/home" className="hover:text-emerald-600">Home</Link>
-            {pathname!="/builder" && <Link href="/builder" className="hover:text-emerald-600">Builder</Link> }
-            {pathname!="/parser" && <Link href="/parser" className="hover:text-emerald-600">Parser</Link>}
-            {pathname=="/builder"  && <div onClick={handlePrint} className="hover:text-emerald-600 cursor-pointer">Print</div>}
+            {isLoggedIn && pathname!="/builder" && <Link href="/builder" className="hover:text-emerald-600">Builder</Link> }
+            {/* {pathname!="/parser" && <Link href="/parser" className="hover:text-emerald-600">Parser</Link>} */}
+            {pathname==="/builder"  && <div onClick={handlePrint} className="hover:text-emerald-600 cursor-pointer">Print</div>}
             {!isLoggedIn &&  <Link href="/register" className="hover:text-emerald-600">Register</Link> }
             {!isLoggedIn &&  <Link href="/login" className="hover:text-emerald-600">Login</Link> }
             {isLoggedIn &&   <div onClick={handleLogout} className="hover:text-emerald-600 cursor-pointer">Logout</div>}
@@ -82,9 +82,9 @@ export default function Navbar() {
       {open && (
         <div className="md:hidden flex flex-row gap-4 px-4 pt-2 pb-4 space-y-2 bg-white">
             <Link href="/home" className="hover:text-emerald-600">Home</Link>
-            {pathname!="/builder" && <Link href="/builder" className="hover:text-emerald-600">Builder</Link> }
-            {pathname!="/parser" && <Link href="/parser" className="hover:text-emerald-600">Parser</Link>}
-            {pathname=="/builder"  && <div onClick={handlePrint} className="hover:text-emerald-600 cursor-pointer">Print</div>}
+            {isLoggedIn && pathname!="/builder" && <Link href="/builder" className="hover:text-emerald-600">Builder</Link> }
+            {/* {pathname!="/parser" && <Link href="/parser" className="hover:text-emerald-600">Parser</Link>} */}
+            {pathname==="/builder"  && <div onClick={handlePrint} className="hover:text-emerald-600 cursor-pointer">Print</div>}
             {!isLoggedIn &&  <Link href="/register" className="hover:text-emerald-600">Register</Link> }
             {!isLoggedIn &&  <Link href="/login" className="hover:text-emerald-600">Login</Link> }
             {isLoggedIn &&   <div onClick={handleLogout} className="hover:text-emerald-600 cursor-pointer">Logout</div>}
