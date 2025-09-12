@@ -20,7 +20,6 @@ interface BaseOptionProps {
 
 
 export default function Form({ formHolderId, form}: BaseOptionProps) {
-  const [visibility, setVisibility] = useState(true);
   const dispatch = useDispatch();
   const cvId = useSelector((state: RootState) => state.forms.cvId);
   const formHolders = useSelector((state: RootState) => state.forms.formHolders);
@@ -53,13 +52,39 @@ export default function Form({ formHolderId, form}: BaseOptionProps) {
     zIndex: isDragging ? 1000 : 1
   };
   
-  function onEyeClick(){
-    setVisibility(!visibility);
-    dispatch(setFormToShow({
-      formHolderId: formHolderId,
-      formId: form.id
+async function onEyeClick() {
+  const currentFormHolder = formHolders.find(fh => fh.id === formHolderId);
+  if (!currentFormHolder) return;
+
+  // Find the updated form
+  const updatedForms = currentFormHolder.data.map((f: ResumeForm) =>
+    f.id === form.id ? { ...f, visible: !f.visible } : f
+  );
+
+  // Extract the form we just toggled
+  const updatedForm = updatedForms.find(f => f.id === form.id);
+  if (!updatedForm) return;
+
+  // Build holder object for API
+  const updatedFormHolder = {
+    ...currentFormHolder,
+    data: updatedForms, // keep array form for Redux
+  };
+
+  try {
+    await updateFormHolder(updatedFormHolder);
+
+    // Update Redux with the single updated form
+    dispatch(updateForm({
+      formHolderId: updatedFormHolder.id,
+      form: updatedForm,
     }));
+  } catch (err) {
+    console.error("Failed to update form visibility:", err);
   }
+}
+
+
 
   const onTrashClick = async () => {
     const currentFormHolder = formHolders.find(fh => fh.id === formHolderId);
@@ -99,7 +124,7 @@ export default function Form({ formHolderId, form}: BaseOptionProps) {
       </div>
       
       <div className="flex flex-row gap-2">
-        {visibility ? <Eye onClick={onEyeClick}/> : <EyeOff onClick={onEyeClick}/>}
+        {form.visible ? <Eye onClick={onEyeClick}/> : <EyeOff onClick={onEyeClick}/>}
         <Trash2 onClick={onTrashClick}/>
       </div>
     </div>

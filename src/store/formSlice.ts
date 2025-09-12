@@ -62,6 +62,14 @@ export const formSlice = createSlice({
         state.formHolders[index] = action.payload;
       }
     },
+    updateFormHolderData: (state, action: PayloadAction<{ formHolderId: string; data: ResumeForm[] }>) => {
+      const holderIndex = state.formHolders.findIndex(
+        (holder) => holder.id === action.payload.formHolderId
+      );
+      if (holderIndex !== -1) {
+        state.formHolders[holderIndex].data = action.payload.data;
+      }
+    },
     addForm: (state, action: PayloadAction<{formHolderId: string, form: ResumeForm}>) => {
       const holderIndex = state.formHolders.findIndex((holder) => holder.id === action.payload.formHolderId);
       if (holderIndex !== -1) {
@@ -127,6 +135,7 @@ export const {
   deleteFormHolder,
   addFormHolder,
   updateFormHolder,
+  updateFormHolderData,
   addForm,
   updateForm,
   deleteForm,
