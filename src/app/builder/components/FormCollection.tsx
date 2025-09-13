@@ -24,14 +24,12 @@ import {
 export default function FormCollection() {
   const dispatch = useDispatch();
   
-  // Get forms from Redux store
   const formHolders = useSelector((state: RootState) => state.forms.formHolders);
   
-  // Setup sensors for drag and drop
   const sensors = useSensors(
     useSensor(PointerSensor, {
       activationConstraint: {
-        distance: 8, // Minimum distance before a drag starts
+        distance: 8,
       },
     }),
     useSensor(KeyboardSensor, {

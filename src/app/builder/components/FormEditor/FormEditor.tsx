@@ -1,7 +1,7 @@
 'use client'
 import { ResumeCustom, ResumeEducation, ResumeForm, ResumeProfile, ResumeProject, ResumeSkills, ResumeExperience } from "@/types/ResumeFormTypes";
 import { useDispatch, useSelector } from "react-redux";
-import { setSelectedForm, updateForm } from "@/store/formSlice";
+import { getFormHolderById, setSelectedForm, updateForm } from "@/store/formSlice";
 import { useFormHolders } from "@/hooks/useFormHolders";
 import { RootState } from "@/store/store";
 import ProfileFormEditor from "./ProfileFormEditor";
@@ -10,6 +10,7 @@ import EducationFormEditor from "./EducationFormEditor";
 import ProjectFormEditor from "./ProjectFormEditor";
 import SkillsFormEditor from "./SkillsFormEditor";
 import CustomFormEditor from "./CustomFormEditor";
+import { useEffect } from "react";
 
 interface FormEditorProps {
   form: ResumeForm;
@@ -19,26 +20,25 @@ interface FormEditorProps {
 export default function FormEditor({ form, formHolderId }: FormEditorProps) {
   const dispatch = useDispatch();
   const cvId = useSelector((state: RootState) => state.forms.cvId);
-  const { updateFormHolder } = useFormHolders(cvId);
-  
+  const { updateFormHolderData } = useFormHolders(cvId);
+  let formHolder = useSelector((state: RootState) => 
+    getFormHolderById(state, formHolderId)
+  );
+
   const handleSave = async (updatedForm: ResumeForm) => {
-    const formHolder = {
-      id: formHolderId,
-      title: updatedForm.title,
-      type: updatedForm.type,
-      data: [updatedForm],
-      icon: 'default',
-      visible: true
-    };
-    
-    await updateFormHolder(formHolder);
-    
+    if (!formHolder || !cvId) return;
+
+    await updateFormHolderData(formHolder, updatedForm);
+
     dispatch(updateForm({
-      formHolderId: formHolderId,
-      form: updatedForm
+      formHolderId,
+      form: updatedForm,
     }));
+
+
     dispatch(setSelectedForm(null));
   };
+
 
   const onBack = () => {
     dispatch(setSelectedForm(null));
