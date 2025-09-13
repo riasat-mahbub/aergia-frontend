@@ -1,11 +1,9 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useApi } from './useApi';
-import { getFormHolderById, setFormHolders } from '@/store/formSlice';
+import { setFormHolders } from '@/store/formSlice';
 import { FormHolder } from '@/types/FormHolderTypes';
 import { ResumeForm } from '@/types/ResumeFormTypes';
-import { RootState } from '@/store/store';
-import { title } from 'process';
 
 export function useFormHolders(cvId: string | null) {
   const { execute, loading, error, api } = useApi();
@@ -23,8 +21,11 @@ export function useFormHolders(cvId: string | null) {
           icon: 'default',
           type: formGroup.type,
           data: JSON.parse(formGroup.data),
-          visible: formGroup.visible
+          visible: formGroup.visible,
+          order: formGroup.order
         }));
+
+        formHolders.sort((a,b) => (a.order > b.order) ? 1 : ((b.order > a.order) ? -1 : 0))
         dispatch(setFormHolders(formHolders));
       }
     };
@@ -57,6 +58,16 @@ export function useFormHolders(cvId: string | null) {
     return execute(() => api.formGroups.update(cvId, formHolder.id, data));
   };
 
+  const reorderFormHolder = async(activeId:string, overId:string) =>{
+    if (!cvId) return null;
+    
+    const data = {
+      activeId: activeId,
+      overId: overId
+    }
+    return execute(() => api.formGroups.reorder(cvId, data));
+  }
+
   const updateFormHolderData = async (formHolder: FormHolder, form: ResumeForm) => {
     if (!cvId) return null;
 
@@ -68,16 +79,7 @@ export function useFormHolders(cvId: string | null) {
     formHolder.data.map( (item) =>{return item.id === form.id ? form : item}) :
     [...formHolder.data, form]
 
-    console.log("shouldUpdate", shouldUpdate)
-    console.log("NewForm", form)
-    console.log("oldForm", formHolder.data)
-    console.log("Newdata", newData)
-
-    const data = {
-      title: formHolder.title,
-      type: formHolder.type,
-      data: JSON.stringify(newData),
-    };
+    const data = {...formHolder, data:JSON.stringify(form)};
 
     return execute(() => api.formGroups.update(cvId, formHolder.id, data));
     
@@ -93,6 +95,7 @@ export function useFormHolders(cvId: string | null) {
     error,
     saveFormHolder,
     updateFormHolder,
+    reorderFormHolder,
     deleteFormHolder,
     updateFormHolderData
   };

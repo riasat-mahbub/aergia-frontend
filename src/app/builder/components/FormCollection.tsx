@@ -20,9 +20,12 @@ import {
   sortableKeyboardCoordinates,
   verticalListSortingStrategy
 } from "@dnd-kit/sortable";
+import { useFormHolders } from "@/hooks/useFormHolders";
 
 export default function FormCollection() {
   const dispatch = useDispatch();
+  const cvId = useSelector((state: RootState) => state.forms.cvId);
+  const { reorderFormHolder } = useFormHolders(cvId);
   
   const formHolders = useSelector((state: RootState) => state.forms.formHolders);
   
@@ -38,14 +41,20 @@ export default function FormCollection() {
   );
   
   // Handle drag end event
-  const handleDragEnd = (event: DragEndEvent) => {
+  const handleDragEnd = async (event: DragEndEvent) => {
     const { active, over } = event;
     
     if (over && active.id !== over.id) {
-      dispatch(reorderFormHolders({
-        activeId: active.id.toString(),
-        overId: over.id.toString()
-      }));
+      try {
+        await reorderFormHolder(active.id.toString(), over.id.toString());
+        
+        dispatch(reorderFormHolders({
+          activeId: active.id.toString(),
+          overId: over.id.toString()
+        }));
+      } catch (error) {
+        console.error('Failed to reorder form holders:', error);
+      }
     }
   };
   

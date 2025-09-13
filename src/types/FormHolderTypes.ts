@@ -7,6 +7,7 @@ export interface FormHolder{
     type: string;
     data: ResumeForm[];
     visible: boolean;
+    order: number;
 }
 
 export interface CustomFormHolder extends FormHolder {

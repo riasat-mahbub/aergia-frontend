@@ -76,6 +76,12 @@ class ApiService {
         method: 'PUT',
         body: JSON.stringify(data),
       }),
+
+    reorder: (cvId:string, data: {activeId: string, overId: string}) =>
+      this.request(`/formGroup/${cvId}/reorder`, {
+        method:'POST',
+        body: JSON.stringify(data)
+      }),
     
     delete: (cvId: string, id: string) =>
       this.request(`/formGroup/${cvId}/${id}`, { method: 'DELETE' }),
