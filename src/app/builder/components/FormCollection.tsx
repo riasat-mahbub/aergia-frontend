@@ -3,7 +3,6 @@
 import { useSelector, useDispatch } from "react-redux";
 import FormHolderCard from "./FormHolderCard"
 import { RootState } from "@/store/store";
-import { ResumeForm } from "@/types/ResumeFormTypes";
 import { reorderFormHolders } from "@/store/formSlice";
 import {
   DndContext,

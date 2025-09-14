@@ -16,7 +16,7 @@ interface FormState {
 }
 
 export const initialFormState: FormState = {
-  formHolders: [createFormHolder("Profile Form", "Person", "profile", [emptyProfile], true)],
+  formHolders: [createFormHolder("Profile Form", "Person", "profile", [emptyProfile], true, 1)],
   selectedForm: null,
   cvId: null
 };
@@ -47,19 +47,21 @@ export const formSlice = createSlice({
     deleteFormHolder: (state, action: PayloadAction<string>) => {
       state.formHolders = state.formHolders.filter((holder) => holder.id !== action.payload);
     },
-    addFormHolder: (state, action: PayloadAction<{formHolderTitle:string, formHolderIcon:string, formHolderType:string, formHolderData:any[]}>) => {
+    addFormHolder: (state, action: PayloadAction<{formHolderTitle:string, formHolderIcon:string, formHolderType:string, formHolderData:any[], formHolderVisibility: boolean, formHolderOrder: number}>) => {
       const newFormHolder = createFormHolder(
         action.payload.formHolderTitle,
         action.payload.formHolderIcon,
         action.payload.formHolderType,
-        action.payload.formHolderData
+        action.payload.formHolderData,
+        action.payload.formHolderVisibility,
+        action.payload.formHolderOrder
       );
       state.formHolders.push(newFormHolder);
     },
     updateFormHolder: (state, action: PayloadAction<FormHolder>) => {
       const index = state.formHolders.findIndex((holder) => holder.id === action.payload.id);
       if (index !== -1) {
-        state.formHolders[index] = action.payload;
+        state.formHolders[index] = {...state.formHolders[index], ...action.payload}
       }
     },
     updateFormHolderData: (state, action: PayloadAction<{ formHolderId: string; data: ResumeForm[] }>) => {

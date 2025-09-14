@@ -52,7 +52,8 @@ export function useFormHolders(cvId: string | null) {
       title: formHolder.title,
       type: formHolder.type,
       data: JSON.stringify(formHolder.data),
-      visible: formHolder.visible
+      visible: formHolder.visible,
+      order: formHolder.order
     };
 
     return execute(() => api.formGroups.update(cvId, formHolder.id, data));
@@ -76,10 +77,10 @@ export function useFormHolders(cvId: string | null) {
     })
 
     const newData = shouldUpdate !==  -1 ? 
-    formHolder.data.map( (item) =>{return item.id === form.id ? form : item}) :
+    formHolder.data.map( (item) =>item.id === form.id ? form : item) :
     [...formHolder.data, form]
 
-    const data = {...formHolder, data:JSON.stringify(form)};
+    const data = {...formHolder, data:JSON.stringify(newData)};
 
     return execute(() => api.formGroups.update(cvId, formHolder.id, data));
     

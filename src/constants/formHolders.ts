@@ -11,7 +11,8 @@ export const createFormHolder = (
   icon: string,
   type: string,
   data: any[] = [],
-  visible: boolean = true
+  visible: boolean = true,
+  order: number,
 ): FormHolder => {
   return {
     id: uuidv4(),
@@ -19,6 +20,7 @@ export const createFormHolder = (
     icon,
     type,
     data,
-    visible
+    visible,
+    order
   };
 };

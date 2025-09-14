@@ -71,7 +71,7 @@ class ApiService {
     
     get: (cvId: string, id: string) => this.request(`/formGroup/${cvId}/${id}`),
     
-    update: (cvId: string, id: string, data: { title: string; type: string; data: any }) =>
+    update: (cvId: string, id: string, data: { title: string; type: string; data: any; order: number; visible:boolean }) =>
       this.request(`/formGroup/${cvId}/${id}`, {
         method: 'PUT',
         body: JSON.stringify(data),

@@ -128,7 +128,7 @@ export default function FormHolderCard({ formHolder }: FormHolderProps) {
   const expandedFormHolder = useSelector((state: RootState) => state.settings.expandedFormHolder);
   const isExpanded = expandedFormHolder === formHolder.id;
   
-  const { getCollapseProps, getToggleProps } = useCollapse({
+  const { getCollapseProps } = useCollapse({
     isExpanded
   });
   
@@ -251,8 +251,8 @@ export default function FormHolderCard({ formHolder }: FormHolderProps) {
           <ChevronLeft onClick={handleToggle} size={32} />
         )}
       </div>
-
-      <div {...getCollapseProps()} className="flex flex-col mx-3">
+      {Array.isArray(formHolder.data) && 
+        <div {...getCollapseProps()} className="flex flex-col mx-3">
         <DndContext
           sensors={sensors}
           collisionDetection={closestCenter}
@@ -286,6 +286,8 @@ export default function FormHolderCard({ formHolder }: FormHolderProps) {
           </div>
         </div>
       </div>
+      }
+
 
       <PopoverDirector activePopover={activePopover} popoverData={formHolder.id} onClose={() => setActivePopover(null)} />
     </div>
