@@ -10,7 +10,6 @@ import EducationFormEditor from "./EducationFormEditor";
 import ProjectFormEditor from "./ProjectFormEditor";
 import SkillsFormEditor from "./SkillsFormEditor";
 import CustomFormEditor from "./CustomFormEditor";
-import { useEffect } from "react";
 
 interface FormEditorProps {
   form: ResumeForm;

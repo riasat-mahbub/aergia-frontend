@@ -3,7 +3,7 @@
 import { useSelector, useDispatch } from "react-redux";
 import FormHolderCard from "./FormHolderCard"
 import { RootState } from "@/store/store";
-import { reorderFormHolders } from "@/store/formSlice";
+import { reorderFormHolders, setFormHolders } from "@/store/formSlice";
 import {
   DndContext,
   closestCenter,
@@ -40,20 +40,26 @@ export default function FormCollection() {
   );
   
   // Handle drag end event
-  const handleDragEnd = async (event: DragEndEvent) => {
+const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
     
     if (over && active.id !== over.id) {
-      try {
-        await reorderFormHolder(active.id.toString(), over.id.toString());
-        
-        dispatch(reorderFormHolders({
+      const prevFormHolders = [...formHolders]; // snapshot current order
+
+      dispatch(
+        reorderFormHolders({
           activeId: active.id.toString(),
-          overId: over.id.toString()
-        }));
-      } catch (error) {
-        console.error('Failed to reorder form holders:', error);
-      }
+          overId: over.id.toString(),
+        })
+      );
+
+      // Background persistence
+      reorderFormHolder(active.id.toString(), over.id.toString())
+        .catch((error) => {
+          console.error("Failed to reorder form holders:", error);
+
+          dispatch(setFormHolders(prevFormHolders));
+        });
     }
   };
   
