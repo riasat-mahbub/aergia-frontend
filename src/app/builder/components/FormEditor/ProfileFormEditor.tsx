@@ -4,25 +4,16 @@ import { useState } from "react";
 import RichTextEditor from "@/components/RichTextEditor";
 
 interface ProfileFormEditorProps {
-  form: ResumeProfile;
-  onSave: (updatedForm: ResumeProfile) => void;
+  formData: ResumeProfile;
+  onSave?: () => void;
+  handleChange: (field: keyof ResumeProfile, value:string) => void;
   onCancel?: () => void;
 }
 
-export default function ProfileFormEditor({ form, onSave, onCancel }: ProfileFormEditorProps) {
-  const [formData, setFormData] = useState(form);
-  
-  const handleChange = (field: keyof ResumeProfile, value: string) => {
-    setFormData({ ...formData, [field]: value });
-  };
-  
-  const handleSave = () => {
-    onSave(formData);
-  };
+export default function ProfileFormEditor({ formData, onSave, onCancel, handleChange }: ProfileFormEditorProps) {
 
   return (
     <div className="rounded-md bg-white shadow p-6">
-      <h2 className="font-bold text-lg mb-4">Profile</h2>
       
       <div className="space-y-4">
         <div>
@@ -92,7 +83,7 @@ export default function ProfileFormEditor({ form, onSave, onCancel }: ProfileFor
           Cancel
         </button>
         <button
-          onClick={handleSave}
+          onClick={onSave}
           className="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700"
         >
           Save

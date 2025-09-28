@@ -4,25 +4,17 @@ import { useState } from "react";
 import RichTextEditor from "@/components/RichTextEditor";
 
 interface EducationFormEditorProps {
-  form: ResumeEducation;
-  onSave: (updatedForm: ResumeEducation) => void;
+  formData: ResumeEducation;
+  onSave?: () => void;
+  handleChange: (field: keyof ResumeEducation, value:string) => void;
   onCancel?: () => void;
 }
 
-export default function EducationFormEditor({ form, onSave, onCancel }: EducationFormEditorProps) {
-  const [formData, setFormData] = useState(form);
-  
-  const handleChange = (field: keyof ResumeEducation, value: string) => {
-    setFormData({ ...formData, [field]: value });
-  };
-  
-  const handleSave = () => {
-    onSave(formData);
-  };
+export default function EducationFormEditor({ formData, onSave, onCancel, handleChange }: EducationFormEditorProps) {
+
 
   return (
     <div className="rounded-md bg-white shadow p-6">
-      <h2 className="font-bold text-lg mb-4">Education</h2>
       
       <div className="space-y-4">
         <div>
@@ -108,7 +100,7 @@ export default function EducationFormEditor({ form, onSave, onCancel }: Educatio
           Cancel
         </button>
         <button 
-          onClick={handleSave}
+          onClick={onSave}
           className="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700"
         >
           Save
