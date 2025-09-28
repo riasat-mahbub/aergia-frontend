@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import FormToPDF from "./components/FormToPDF";
@@ -16,6 +16,10 @@ export default function Builder(){
     const cvId = useSelector((state: RootState) => state.forms.cvId);
     const { loading, error } = useFormHolders(cvId);
     
+    const [mounted, setMounted] = useState(false)
+
+    useEffect(() => setMounted(true), [])
+
     useEffect(() => {
         const cvIdFromParams = searchParams.get('cvId');
         if (cvIdFromParams !== cvId) {
@@ -23,7 +27,7 @@ export default function Builder(){
         }
     }, [searchParams, dispatch, cvId]);
     
-    if (loading) {
+    if (loading || !mounted) {
         return <div className="flex items-center justify-center h-screen"><Spinner/></div>;
     }
 
