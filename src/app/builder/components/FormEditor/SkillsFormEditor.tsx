@@ -13,59 +13,44 @@ interface SkillsFormEditorProps {
 export default function SkillsFormEditor({ formData, onSave, onCancel, handleChange }: SkillsFormEditorProps) {
 
   return (
-    <div className="rounded-md bg-white shadow p-6">
-      
-      <div className="space-y-4">
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Skill</label>
-          <input
-            type="text"
-            value={formData.skill || ''}
-            onChange={(e) => handleChange('skill', e.target.value)}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-          />
-        </div>
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Rating</label>
-          <select
-            value={formData.rating || ""}
-            onChange={(e) => handleChange("rating", e.target.value)}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-          >
-            <option value="" disabled>
-              -- Select Rating --
+
+    <div className="space-y-4">
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-1">Skill</label>
+        <input
+          type="text"
+          value={formData.skill || ''}
+          onChange={(e) => handleChange('skill', e.target.value)}
+          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+        />
+      </div>
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-1">Rating</label>
+        <select
+          value={formData.rating || ""}
+          onChange={(e) => handleChange("rating", e.target.value)}
+          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+        >
+          <option value="" disabled>
+            -- Select Rating --
+          </option>
+          {[0, 1, 2, 3, 4, 5].map((num) => (
+            <option key={num} value={num}>
+              {num}
             </option>
-            {[0, 1, 2, 3, 4, 5].map((num) => (
-              <option key={num} value={num}>
-                {num}
-              </option>
-            ))}
-          </select>
-        </div>
-        
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Descriptions</label>
-          <RichTextEditor 
-            content={formData.description} 
-            onChange={(html) => handleChange('description', html)} 
-          />
-        </div>
+          ))}
+        </select>
       </div>
       
-      <div className="mt-6 flex justify-end space-x-3">
-        <button 
-          onClick={onCancel}
-          className="px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50"
-        >
-          Cancel
-        </button>
-        <button 
-          onClick={onSave}
-          className="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700"
-        >
-          Save
-        </button>
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-1">Descriptions</label>
+        <RichTextEditor 
+          content={formData.description} 
+          onChange={(html) => handleChange('description', html)} 
+        />
       </div>
     </div>
+      
+
   );
 }

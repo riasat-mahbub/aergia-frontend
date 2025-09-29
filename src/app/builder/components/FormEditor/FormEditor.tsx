@@ -26,12 +26,14 @@ export default function FormEditor({ form, formHolderId }: FormEditorProps) {
   );
 
   const [formData, setFormData] = useState(form);
+  const [loading, setLoading] = useState(false)
   
   const handleChange = (field: string, value: string) => {
     setFormData({ ...formData, [field]: value });
   };
 
   const handleSave = async () => {
+    setLoading(true)
     if (!formHolder || !cvId) return;
 
     await updateFormHolderData(formHolder, formData);
@@ -42,6 +44,7 @@ export default function FormEditor({ form, formHolderId }: FormEditorProps) {
     }));
 
     dispatch(setSelectedForm(null));
+    setLoading(false)
   };
 
   const onBack = () => {
@@ -58,35 +61,57 @@ export default function FormEditor({ form, formHolderId }: FormEditorProps) {
           className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 font-bold"
         />
       </div>
-      {(() => {
-        switch (form.type) {
-          case 'profile':
-            return <ProfileFormEditor formData={formData as ResumeProfile} onSave={handleSave} onCancel={onBack} handleChange={handleChange}/>;
-            
-          case 'Experience':
-            return <ExperienceFormEditor formData={formData as ResumeExperience} onSave={handleSave} onCancel={onBack}  handleChange={handleChange}/>;
-            
-          case 'education':
-            return <EducationFormEditor formData={formData as ResumeEducation} onSave={handleSave} onCancel={onBack}  handleChange={handleChange}/>;
-            
-          case 'project':
-            return <ProjectFormEditor formData={formData as ResumeProject} onSave={handleSave} onCancel={onBack}  handleChange={handleChange}/>;
-            
-          case 'skills':
-            return <SkillsFormEditor formData={formData as ResumeSkills} onSave={handleSave} onCancel={onBack}  handleChange={handleChange}/>;
-            
-          case 'custom':
-            return <CustomFormEditor formData={formData as ResumeCustom} onSave={handleSave} onCancel={onBack}  handleChange={handleChange}/>;
-            
-          default:
-            return (
-              <div className="p-4 border rounded mb-4">
-                <h2 className="font-bold text-lg">Unknown Form Type</h2>
-                <p>Title: {formData.title}</p>
-              </div>
-            );
-        }
-      })()}
+      <div className="rounded-md bg-white shadow p-6">
+        {(() => {
+          switch (form.type) {
+            case 'profile':
+              return <ProfileFormEditor formData={formData as ResumeProfile} onSave={handleSave} onCancel={onBack} handleChange={handleChange}/>;
+              
+            case 'Experience':
+              return <ExperienceFormEditor formData={formData as ResumeExperience} onSave={handleSave} onCancel={onBack}  handleChange={handleChange}/>;
+              
+            case 'education':
+              return <EducationFormEditor formData={formData as ResumeEducation} onSave={handleSave} onCancel={onBack}  handleChange={handleChange}/>;
+              
+            case 'project':
+              return <ProjectFormEditor formData={formData as ResumeProject} onSave={handleSave} onCancel={onBack}  handleChange={handleChange}/>;
+              
+            case 'skills':
+              return <SkillsFormEditor formData={formData as ResumeSkills} onSave={handleSave} onCancel={onBack}  handleChange={handleChange}/>;
+              
+            case 'custom':
+              return <CustomFormEditor formData={formData as ResumeCustom} onSave={handleSave} onCancel={onBack}  handleChange={handleChange}/>;
+              
+            default:
+              return (
+                <div className="p-4 border rounded mb-4">
+                  <h2 className="font-bold text-lg">Unknown Form Type</h2>
+                  <p>Title: {formData.title}</p>
+                </div>
+              );
+          }
+        })()}
+
+        <div className="mt-6 flex justify-end space-x-3">
+          <button 
+            onClick={onBack}
+            disabled={loading}
+            className="px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            Cancel
+          </button>
+
+          <button 
+            onClick={handleSave}
+            disabled={loading}
+            className="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {loading ? "Saving..." : "Save"}
+          </button>
+      </div>
+
+      </div>
+
     </div>
   );
 }
