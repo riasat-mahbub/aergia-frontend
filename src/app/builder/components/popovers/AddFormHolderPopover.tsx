@@ -5,6 +5,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { addFormHolder } from "@/store/formSlice";
 import { useFormHolders } from "@/hooks/useFormHolders";
 import { RootState } from "@/store/store";
+import { useState } from "react";
+import Spinner from "@/components/Spinner";
 
 export const formHolderTypes = [
   { type: "profile", name: "Profile", icon: "Person" },
@@ -23,22 +25,27 @@ export default function AddFormHolderPopover({ onClose }: AddFormHolderPopoverPr
   const dispatch = useDispatch();
   const cvId = useSelector((state: RootState) => state.forms.cvId);
   const { saveFormHolder } = useFormHolders(cvId);
+  const [loading, setLoading] = useState(false);
   
   const handleAddFormHolder = async (type: string) => {
+    if (loading) return;
+    
     const selectedType = formHolderTypes.find(t => t.type === type);
     if (!selectedType || !cvId) return;
     
-    // Add to Redux store
-    dispatch(addFormHolder({
-      formHolderTitle: selectedType.name,
-      formHolderIcon: selectedType.icon,
-      formHolderType: selectedType.type,
-      formHolderData: [],
-      formHolderStyle: {},
-    }));
+    setLoading(true);
     
-    // Save to backend
     try {
+      // Add to Redux store
+      dispatch(addFormHolder({
+        formHolderTitle: selectedType.name,
+        formHolderIcon: selectedType.icon,
+        formHolderType: selectedType.type,
+        formHolderData: [],
+        formHolderStyle: {},
+      }));
+      
+      // Save to backend
       await saveFormHolder({
         id: '',
         title: selectedType.name,
@@ -49,12 +56,25 @@ export default function AddFormHolderPopover({ onClose }: AddFormHolderPopoverPr
         visible: true,
         order: 0
       });
+      
+      onClose();
     } catch (error) {
       console.error('Failed to save FormHolder to backend:', error);
+    } finally {
+      setLoading(false);
     }
-    
-    onClose();
   };
+  
+  if(loading){
+    return (
+      <div className="fixed inset-0 backdrop-blur-sm flex items-center justify-center z-50">
+        <div className="bg-white rounded-lg p-6 w-80 shadow-xl">
+          <Spinner/>
+          <p>Loading...</p>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="fixed inset-0 backdrop-blur-sm flex items-center justify-center z-50">
@@ -63,7 +83,8 @@ export default function AddFormHolderPopover({ onClose }: AddFormHolderPopoverPr
           <h3 className="text-lg font-medium">Select Content Type</h3>
           <button 
             onClick={onClose}
-            className="text-gray-500 hover:text-gray-700"
+            disabled={loading}
+            className="text-gray-500 hover:text-gray-700 disabled:opacity-50"
           >
             <X size={20} />
           </button>
@@ -72,7 +93,8 @@ export default function AddFormHolderPopover({ onClose }: AddFormHolderPopoverPr
           {formHolderTypes.map((type, idx) => (
             <button
               key={idx}
-              className="p-3 border rounded-md hover:bg-emerald-50 hover:border-emerald-500 transition-colors flex flex-col items-center"
+              disabled={loading}
+              className="p-3 border rounded-md hover:bg-emerald-50 hover:border-emerald-500 transition-colors flex flex-col items-center disabled:opacity-50 disabled:cursor-not-allowed"
               onClick={() => handleAddFormHolder(type.type)}
             >
               <span className="text-sm font-medium">{type.name}</span>

@@ -16,9 +16,11 @@ export default function DeletePopOver({id, closePopOver, removeCv}:popOverProps)
     const { execute, loading, error } = useApi();
     
     const handleDeleteCV = async () => {
+        if (loading) return;
+        
         const result = await execute(() => apiService.cvs.delete(id));
         if(result){
-            removeCv(result.id);
+            removeCv(id);
             closePopOver();
         }
     };
@@ -33,15 +35,27 @@ export default function DeletePopOver({id, closePopOver, removeCv}:popOverProps)
                         Delete this CV?
                     </div>
 
-                    <X className='cursor-pointer ml-4' onClick={closePopOver}/>
+                    <X className={`cursor-pointer ml-4 ${loading ? 'opacity-50 cursor-not-allowed' : ''}`} onClick={loading ? undefined : closePopOver}/>
                     
                 </div>
                 
  
 
                 <div className="flex flex-row justify-between mt-10 w-full">
-                    <button className="bg-red-500 p-2 rounded-lg text-white cursor-pointer hover:bg-red-700" onClick={handleDeleteCV} disabled={loading}> <Check/> </button>
-                    <button className="bg-emerald-500 p-2 rounded-lg text-white cursor-pointer hover:bg-emerald-700" onClick={closePopOver} disabled={loading}> <X/> </button>
+                    <button 
+                        className="bg-red-500 p-2 rounded-lg text-white cursor-pointer hover:bg-red-700 disabled:opacity-50 disabled:cursor-not-allowed" 
+                        onClick={handleDeleteCV} 
+                        disabled={loading}
+                    > 
+                        {loading ? 'Deleting...' : <Check/>} 
+                    </button>
+                    <button 
+                        className="bg-emerald-500 p-2 rounded-lg text-white cursor-pointer hover:bg-emerald-700 disabled:opacity-50" 
+                        onClick={closePopOver} 
+                        disabled={loading}
+                    > 
+                        <X/> 
+                    </button>
                 </div>
             </div>
             

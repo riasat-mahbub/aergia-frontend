@@ -16,6 +16,8 @@ export default function CreatePopOver({closePopOver, addCv}:popOverProps){
     const { execute, loading, error } = useApi();
     
     const handleCreateCV = async () => {
+        if (loading || !title.trim()) return;
+        
         const result = await execute(() => apiService.cvs.create({title: title}));
         if(result){
             addCv(result.data);
@@ -33,7 +35,7 @@ export default function CreatePopOver({closePopOver, addCv}:popOverProps){
                         Create a new CV
                     </div>
 
-                    <X className='cursor-pointer' onClick={closePopOver}/>
+                    <X className={`cursor-pointer ${loading ? 'opacity-50 cursor-not-allowed' : ''}`} onClick={loading ? undefined : closePopOver}/>
                     
                 </div>
                 
@@ -43,12 +45,18 @@ export default function CreatePopOver({closePopOver, addCv}:popOverProps){
                         type="text"
                         value={title}
                         onChange={(e) => setTitle(e.target.value)}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-emerald-500 focus:border-emerald-500"
+                        disabled={loading}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 disabled:opacity-50"
                     />
 
                     <div className="flex flex-row justify-between mt-10">
-                        <button className="bg-emerald-500 p-2 rounded-lg text-white cursor-pointer hover:bg-emerald-700 ml-auto" onClick={handleCreateCV} disabled={loading}> Create </button>
-                        {/* <button className="bg-red-500 p-2 rounded-lg text-white cursor-pointer hover:bg-red-700" onClick={closePopOver} disabled={loading}> <Trash2/> </button> */}
+                        <button 
+                            className="bg-emerald-500 p-2 rounded-lg text-white cursor-pointer hover:bg-emerald-700 ml-auto disabled:opacity-50 disabled:cursor-not-allowed" 
+                            onClick={handleCreateCV} 
+                            disabled={loading || !title.trim()}
+                        > 
+                            {loading ? 'Creating...' : 'Create'} 
+                        </button>
                     </div>
                 </div>
             </div>

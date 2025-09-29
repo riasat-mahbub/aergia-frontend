@@ -1,20 +1,22 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useApi } from './useApi';
 import { setFormHolders } from '@/store/formSlice';
 import { FormHolder } from '@/types/FormHolderTypes';
 import { ResumeForm } from '@/types/ResumeFormTypes';
+import { RootState } from '@/store/store';
 
 export function useFormHolders(cvId: string | null) {
   const { execute, loading, error, api } = useApi();
   const dispatch = useDispatch();
+  const formHolders = useSelector((state: RootState) => state.forms.formHolders);
+  const loadedCvId = useRef<string | null>(null);
 
   useEffect(() => {
-    if (!cvId) return;
+    if (!cvId || loadedCvId.current === cvId) return;
 
     const loadFormHolders = async () => {
       const result = await execute(() => api.formGroups.getAll(cvId));
-      console.log(result)
       if (result) {
         const formHolders: FormHolder[] = result.formHolders.map((formGroup: any) => ({
           id: formGroup.id,
@@ -29,11 +31,12 @@ export function useFormHolders(cvId: string | null) {
 
         formHolders.sort((a,b) => (a.order > b.order) ? 1 : ((b.order > a.order) ? -1 : 0))
         dispatch(setFormHolders(formHolders));
+        loadedCvId.current = cvId;
       }
     };
 
     loadFormHolders();
-  }, [cvId, dispatch]);
+  }, [cvId, execute, dispatch]);
 
   const saveFormHolder = async (formHolder: FormHolder) => {
     if (!cvId) return null;

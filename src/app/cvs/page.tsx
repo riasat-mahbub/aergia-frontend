@@ -58,7 +58,7 @@ export default function CVsPage() {
           onClick={() => openPopOver('create')}
           className="bg-emerald-500 hover:bg-emerald-700 text-white font-bold py-4 px-4 rounded-full"
         >
-           <Plus></Plus>
+           <Plus className="cursor-pointer"></Plus>
         </button>
       </div>
 
@@ -68,9 +68,9 @@ export default function CVsPage() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {cvs.map((cv) => (
-          <div key={cv.id} className="border rounded-lg p-6 shadow-md hover:shadow-lg flex flex-row justify-between items-center" >
+          <div key={cv.id} className="border rounded-lg pr-6 shadow-md hover:shadow-lg flex flex-row justify-between items-center" >
             
-            <div className="text-black text-3xl mb-4 w-full cursor-pointer" onClick={() => router.push(`/builder/?cvId=${cv.id}`)}>
+            <div className="text-black text-3xl mb-4 w-full cursor-pointer py-6 pl-6" onClick={() => router.push(`/builder/?cvId=${cv.id}`)}>
               {cv.title}
             </div>
 
@@ -91,7 +91,7 @@ export default function CVsPage() {
           <p className="text-gray-500 mb-4">No CVs found</p>
           <button
             onClick={() => openPopOver('create')}
-            className="bg-emerald-500 hover:bg-emerald-700 text-white font-bold py-2 px-4 rounded"
+            className="bg-emerald-500 hover:bg-emerald-700 text-white font-bold py-2 px-4 rounded cursor-pointer"
           >
             Create Your First CV
           </button>

@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { deleteFormHolder } from "@/store/formSlice";
 import { useFormHolders } from "@/hooks/useFormHolders";
 import { RootState } from "@/store/store";
+import { useState } from "react";
 
 
 interface AddFormHolderPopoverProps {
@@ -16,11 +17,21 @@ export default function DeleteFormHolderPopover({formHolderId, onClose }: AddFor
   const dispatch = useDispatch();
   const cvId = useSelector((state: RootState) => state.forms.cvId);
   const { deleteFormHolder: deleteFormHolderAPI } = useFormHolders(cvId);
+  const [loading, setLoading] = useState(false);
   
   const handleDeleteFormHolder = async () => {
-    await deleteFormHolderAPI(formHolderId);
-    dispatch(deleteFormHolder(formHolderId));
-    onClose();
+    if (loading) return;
+    
+    setLoading(true);
+    try {
+      await deleteFormHolderAPI(formHolderId);
+      dispatch(deleteFormHolder(formHolderId));
+      onClose();
+    } catch (error) {
+      console.error('Failed to delete FormHolder:', error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -32,14 +43,27 @@ export default function DeleteFormHolderPopover({formHolderId, onClose }: AddFor
           </h3>
           <button 
             onClick={onClose}
-            className="text-gray-500 hover:text-gray-700"
+            disabled={loading}
+            className="text-gray-500 hover:text-gray-700 disabled:opacity-50"
           >
             <X size={20} />
           </button>
         </div>
         <div className="flex flex-row justify-around">
-          <button className="bg-orange-700 text-white rounded-lg p-2 shadow px-4 py-2 cursor-pointer" onClick={handleDeleteFormHolder}> Yes </button>
-          <button className="bg-white text-black rounded-lg p-2 border border-black shadow px-4 py-2 cursor-pointer" onClick={() => onClose()}> No </button>
+          <button 
+            className="bg-orange-700 text-white rounded-lg p-2 shadow px-4 py-2 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed" 
+            onClick={handleDeleteFormHolder}
+            disabled={loading}
+          > 
+            {loading ? 'Deleting...' : 'Yes'} 
+          </button>
+          <button 
+            className="bg-white text-black rounded-lg p-2 border border-black shadow px-4 py-2 cursor-pointer disabled:opacity-50" 
+            onClick={onClose}
+            disabled={loading}
+          > 
+            No 
+          </button>
         </div>
       </div>
     </div>
