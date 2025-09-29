@@ -1,7 +1,9 @@
 import { createFormHolder } from "@/constants/formHolders";
 import { emptyProfile } from "@/constants/resumeFormTemplates";
+import { defaultProfileStyle } from "@/constants/resumeStyleTemplates";
 import { FormHolder } from "@/types/FormHolderTypes";
 import { ResumeForm } from "@/types/ResumeFormTypes";
+import { Styles } from "@react-pdf/renderer";
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 
 interface selectedForm{
@@ -16,7 +18,7 @@ interface FormState {
 }
 
 export const initialFormState: FormState = {
-  formHolders: [createFormHolder("Profile Form", "Person", "profile", [emptyProfile], true, 1)],
+  formHolders: [createFormHolder("Profile Form", "Person", "profile", [emptyProfile], defaultProfileStyle, true, 1)],
   selectedForm: null,
   cvId: null
 };
@@ -47,14 +49,13 @@ export const formSlice = createSlice({
     deleteFormHolder: (state, action: PayloadAction<string>) => {
       state.formHolders = state.formHolders.filter((holder) => holder.id !== action.payload);
     },
-    addFormHolder: (state, action: PayloadAction<{formHolderTitle:string, formHolderIcon:string, formHolderType:string, formHolderData:any[], formHolderVisibility: boolean, formHolderOrder: number}>) => {
+    addFormHolder: (state, action: PayloadAction<{formHolderTitle:string, formHolderIcon:string, formHolderType:string, formHolderData:any[], formHolderStyle:object}>) => {
       const newFormHolder = createFormHolder(
         action.payload.formHolderTitle,
         action.payload.formHolderIcon,
         action.payload.formHolderType,
         action.payload.formHolderData,
-        action.payload.formHolderVisibility,
-        action.payload.formHolderOrder
+        action.payload.formHolderStyle,
       );
       state.formHolders.push(newFormHolder);
     },

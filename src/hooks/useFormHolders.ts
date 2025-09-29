@@ -14,13 +14,15 @@ export function useFormHolders(cvId: string | null) {
 
     const loadFormHolders = async () => {
       const result = await execute(() => api.formGroups.getAll(cvId));
+      console.log(result)
       if (result) {
         const formHolders: FormHolder[] = result.formHolders.map((formGroup: any) => ({
           id: formGroup.id,
           title: formGroup.title,
           icon: 'default',
           type: formGroup.type,
-          data: JSON.parse(formGroup.data),
+          data: formGroup.data,
+          style: formGroup.style,
           visible: formGroup.visible,
           order: formGroup.order
         }));
@@ -40,6 +42,7 @@ export function useFormHolders(cvId: string | null) {
       title: formHolder.title,
       type: formHolder.type,
       data: JSON.stringify(formHolder.data),
+      style: JSON.stringify(formHolder.style),
     };
 
     return execute(() => api.formGroups.create(cvId, data));
@@ -52,6 +55,7 @@ export function useFormHolders(cvId: string | null) {
       title: formHolder.title,
       type: formHolder.type,
       data: JSON.stringify(formHolder.data),
+      style: JSON.stringify(formHolder.style),
       visible: formHolder.visible,
       order: formHolder.order
     };

@@ -33,7 +33,6 @@ export const emptyExperience: ResumeExperience = {
   description: "",
   location: "",
   visible: true
-
 };
 
 export const emptyEducation: ResumeEducation = {

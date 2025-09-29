@@ -1,0 +1,104 @@
+export const commonStyle = {
+    formContainer: {
+        marginBottom: 12,
+    },
+    formTitle: {
+        fontSize: 12,
+        fontWeight: 'bold',
+    },
+    formDateRow: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+    },
+    formDate: {
+        fontSize: 10,
+    },
+    formDateSeperator: {
+        fontSize: 10,
+    },
+        formSubtitle: {
+        fontSize: 11,
+    },
+    formLocation: {
+        fontSize: 10,
+    },
+    formDescription: {
+        fontSize: 10,
+        margin: 0,
+        padding: 0,
+        lineHeight:1,
+    },
+
+    spaceBetween: {
+        display:'flex',
+        flexDirection:'row',
+        justifyContent:'space-between'
+    },
+}
+
+export const sectionTitleStyle = {
+    sectionTitle: {
+        fontSize: 14,
+        fontWeight: 'bold',
+        marginBottom: 8,
+        borderBottom: 1,
+    },
+}
+
+
+export const defaultProfileStyle = {
+    profileContainer: {
+        marginBottom: 16,
+    },
+    profileName: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        textAlign: 'center',
+    },
+    profileContact: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        flexWrap: 'wrap',
+        marginTop: 4,
+    },
+    profileContactItem: {
+        fontSize: 10,
+        marginRight: 8,
+    },
+    profileSummary: {
+        fontSize: 10,
+        marginTop: 8,
+        textAlign: 'justify',
+    },
+}
+
+export const defaultSkillsStyle = {
+    skillsContainer: {
+        marginBottom: 8,
+    },
+    skillsRow: {
+        display:'flex',
+        flexDirection:'row',
+        justifyContent:'space-between',
+        alignItems: 'center',
+    },
+    skillName: {
+        fontSize: 11,
+        marginRight: 8,
+    },
+    skillRating: {
+        fontSize: 16,
+        fontWeight: "bold"
+    },
+    skillDescription: {
+        fontSize: 10,
+        marginTop: 2,
+    },
+}
+
+
+export const defaultEducationStyle = {
+    educationGPA: {
+        fontSize: 10,
+    },
+}

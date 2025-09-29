@@ -6,6 +6,7 @@ export interface FormHolder{
     icon: string;
     type: string;
     data: ResumeForm[];
+    style: object;
     visible: boolean;
     order: number;
 }

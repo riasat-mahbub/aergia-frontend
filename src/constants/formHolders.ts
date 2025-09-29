@@ -1,4 +1,5 @@
 import { FormHolder } from "@/types/FormHolderTypes";
+import { Styles } from "@react-pdf/renderer";
 import { v4 as uuidv4 } from "uuid";
 
 
@@ -11,8 +12,9 @@ export const createFormHolder = (
   icon: string,
   type: string,
   data: any[] = [],
+  style: object = {},
   visible: boolean = true,
-  order: number,
+  order: number = 0,
 ): FormHolder => {
   return {
     id: uuidv4(),
@@ -20,6 +22,7 @@ export const createFormHolder = (
     icon,
     type,
     data,
+    style,
     visible,
     order
   };
