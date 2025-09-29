@@ -28,7 +28,7 @@ export default function RegisterPage() {
         <h1 className="text-2xl font-bold text-center">Register</h1>
         
         {error && (
-          <div className="text-red-500 text-sm">{error}</div>
+          <div className="text-red-500 text-sm">{"Error registering your account. Try again in after a while."}</div>
         )}
 
         <input
