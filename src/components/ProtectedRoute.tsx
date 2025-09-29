@@ -1,8 +1,10 @@
 "use client";
 
-import { useSelector } from 'react-redux';
-import { RootState } from '@/store/store';
-import { ReactNode } from 'react';
+import { useSelector } from "react-redux";
+import { RootState } from "@/store/store";
+import { ReactNode, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import Spinner from "./Spinner";
 
 interface ProtectedRouteProps {
   children: ReactNode;
@@ -10,25 +12,23 @@ interface ProtectedRouteProps {
 
 export function ProtectedRoute({ children }: ProtectedRouteProps) {
   const { isLoggedIn, loading } = useSelector((state: RootState) => state.auth);
+  const router = useRouter();
 
-  if (loading) {
-    return <div className="flex items-center justify-center h-screen">Loading...</div>;
-  }
+  useEffect(() => {
+    if (!loading && !isLoggedIn) {
+      router.replace("/login"); 
+    }
+  }, [loading, isLoggedIn, router]);
 
-  if (!isLoggedIn) {
+  if (loading || !isLoggedIn) {
     return (
-      <div className="flex flex-col items-center justify-center h-screen text-center">
-        <h1 className="text-4xl font-bold text-red-600 mb-4">Access Denied</h1>
-        <p className="text-lg mb-6">You must be logged in to access this page.</p>
-        <a 
-          href="/login" 
-          className="bg-emerald-500 hover:bg-emerald-700 text-white font-bold py-2 px-4 rounded"
-        >
-          Go to Login Page
-        </a>
+      <div>
+        <Spinner/>
+        <div className="flex items-center justify-center h-screen">
+          Loading...
+        </div>
       </div>
     );
   }
-
   return <>{children}</>;
 }
