@@ -9,6 +9,7 @@ import Spinner from "@/components/Spinner";
 import { CV } from "@/types/CvTypes";
 import { Plus, Trash2 } from "lucide-react";
 import DeletePopOver from "./deletePopOver";
+import { ProtectedRoute } from "@/components/ProtectedRoute";
 
 
 
@@ -51,7 +52,8 @@ export default function CVsPage() {
   if (loading) return <Spinner/>
 
   return (
-    <div className="p-8">
+    <ProtectedRoute>
+      <div className="p-8">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold">My CVs</h1>
         <button
@@ -105,6 +107,7 @@ export default function CVsPage() {
       {currentPopOver==='delete' &&
         <DeletePopOver id={currentId} closePopOver={closePopOver} removeCv={removeCV}/>
       }
-    </div>
+      </div>
+    </ProtectedRoute>
   );
 }

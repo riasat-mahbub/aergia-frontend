@@ -2,8 +2,10 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useDispatch } from 'react-redux';
 import { useApi } from '@/hooks/useApi';
 import { apiService } from '@/services/api';
+import { setIsLoggedIn } from '@/store/authSlice';
 import Link from 'next/link';
 
 export default function LoginPage() {
@@ -11,6 +13,7 @@ export default function LoginPage() {
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
   const { execute, loading, error } = useApi();
+  const dispatch = useDispatch();
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -19,6 +22,7 @@ export default function LoginPage() {
       apiService.auth.login({ email, password, rememberMe })
     );
     if (result) {
+      dispatch(setIsLoggedIn(true));
       router.push('/cvs');
     }
   };

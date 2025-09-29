@@ -1,9 +1,13 @@
+"use client";
+
 import Link from "next/link";
 import Dropzone from "@/components/Dropzone";
+import { ProtectedRoute } from "@/components/ProtectedRoute";
 
 export default function Importer(){
     return(
-        <div className="flex justify-center items-center">
+        <ProtectedRoute>
+            <div className="flex justify-center items-center">
             <div className="flex flex-col items-center max-w-sm p-6 border border-gray-200 rounded-lg shadow-sm mt-10">
                 <div className="w-full">
                     <Dropzone />
@@ -20,6 +24,7 @@ export default function Importer(){
                     <Link href={"builder"} className="bg-emerald-600 text-white px-4 py-2 rounded-full hover:bg-emerald-700 transition-colors">Create new</Link>
                 </div>
             </div>
-        </div>
+            </div>
+        </ProtectedRoute>
     )
 }

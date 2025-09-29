@@ -1,20 +1,23 @@
 'use client';
 
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { Menu, X } from 'lucide-react';
 import { useReactToPrint } from 'react-to-print';
 import { printRef } from './builder/components/printRef';
 import { usePathname, useRouter } from 'next/navigation';
 import { useApi } from '@/hooks/useApi';
 import { apiService } from '@/services/api';
+import { RootState } from '@/store/store';
+import { setIsLoggedIn } from '@/store/authSlice';
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const { isLoggedIn } = useSelector((state: RootState) => state.auth || { isLoggedIn: false, loading: true });
   const { execute, loading, error } = useApi();
-  const router = useRouter()
-  
+  const dispatch = useDispatch();
+  const router = useRouter();
   const pathname = usePathname();
 
 
@@ -24,28 +27,13 @@ export default function Navbar() {
     contentRef: printRef
   });
 
-  const handleLogout = async () => {
+  const handleLogout = () => {
     if(isLoggedIn){
-      const result = await execute( () => apiService.auth.logout())
-
-      if(result){
-        setIsLoggedIn(false)
-        router.push('/')
-      }
+      router.push('/logout');
     }
   }
 
-  useEffect(() => {
-    const checkIfLoggedIn = async () => {
-      const result = await execute(() => apiService.auth.isLoggedIn());
-      
-      if (result) {
-       setIsLoggedIn(true)
-      }
-    }
 
-    checkIfLoggedIn();
-  }, [pathname])
 
   return (
     <nav className="bg-gray-300 shadow-md sticky top-0 z-50">

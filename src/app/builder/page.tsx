@@ -9,6 +9,7 @@ import { useFormHolders } from "@/hooks/useFormHolders";
 import { setCvId } from "@/store/formSlice";
 import { RootState } from "@/store/store";
 import Spinner from "@/components/Spinner";
+import { ProtectedRoute } from "@/components/ProtectedRoute";
 
 export default function Builder(){
     const searchParams = useSearchParams();
@@ -37,11 +38,13 @@ export default function Builder(){
     }
     
     return(
-        <div className="flex lg:flex-row flex-col">
-            <LeftSide />
-            <div className="lg:w-7/12 w-full flex flex-col items-center p-6">
-                <FormToPDF/>
+        <ProtectedRoute>
+            <div className="flex lg:flex-row flex-col">
+                <LeftSide />
+                <div className="lg:w-7/12 w-full flex flex-col items-center p-6">
+                    <FormToPDF/>
+                </div>
             </div>
-        </div>
+        </ProtectedRoute>
     )
 }

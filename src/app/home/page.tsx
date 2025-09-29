@@ -1,16 +1,12 @@
 "use client"
-import { useApi } from "@/hooks/useApi";
-import { apiService } from "@/services/api";
-import Link from "next/link";
+import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { RootState } from "@/store/store";
 
 
 export default function Home() {
-
-  const { execute, loading, error } = useApi();
+  const { isLoggedIn } = useSelector((state: RootState) => state.auth);
   const router = useRouter();
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const handleBuilder = () => {
     if(isLoggedIn){
@@ -19,18 +15,6 @@ export default function Home() {
       router.push('/login')
     }
   }
-
-    useEffect(() => {
-    const checkIfLoggedIn = async () => {
-      const result = await execute(() => apiService.auth.isLoggedIn());
-      
-      if (result) {
-       setIsLoggedIn(true)
-      }
-    }
-
-    checkIfLoggedIn();
-  }, [])
 
 
   return (
@@ -42,7 +26,7 @@ export default function Home() {
           resume easily
         </h1>
         <p className="mt-3 text-lg lg:mt-5 lg:text-xl">
-          With this free, open-source, and powerful resume builder
+          With this free and powerful resume builder
         </p>
         <p className="h-20">
 
