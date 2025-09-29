@@ -29,7 +29,7 @@ export default function LoginPage() {
         <h1 className="text-2xl font-bold text-center">Login</h1>
         
         {error && (
-          <div className="text-red-500 text-sm">{error}</div>
+          <div className="text-red-500 text-sm">{"Incorrect email or password. Try Again."}</div>
         )}
         
         <input
