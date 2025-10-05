@@ -1,20 +1,23 @@
 import { View } from "@react-pdf/renderer";
 import { ResumeForm } from "@/types/ResumeFormTypes";
-import { useSelector } from "react-redux";
-import { RootState } from "@/store/store";
 import { templateRegistry } from "./TemplateRegistry";
+import { FormTypeMap } from "@/types/FormHolderTypes";
 
-export default function ResumePreview({ form }: { form: ResumeForm }) {
+interface ResumePreviewProps{
+    form: ResumeForm;
+    cvTemplate: string | null;
+}
+
+export default function ResumePreview({ form, cvTemplate }: ResumePreviewProps) {
             
-    const cvTemplate = useSelector((state: RootState) => state.forms.cvTemplate)
-    const Template = cvTemplate ? templateRegistry[cvTemplate] : null;
-    const TemplateForm = cvTemplate && templateRegistry[cvTemplate]?.[form.type.toLowerCase()] || null;
+    const TemplateForm = cvTemplate ? templateRegistry[cvTemplate]?.[form.type.toLowerCase()] : null;
+    const typeKey = form.type as keyof FormTypeMap;
     
     if(!TemplateForm){
         return <View/>
     }
 
     return(
-        <TemplateForm form={form}/>
+        <TemplateForm form={form as FormTypeMap[typeof typeKey]}/>
     )
 }

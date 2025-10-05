@@ -9,7 +9,7 @@ import ProfileForm from "./ProfileForm";
 export const MITTemplate: Record<string, ComponentType<any>> = {
     custom: CustomForm ,
     education: EducationForm,
-    Experience: ExperienceForm,
+    experience: ExperienceForm,
     project : ProjectForm,
     skills: SkillsForm,
     profile: ProfileForm,

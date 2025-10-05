@@ -23,6 +23,7 @@ export default function FormToPDF() {
   );
   const [pdfBlobUrl, setPdfBlobUrl] = useState<string | undefined>(undefined);
   const [isGenerating, setIsGenerating] = useState(true);
+  const cvTemplate = useSelector((state: RootState) => state.forms.cvTemplate)
 
   useEffect(() => {
     let isMounted = true;
@@ -31,6 +32,7 @@ export default function FormToPDF() {
       if (!isMounted) return;
       
       setIsGenerating(true);
+      
       try {
         const blob = await pdf(
           <Document>
@@ -39,6 +41,7 @@ export default function FormToPDF() {
                 <FormHolderPreview
                   formHolder={formHolder}
                   key={formHolder.id}
+                  cvTemplate={cvTemplate}
                 />
               ))}
             </Page>
@@ -65,7 +68,7 @@ export default function FormToPDF() {
         URL.revokeObjectURL(pdfBlobUrl);
       }
     };
-  }, [formHolders]);
+  }, [formHolders, cvTemplate]);
 
   if (isGenerating || !pdfBlobUrl) {
     return <Spinner />;

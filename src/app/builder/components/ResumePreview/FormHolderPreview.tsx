@@ -4,10 +4,11 @@ import ResumePreview from "./ResumePreview";
 import { styles } from './pdfStyles';
 
 interface FormHolderPreviewProps{
-    formHolder: FormHolder
+    formHolder: FormHolder,
+    cvTemplate: string | null
 }
 
-export default function FormHolderPreview({formHolder}: FormHolderPreviewProps){
+export default function FormHolderPreview({formHolder, cvTemplate}: FormHolderPreviewProps){
    return (
        <View>
            {formHolder.type !== 'profile' && (
@@ -16,7 +17,7 @@ export default function FormHolderPreview({formHolder}: FormHolderPreviewProps){
                </Text>
            )}
            {formHolder.data.map((form) => (
-               <ResumePreview key={form.id} form={form} />
+               <ResumePreview key={form.id} form={form} cvTemplate={cvTemplate}/>
            ))}
        </View>
    );
