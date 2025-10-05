@@ -1,7 +1,7 @@
 "use client"
 
 import { useSelector, useDispatch } from "react-redux";
-import FormHolderCard from "./FormHolderCard"
+import FormHolderCard from "./FormHolderCard/FormHolderCard"
 import { RootState } from "@/store/store";
 import { reorderFormHolders, setFormHolders } from "@/store/formSlice";
 import {

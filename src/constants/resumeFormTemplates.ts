@@ -25,7 +25,7 @@ export const emptyProfile: ResumeProfile = {
 export const emptyExperience: ResumeExperience = {
   title: "Work Experience",
   id: uuidv4(),
-  type: "Experience",
+  type: "experience",
   company: "",
   jobTitle: "",
   startDate: "",

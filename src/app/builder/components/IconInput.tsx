@@ -2,8 +2,8 @@
 
 import { useState, useEffect } from 'react';
 import { X } from 'lucide-react';
-import { IconOption, iconOptions } from './FormHolderCard';
 import { createPortal } from 'react-dom';
+import { IconOption, iconOptions } from './FormHolderCard/IconOptions';
 
 interface IconInputProps {
   placeholder?: string;

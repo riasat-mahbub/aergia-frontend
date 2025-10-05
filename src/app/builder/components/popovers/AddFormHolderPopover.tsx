@@ -11,7 +11,7 @@ import { templateStyleRegistry } from "../../TemplateStyles/TemplateStyleRegistr
 
 export const formHolderTypes = [
   { type: "profile", name: "Profile", icon: "Person" },
-  { type: "Experience", name: "Experience", icon: "Briefcase" },
+  { type: "experience", name: "Experience", icon: "Briefcase" },
   { type: "education", name: "Education", icon: "GraduationCap" },
   { type: "project", name: "Project", icon: "Folder" },
   { type: "skills", name: "Skills", icon: "Library" },
