@@ -19,17 +19,23 @@ export default function Navbar() {
   const dispatch = useDispatch();
   const router = useRouter();
   const pathname = usePathname();
-
+  const pdfUrl = useSelector((state: RootState) => state.pdf.pdfUrl);
 
   const toggleMenu = () => setOpen(!open);
 
-  const handlePrint = useReactToPrint({
-    contentRef: printRef
-  });
 
   const handleLogout = () => {
     if(isLoggedIn){
       router.push('/logout');
+    }
+  }
+
+  const handleDownload = () => {
+    if (pdfUrl) {
+      const link = document.createElement('a');
+      link.href = pdfUrl;
+      link.download = 'resume.pdf';
+      link.click();
     }
   }
 
@@ -51,7 +57,7 @@ export default function Navbar() {
             <Link href="/home" className="hover:text-emerald-600">Home</Link>
             {isLoggedIn && pathname!="/builder" && <Link href="/builder" className="hover:text-emerald-600">Builder</Link> }
             {/* {pathname!="/parser" && <Link href="/parser" className="hover:text-emerald-600">Parser</Link>} */}
-            {pathname==="/builder"  && <div onClick={handlePrint} className="hover:text-emerald-600 cursor-pointer">Print</div>}
+            {pathname==="/builder" && pdfUrl && <div onClick={handleDownload} className="hover:text-emerald-600 cursor-pointer">Download</div>}
             {!isLoggedIn &&  <Link href="/register" className="hover:text-emerald-600">Register</Link> }
             {!isLoggedIn &&  <Link href="/login" className="hover:text-emerald-600">Login</Link> }
             {isLoggedIn &&   <div onClick={handleLogout} className="hover:text-emerald-600 cursor-pointer">Logout</div>}
@@ -72,7 +78,7 @@ export default function Navbar() {
             <Link href="/home" className="hover:text-emerald-600">Home</Link>
             {isLoggedIn && pathname!="/builder" && <Link href="/builder" className="hover:text-emerald-600">Builder</Link> }
             {/* {pathname!="/parser" && <Link href="/parser" className="hover:text-emerald-600">Parser</Link>} */}
-            {pathname==="/builder"  && <div onClick={handlePrint} className="hover:text-emerald-600 cursor-pointer">Print</div>}
+            {pathname==="/builder" && pdfUrl && <div onClick={handleDownload} className="hover:text-emerald-600 cursor-pointer">Download</div>}
             {!isLoggedIn &&  <Link href="/register" className="hover:text-emerald-600">Register</Link> }
             {!isLoggedIn &&  <Link href="/login" className="hover:text-emerald-600">Login</Link> }
             {isLoggedIn &&   <div onClick={handleLogout} className="hover:text-emerald-600 cursor-pointer">Logout</div>}
