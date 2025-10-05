@@ -1,3 +1,4 @@
+import React from "react";
 import { View, Text, Styles } from "@react-pdf/renderer";
 import { ResumeCustom } from "@/types/ResumeFormTypes";
 import Html from "react-pdf-html";
@@ -9,7 +10,7 @@ interface CustomFormProps{
 }
 
 
-export default function CustomForm({form, styles}: CustomFormProps) {
+export default React.memo(function CustomForm({form, styles}: CustomFormProps) {
     if(!form.visible) return <View />;
     
     return (
@@ -24,4 +25,4 @@ export default function CustomForm({form, styles}: CustomFormProps) {
             <Html style={styles.description}>{SafeHTML(form.description)}</Html>
         </View>
     );
-}
+});

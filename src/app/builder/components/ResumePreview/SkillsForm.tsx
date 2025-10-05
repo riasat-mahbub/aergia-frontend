@@ -1,3 +1,4 @@
+import React from "react";
 import { View, Text, Styles } from "@react-pdf/renderer";
 import { ResumeSkills } from "@/types/ResumeFormTypes";
 import Html from "react-pdf-html";
@@ -8,7 +9,7 @@ interface SkillsFormProps{
     styles: Styles;
 }
 
-export default function SkillsForm({form, styles}: SkillsFormProps) {
+export default React.memo(function SkillsForm({form, styles}: SkillsFormProps) {
     if(!form.visible) return <View />;
     
     return(
@@ -20,4 +21,4 @@ export default function SkillsForm({form, styles}: SkillsFormProps) {
             <Html style={styles.description}>{SafeHTML(form.description)}</Html>
         </View>
     );
-}
+});

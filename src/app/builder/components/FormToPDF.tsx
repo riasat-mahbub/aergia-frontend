@@ -1,13 +1,16 @@
 "use client";
 
-import { Document, Page, PDFViewer } from "@react-pdf/renderer";
+import { Document, Page, pdf } from "@react-pdf/renderer";
 import FormHolderPreview from "./ResumePreview/FormHolderPreview";
-import { shallowEqual, useSelector } from "react-redux";
+import { shallowEqual, useSelector, useDispatch } from "react-redux";
 import { RootState } from "@/store/store";
 import Spinner from "@/components/Spinner";
-import { useMemo } from "react";
+import { useMemo, useEffect } from "react";
+import { setPdfUrl } from "@/store/pdfSlice";
 
 export default function FormToPDF() {
+  const dispatch = useDispatch();
+  const pdfUrl = useSelector((state: RootState) => state.pdf.pdfUrl);
   const formHolders = useSelector(
     (state: RootState) =>
       state.forms.formHolders.filter((holder) => holder.visible !== false),
@@ -15,38 +18,64 @@ export default function FormToPDF() {
   );
   const cvTemplate = useSelector((state: RootState) => state.forms.cvTemplate);
 
-  // Use useMemo to avoid unnecessary re-renders
-  const documentNode = useMemo(() => (
-    <Document>
-      <Page size="A4" style={{ padding: 30 }}>
-        {formHolders.map((formHolder) => (
-          <FormHolderPreview
-            key={formHolder.id}
-            formHolder={formHolder}
-            cvTemplate={cvTemplate}
-          />
-        ))}
-      </Page>
-    </Document>
-  ), [formHolders, cvTemplate]);
+  const documentContent = useMemo(() => {
+    return formHolders.map((formHolder) => (
+      <FormHolderPreview
+        key={formHolder.id}
+        formHolder={formHolder}
+        cvTemplate={cvTemplate}
+      />
+    ));
+  }, [formHolders, cvTemplate]);
 
-  // Show a spinner if no forms yet
+  useEffect(() => {
+    if (!formHolders.length) return;
+
+    const generatePdf = async () => {
+      const doc = (
+        <Document>
+          <Page size="A4" style={{ padding: 30 }}>
+            {documentContent}
+          </Page>
+        </Document>
+      );
+      
+      const blob = await pdf(doc).toBlob();
+      const url = URL.createObjectURL(blob);
+      dispatch(setPdfUrl(url));
+    };
+
+    generatePdf();
+
+    return () => {
+      if (pdfUrl) {
+        URL.revokeObjectURL(pdfUrl);
+        dispatch(setPdfUrl(null));
+      }
+    };
+  }, [documentContent, formHolders.length]);
+
   if (!formHolders.length) {
+    return <Spinner />;
+  }
+
+  if (!pdfUrl) {
     return <Spinner />;
   }
 
   return (
     <div style={{ width: "100%", height: "100vh" }}>
-      <PDFViewer
+      <object
+        data={pdfUrl}
+        type="application/pdf"
         style={{
           width: "100%",
           height: "100%",
           border: "none",
         }}
-        showToolbar={false} // optional
       >
-        {documentNode}
-      </PDFViewer>
+        <p>PDF cannot be displayed</p>
+      </object>
     </div>
   );
 }

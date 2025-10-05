@@ -1,3 +1,4 @@
+import React from "react";
 import { View, Text, Styles } from "@react-pdf/renderer";
 import { ResumeExperience } from "@/types/ResumeFormTypes";
 import Html from "react-pdf-html";
@@ -8,7 +9,7 @@ interface ExperienceFormProps{
     styles: Styles;
 }
 
-export default function ExperienceForm({form, styles}: ExperienceFormProps) {
+export default React.memo(function ExperienceForm({form, styles}: ExperienceFormProps) {
   if(!form.visible) return <View />;
   
   return (
@@ -28,4 +29,4 @@ export default function ExperienceForm({form, styles}: ExperienceFormProps) {
       <Html style={styles.description}>{SafeHTML(form.description)}</Html>
     </View>
   );
-}
+});

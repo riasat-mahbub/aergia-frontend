@@ -1,3 +1,4 @@
+import React from "react";
 import { View, Text, Styles } from "@react-pdf/renderer";
 import { ResumeProfile } from "@/types/ResumeFormTypes";
 import Html from "react-pdf-html";
@@ -9,7 +10,7 @@ interface ProfileFormProps{
 }
 
 
-export default function ProfileForm({form, styles}: ProfileFormProps) {
+export default React.memo(function ProfileForm({form, styles}: ProfileFormProps) {
   if(!form.visible) return <View />;
   
   return (
@@ -24,4 +25,4 @@ export default function ProfileForm({form, styles}: ProfileFormProps) {
       <Html style={styles.summary}>{SafeHTML(form.summary)}</Html>
     </View>
   );
-}
+});

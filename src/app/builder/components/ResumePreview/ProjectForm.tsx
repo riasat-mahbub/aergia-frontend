@@ -1,3 +1,4 @@
+import React from "react";
 import { View, Text, Styles } from "@react-pdf/renderer";
 import { ResumeProject } from "@/types/ResumeFormTypes";
 import { styles } from './pdfStyles';
@@ -9,7 +10,7 @@ interface ProjectFormProps{
     styles: Styles;
 }
 
-export default function ProjectForm({form, styles}: ProjectFormProps) {
+export default React.memo(function ProjectForm({form, styles}: ProjectFormProps) {
     if(!form.visible) return <View />;
     
     
@@ -28,4 +29,4 @@ export default function ProjectForm({form, styles}: ProjectFormProps) {
             <Html style={styles.description}>{SafeHTML(form.description)}</Html>
         </View>
     );
-}
+});

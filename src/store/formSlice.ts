@@ -1,9 +1,6 @@
 import { createFormHolder } from "@/constants/formHolders";
-import { emptyProfile } from "@/constants/resumeFormTemplates";
-import { defaultProfileStyle } from "@/constants/resumeStyleTemplates";
 import { FormHolder } from "@/types/FormHolderTypes";
 import { ResumeForm } from "@/types/ResumeFormTypes";
-import { Styles } from "@react-pdf/renderer";
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 
 interface selectedForm{
@@ -19,7 +16,7 @@ interface FormState {
 }
 
 export const initialFormState: FormState = {
-  formHolders: [createFormHolder("Profile Form", "Person", "profile", [emptyProfile], defaultProfileStyle, true, 1)],
+  formHolders: [],
   selectedForm: null,
   cvId: null,
   cvTemplate: null

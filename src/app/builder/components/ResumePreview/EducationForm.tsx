@@ -1,3 +1,4 @@
+import React from "react";
 import { View, Text, Styles } from "@react-pdf/renderer";
 import { ResumeEducation } from "@/types/ResumeFormTypes";
 import Html from 'react-pdf-html';
@@ -8,11 +9,11 @@ interface EducationFormProps{
     styles: Styles;
 }
 
-export default function EducationForm({form, styles}: EducationFormProps) {
+export default React.memo(function EducationForm({form, styles}: EducationFormProps) {
   if(!form.visible) return <View />;
 
   return (
-    <View style={styles.formContainer}>
+    <View style={styles.container}>
 
       <View style={styles.titleRow}>
         <Text style={styles.title}>{form.school}</Text>
@@ -30,4 +31,4 @@ export default function EducationForm({form, styles}: EducationFormProps) {
       <Html style={styles.description}>{SafeHTML(form.description)}</Html>
     </View>
   );
-}
+});
