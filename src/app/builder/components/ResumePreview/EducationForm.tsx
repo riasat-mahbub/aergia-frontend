@@ -14,20 +14,20 @@ export default function EducationForm({form, styles}: EducationFormProps) {
   return (
     <View style={styles.formContainer}>
 
-      <View style={styles.spaceBetween}>
-        <Text style={styles.formTitle}>{form.school}</Text>
-        <View style={styles.formDateRow}>
-          <Text style={styles.formDate}>{form.startDate}</Text>
-          {form.startDate && form.endDate && <Text style={styles.formDateSeperator}>{"-"}</Text>}
-          <Text style={styles.formDate}>{form.endDate}</Text>
+      <View style={styles.titleRow}>
+        <Text style={styles.title}>{form.school}</Text>
+        <View style={styles.dateRow}>
+          <Text style={styles.date}>{form.startDate}</Text>
+          {form.startDate && form.endDate && <Text style={styles.separator}>{"-"}</Text>}
+          <Text style={styles.date}>{form.endDate}</Text>
         </View>
       </View>
-      <View style={styles.spaceBetween}>
-        <Text style={styles.formSubtitle}>{form.degree}</Text>
-        <Text style={styles.formLocation}>{form.location}</Text>
+      <View style={styles.subTitleRow}>
+        <Text style={styles.subtitle}>{form.degree}</Text>
+        <Text style={styles.location}>{form.location}</Text>
       </View>
-      <Text style={styles.educationGPA}>GPA: {form.gpa}</Text>
-      <Html style={styles.formDescription}>{SafeHTML(form.description)}</Html>
+      <Text style={styles.gpa}>GPA: {form.gpa}</Text>
+      <Html style={styles.description}>{SafeHTML(form.description)}</Html>
     </View>
   );
 }

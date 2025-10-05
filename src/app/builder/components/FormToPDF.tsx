@@ -1,19 +1,11 @@
-"use client"
-import { Document, Page, pdf } from "@react-pdf/renderer";
+"use client";
+
+import { Document, Page, PDFViewer } from "@react-pdf/renderer";
 import FormHolderPreview from "./ResumePreview/FormHolderPreview";
 import { shallowEqual, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
-import dynamic from "next/dynamic";
-import { useEffect, useState } from "react";
 import Spinner from "@/components/Spinner";
-
-const PDFViewer = dynamic(
-  () => import("@react-pdf/renderer").then((mod) => mod.PDFViewer),
-  {
-    ssr: false,
-    loading: () => <p>Loading...</p>,
-  },
-)
+import { useMemo } from "react";
 
 export default function FormToPDF() {
   const formHolders = useSelector(
@@ -21,65 +13,40 @@ export default function FormToPDF() {
       state.forms.formHolders.filter((holder) => holder.visible !== false),
     shallowEqual
   );
-  const [pdfBlobUrl, setPdfBlobUrl] = useState<string | undefined>(undefined);
-  const [isGenerating, setIsGenerating] = useState(true);
-  const cvTemplate = useSelector((state: RootState) => state.forms.cvTemplate)
+  const cvTemplate = useSelector((state: RootState) => state.forms.cvTemplate);
 
-  useEffect(() => {
-    let isMounted = true;
+  // Use useMemo to avoid unnecessary re-renders
+  const documentNode = useMemo(() => (
+    <Document>
+      <Page size="A4" style={{ padding: 30 }}>
+        {formHolders.map((formHolder) => (
+          <FormHolderPreview
+            key={formHolder.id}
+            formHolder={formHolder}
+            cvTemplate={cvTemplate}
+          />
+        ))}
+      </Page>
+    </Document>
+  ), [formHolders, cvTemplate]);
 
-    const generatePdf = async () => {
-      if (!isMounted) return;
-      
-      setIsGenerating(true);
-      
-      try {
-        const blob = await pdf(
-          <Document>
-            <Page size="A4" style={{ padding: 30 }}>
-              {formHolders.map((formHolder) => (
-                <FormHolderPreview
-                  formHolder={formHolder}
-                  key={formHolder.id}
-                  cvTemplate={cvTemplate}
-                />
-              ))}
-            </Page>
-          </Document>
-        ).toBlob();
-        
-        if (isMounted) {
-          setPdfBlobUrl(URL.createObjectURL(blob));
-        }
-      } catch (error) {
-        console.error("Error generating PDF:", error);
-      } finally {
-        if (isMounted) {
-          setIsGenerating(false);
-        }
-      }
-    };
-
-    generatePdf();
-
-    return () => {
-      isMounted = false;
-      if (pdfBlobUrl) {
-        URL.revokeObjectURL(pdfBlobUrl);
-      }
-    };
-  }, [formHolders, cvTemplate]);
-
-  if (isGenerating || !pdfBlobUrl) {
+  // Show a spinner if no forms yet
+  if (!formHolders.length) {
     return <Spinner />;
   }
 
   return (
-    <object
-      data={pdfBlobUrl}
-      type="application/pdf"
-      width="100%"
-      height="1123px"
-    />
+    <div style={{ width: "100%", height: "100vh" }}>
+      <PDFViewer
+        style={{
+          width: "100%",
+          height: "100%",
+          border: "none",
+        }}
+        showToolbar={false} // optional
+      >
+        {documentNode}
+      </PDFViewer>
+    </div>
   );
 }

@@ -14,18 +14,18 @@ export default function ProjectForm({form, styles}: ProjectFormProps) {
     
     
     return (
-        <View style={styles.formContainer}>
-            <View style={styles.spaceBetween}>
-                <Text style={styles.formTitle}>{form.project}</Text>
-                <View style={styles.formDateRow}>
-                    <Text style={styles.formDate}>{form.startDate}</Text>
-                     {form.startDate && form.endDate && <Text style={styles.formDateSeperator}>{"-"}</Text>}
-                    <Text style={styles.formDate}>{form.endDate}</Text>
+        <View style={styles.container}>
+            <View style={styles.titleRow}>
+                <Text style={styles.title}>{form.project}</Text>
+                <View style={styles.dateRow}>
+                    <Text style={styles.date}>{form.startDate}</Text>
+                     {form.startDate && form.endDate && <Text style={styles.separator}>{"-"}</Text>}
+                    <Text style={styles.date}>{form.endDate}</Text>
                 </View>
             </View>
 
-            <Text style={styles.formSubtitle}>{form.subtitle}</Text>
-            <Html style={styles.formDescription}>{SafeHTML(form.description)}</Html>
+            <Text style={styles.subtitle}>{form.subtitle}</Text>
+            <Html style={styles.description}>{SafeHTML(form.description)}</Html>
         </View>
     );
 }

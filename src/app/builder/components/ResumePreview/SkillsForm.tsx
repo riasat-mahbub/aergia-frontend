@@ -12,12 +12,12 @@ export default function SkillsForm({form, styles}: SkillsFormProps) {
     if(!form.visible) return <View />;
     
     return(
-        <View style={styles.skillsContainer}>
-            <View style={styles.skillsRow}>
-                <Text style={styles.skillName}>{form.skill}</Text>
-                <Text style={styles.skillRating}>{'.'.repeat(form.rating || 0)}</Text>
+        <View style={styles.container}>
+            <View style={styles.row}>
+                <Text style={styles.name}>{form.skill}</Text>
+                <Text style={styles.rating}>{'.'.repeat(form.rating || 0)}</Text>
             </View>
-            <Html style={styles.formDescription}>{SafeHTML(form.description)}</Html>
+            <Html style={styles.description}>{SafeHTML(form.description)}</Html>
         </View>
     );
 }
