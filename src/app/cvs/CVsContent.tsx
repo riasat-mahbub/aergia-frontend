@@ -10,8 +10,6 @@ import { CV } from "@/types/CvTypes";
 import { Plus, Trash2 } from "lucide-react";
 import DeletePopOver from "./deletePopOver";
 
-
-
 export default function CVsContent() {
   const [cvs, setCvs] = useState<CV[]>([]);
   const [currentPopOver, setCurrentPopOver] = useState('')
@@ -26,6 +24,7 @@ export default function CVsContent() {
       if (result) {
         setCvs(result.cvs);
       }
+      console.log(result)
     };
     fetchCVs();
   }, []);
@@ -70,7 +69,7 @@ export default function CVsContent() {
         {cvs.map((cv) => (
           <div key={cv.id} className="border rounded-lg pr-6 shadow-md hover:shadow-lg flex flex-row justify-between items-center" >
             
-            <div className="text-black text-3xl mb-4 w-full cursor-pointer py-6 pl-6" onClick={() => router.push(`/builder/?cvId=${cv.id}`)}>
+            <div className="text-black text-3xl mb-4 w-full cursor-pointer py-6 pl-6" onClick={() => router.push(`/builder/?cvId=${cv.id}&cvTemplate=${cv.template}`)}>
               {cv.title}
             </div>
 

@@ -13,12 +13,13 @@ interface popOverProps{
 
 export default function CreatePopOver({closePopOver, addCv}:popOverProps){
     const [title, setTitle] = useState('');
+    const [template, setTemplate] = useState('MIT');
     const { execute, loading, error } = useApi();
     
     const handleCreateCV = async () => {
         if (loading || !title.trim()) return;
         
-        const result = await execute(() => apiService.cvs.create({title: title}));
+        const result = await execute(() => apiService.cvs.create({title: title, template: template}));
         if(result){
             addCv(result.data);
             closePopOver();
