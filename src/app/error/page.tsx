@@ -9,7 +9,7 @@ export default function Error(){
     useEffect(() => {
         setTimeout(() => {
         router.push('/');
-        }, 1000);
+        }, 2000);
 
     }, []);
 
