@@ -17,7 +17,7 @@ export default function FormHolderPreview({formHolder, cvTemplate}: FormHolderPr
                </Text>
            )}
            {formHolder.data.map((form) => (
-               <ResumePreview key={form.id} form={form} cvTemplate={cvTemplate}/>
+               <ResumePreview key={form.id} form={form} cvTemplate={cvTemplate} styles={formHolder.style as Record<string, any>}/>
            ))}
        </View>
    );

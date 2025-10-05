@@ -24,7 +24,6 @@ export default function CVsContent() {
       if (result) {
         setCvs(result.cvs);
       }
-      console.log(result)
     };
     fetchCVs();
   }, []);

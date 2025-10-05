@@ -11,6 +11,15 @@ export interface FormHolder{
     order: number;
 }
 
+export type FormTypeMap = {
+    'custom': ResumeCustom;
+    'education': ResumeEducation;
+    'experience': ResumeExperience;
+    'project': ResumeProject;
+    'skills': ResumeSkills;
+    'profile': ResumeProfile;
+};
+
 export interface CustomFormHolder extends FormHolder {
     data: ResumeCustom[];
 }

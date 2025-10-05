@@ -1,10 +1,15 @@
-import { View, Text } from "@react-pdf/renderer";
+import { View, Text, Styles } from "@react-pdf/renderer";
 import { ResumeProject } from "@/types/ResumeFormTypes";
 import { styles } from './pdfStyles';
 import Html from "react-pdf-html";
 import SafeHTML from "@/components/SafeHTML";
 
-export default function ProjectForm({form}: { form: ResumeProject }) {
+interface ProjectFormProps{
+    form: ResumeProject;
+    styles: Styles;
+}
+
+export default function ProjectForm({form, styles}: ProjectFormProps) {
     if(!form.visible) return <View />;
     
     

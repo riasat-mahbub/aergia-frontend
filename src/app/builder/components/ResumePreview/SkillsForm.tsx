@@ -1,10 +1,14 @@
-import { View, Text } from "@react-pdf/renderer";
+import { View, Text, Styles } from "@react-pdf/renderer";
 import { ResumeSkills } from "@/types/ResumeFormTypes";
-import { styles } from './pdfStyles';
 import Html from "react-pdf-html";
 import SafeHTML from "@/components/SafeHTML";
 
-export default function SkillsForm({form}: { form: ResumeSkills }) {
+interface SkillsFormProps{
+    form: ResumeSkills;
+    styles: Styles;
+}
+
+export default function SkillsForm({form, styles}: SkillsFormProps) {
     if(!form.visible) return <View />;
     
     return(

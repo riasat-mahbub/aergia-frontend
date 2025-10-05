@@ -1,10 +1,14 @@
-import { View, Text } from "@react-pdf/renderer";
+import { View, Text, Styles } from "@react-pdf/renderer";
 import { ResumeExperience } from "@/types/ResumeFormTypes";
-import { styles } from './pdfStyles';
 import Html from "react-pdf-html";
 import SafeHTML from "@/components/SafeHTML";
 
-export default function ExperienceForm({form}: { form: ResumeExperience }) {
+interface ExperienceFormProps{
+    form: ResumeExperience;
+    styles: Styles;
+}
+
+export default function ExperienceForm({form, styles}: ExperienceFormProps) {
   if(!form.visible) return <View />;
   
   return (

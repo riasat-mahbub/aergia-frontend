@@ -1,13 +1,16 @@
-import { View, Text } from "@react-pdf/renderer";
+import { View, Text, Styles } from "@react-pdf/renderer";
 import { ResumeEducation } from "@/types/ResumeFormTypes";
-import { styles } from './pdfStyles';
 import Html from 'react-pdf-html';
 import SafeHTML from "@/components/SafeHTML";
 
+interface EducationFormProps{
+    form: ResumeEducation;
+    styles: Styles;
+}
 
-
-export default function EducationForm({form}: { form: ResumeEducation }) {
+export default function EducationForm({form, styles}: EducationFormProps) {
   if(!form.visible) return <View />;
+
   return (
     <View style={styles.formContainer}>
 

@@ -7,6 +7,7 @@ import { useFormHolders } from "@/hooks/useFormHolders";
 import { RootState } from "@/store/store";
 import { useState } from "react";
 import Spinner from "@/components/Spinner";
+import { templateStyleRegistry } from "../../TemplateStyles/TemplateStyleRegistry";
 
 export const formHolderTypes = [
   { type: "profile", name: "Profile", icon: "Person" },
@@ -26,6 +27,8 @@ export default function AddFormHolderPopover({ onClose }: AddFormHolderPopoverPr
   const cvId = useSelector((state: RootState) => state.forms.cvId);
   const { saveFormHolder } = useFormHolders(cvId);
   const [loading, setLoading] = useState(false);
+
+  const cvTemplate = useSelector((state: RootState) => state.forms.cvTemplate)
   
   const handleAddFormHolder = async (type: string) => {
     if (loading) return;
@@ -35,6 +38,7 @@ export default function AddFormHolderPopover({ onClose }: AddFormHolderPopoverPr
     
     setLoading(true);
     
+    const TemplateStyle = cvTemplate && templateStyleRegistry[cvTemplate]?.[type.toLowerCase()] || {};
     try {
       // Add to Redux store
       dispatch(addFormHolder({
@@ -42,7 +46,7 @@ export default function AddFormHolderPopover({ onClose }: AddFormHolderPopoverPr
         formHolderIcon: selectedType.icon,
         formHolderType: selectedType.type,
         formHolderData: [],
-        formHolderStyle: {},
+        formHolderStyle: TemplateStyle,
       }));
       
       // Save to backend
@@ -52,7 +56,7 @@ export default function AddFormHolderPopover({ onClose }: AddFormHolderPopoverPr
         icon: selectedType.icon,
         type: selectedType.type,
         data: [],
-        style: {},
+        style: TemplateStyle,
         visible: true,
         order: 0
       });
