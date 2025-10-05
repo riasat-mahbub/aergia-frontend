@@ -15,12 +15,14 @@ interface FormState {
   formHolders: FormHolder[];
   selectedForm: selectedForm | null;
   cvId: string | null;
+  cvTemplate: string | null;
 }
 
 export const initialFormState: FormState = {
   formHolders: [createFormHolder("Profile Form", "Person", "profile", [emptyProfile], defaultProfileStyle, true, 1)],
   selectedForm: null,
-  cvId: null
+  cvId: null,
+  cvTemplate: null
 };
 
 export const formSlice = createSlice({
@@ -128,6 +130,9 @@ export const formSlice = createSlice({
     },
     setCvId(state, action: PayloadAction<string | null>){
       state.cvId = action.payload;
+    },
+    setCvTemplate(state, action: PayloadAction<string | null>){
+      state.cvTemplate = action.payload;
     }
   },
 });
@@ -146,7 +151,8 @@ export const {
   reorderFormHolders,
   reorderForms,
   setSelectedForm,
-  setCvId
+  setCvId,
+  setCvTemplate
 } = formSlice.actions;
 
 // Selectors

@@ -1,27 +1,20 @@
 import { View } from "@react-pdf/renderer";
-import CustomForm from "./CustomForm";
-import EducationForm from "./EducationForm";
-import ExperienceForm from "./ExperienceForm";
-import ProjectForm from "./ProjectForm";
-import SkillsForm from "./SkillsForm";
-import ProfileForm from "./ProfileForm";
-import { ResumeCustom, ResumeEducation, ResumeExperience, ResumeForm, ResumeProfile, ResumeProject, ResumeSkills } from "@/types/ResumeFormTypes";
+import { ResumeForm } from "@/types/ResumeFormTypes";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store/store";
+import { templateRegistry } from "./TemplateRegistry";
 
 export default function ResumePreview({ form }: { form: ResumeForm }) {
-   switch (form.type) {
-       case 'custom':
-           return <CustomForm form={form as ResumeCustom} />;
-       case 'education':
-           return <EducationForm form={form as ResumeEducation} />;
-       case 'Experience':
-           return <ExperienceForm form={form as ResumeExperience} />;
-       case 'project':
-           return <ProjectForm form={form as ResumeProject} />;
-       case 'skills':
-           return <SkillsForm form={form as ResumeSkills} />;
-       case 'profile':
-           return <ProfileForm form={form as ResumeProfile} />;
-       default:
-           return <View />;
-   }
+            
+    const cvTemplate = useSelector((state: RootState) => state.forms.cvTemplate)
+    const Template = cvTemplate ? templateRegistry[cvTemplate] : null;
+    const TemplateForm = cvTemplate && templateRegistry[cvTemplate]?.[form.type.toLowerCase()] || null;
+    
+    if(!TemplateForm){
+        return <View/>
+    }
+
+    return(
+        <TemplateForm form={form}/>
+    )
 }

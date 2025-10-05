@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import FormToPDF from "./components/FormToPDF";
 import LeftSide from "./LeftSide";
 import { useFormHolders } from "@/hooks/useFormHolders";
-import { setCvId } from "@/store/formSlice";
+import { setCvId, setCvTemplate } from "@/store/formSlice";
 import { RootState } from "@/store/store";
 import Spinner from "@/components/Spinner";
 
@@ -14,6 +14,7 @@ export default function BuilderContent(){
     const searchParams = useSearchParams();
     const dispatch = useDispatch();
     const router = useRouter()
+
     const cvId = useSelector((state: RootState) => state.forms.cvId);
     const { loading, error } = useFormHolders(cvId);
     
@@ -28,6 +29,15 @@ export default function BuilderContent(){
             dispatch(setCvId(cvIdFromParams));
         }
     }, [cvIdFromParams, dispatch, cvId]);
+
+    const cvTemplate = useSelector((state: RootState) => state.forms.cvTemplate)
+    const cvTemplateFromParams = useMemo(() => searchParams.get('cvTemplate'), [searchParams]);
+
+    useEffect(() => {
+        if (cvTemplateFromParams !== cvTemplate) {
+            dispatch(setCvTemplate(cvTemplateFromParams));
+        }
+    }, [cvTemplateFromParams, dispatch, cvTemplate]);
     
     if (loading || !mounted) {
         return <div className="flex items-center justify-center h-screen"><Spinner/></div>;
