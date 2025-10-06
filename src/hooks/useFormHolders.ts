@@ -1,10 +1,9 @@
-import { useEffect, useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { useApi } from './useApi';
 import { setFormHolders } from '@/store/formSlice';
 import { FormHolder } from '@/types/FormHolderTypes';
 import { ResumeForm } from '@/types/ResumeFormTypes';
-import { RootState } from '@/store/store';
 
 // Global state to track loading
 let globalLoadingState: { [key: string]: boolean } = {};
@@ -13,7 +12,6 @@ let globalLoadedCvIds: { [key: string]: boolean } = {};
 export function useFormHolders(cvId: string | null) {
   const { execute, loading, error, api } = useApi();
   const dispatch = useDispatch();
-  const formHolders = useSelector((state: RootState) => state.forms.formHolders);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {

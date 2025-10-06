@@ -1,7 +1,6 @@
 'use client'
 import { ResumeCustom } from "@/types/ResumeFormTypes";
 import RichTextEditor from "@/components/RichTextEditor";
-import { useState } from "react";
 
 interface CustomFormEditorProps {
   formData: ResumeCustom;
@@ -10,7 +9,7 @@ interface CustomFormEditorProps {
   onCancel?: () => void;
 }
 
-export default function CustomFormEditor({ formData, onSave, onCancel, handleChange }: CustomFormEditorProps) {
+export default function CustomFormEditor({ formData, handleChange }: CustomFormEditorProps) {
 
   return (
 

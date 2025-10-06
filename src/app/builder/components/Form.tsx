@@ -1,11 +1,10 @@
 "use client"
-import { ResumeForm, ResumeFormBase } from "@/types/ResumeFormTypes";
-import { Eye, EyeClosed, Trash2, GripVertical, EyeOff } from "lucide-react";
-import { useState } from "react";
+import { ResumeForm } from "@/types/ResumeFormTypes";
+import { Eye, Trash2, GripVertical, EyeOff } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 
 
-import { deleteForm, setFormToShow, setSelectedForm, updateForm } from "@/store/formSlice";
+import { deleteForm, setSelectedForm, updateForm } from "@/store/formSlice";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { useFormHolders } from "@/hooks/useFormHolders";

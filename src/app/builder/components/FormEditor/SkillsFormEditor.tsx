@@ -1,6 +1,5 @@
 'use client'
 import { ResumeSkills } from "@/types/ResumeFormTypes";
-import { useState } from "react";
 import RichTextEditor from "@/components/RichTextEditor";
 
 interface SkillsFormEditorProps {
@@ -10,7 +9,7 @@ interface SkillsFormEditorProps {
   onCancel?: () => void;
 }
 
-export default function SkillsFormEditor({ formData, onSave, onCancel, handleChange }: SkillsFormEditorProps) {
+export default function SkillsFormEditor({ formData, handleChange }: SkillsFormEditorProps) {
 
   return (
 

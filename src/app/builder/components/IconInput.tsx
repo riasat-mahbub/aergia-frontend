@@ -1,8 +1,6 @@
 "use client"
 
 import { useState, useEffect } from 'react';
-import { X } from 'lucide-react';
-import { createPortal } from 'react-dom';
 import { IconOption, iconOptions } from './FormHolderCard/IconOptions';
 
 interface IconInputProps {
@@ -42,11 +40,6 @@ export default function IconInput({
     if (onChange) onChange(newValue);
   };
 
-  const handleIconSelect = (icon: IconOption) => {
-    setSelectedIcon(icon);
-    // setShowIconSelector(false);
-    if (onIconChange) onIconChange(icon.name);
-  };
 
   return (
     <div className="relative w-full">

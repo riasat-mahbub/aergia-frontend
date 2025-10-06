@@ -1,6 +1,5 @@
 'use client'
 import { ResumeEducation } from "@/types/ResumeFormTypes";
-import { useState } from "react";
 import RichTextEditor from "@/components/RichTextEditor";
 
 interface EducationFormEditorProps {
@@ -10,7 +9,7 @@ interface EducationFormEditorProps {
   onCancel?: () => void;
 }
 
-export default function EducationFormEditor({ formData, onSave, onCancel, handleChange }: EducationFormEditorProps) {
+export default function EducationFormEditor({ formData, handleChange }: EducationFormEditorProps) {
 
 
   return (

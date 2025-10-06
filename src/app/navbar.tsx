@@ -2,21 +2,14 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Menu, X } from 'lucide-react';
-import { useReactToPrint } from 'react-to-print';
-import { printRef } from './builder/components/printRef';
 import { usePathname, useRouter } from 'next/navigation';
-import { useApi } from '@/hooks/useApi';
-import { apiService } from '@/services/api';
 import { RootState } from '@/store/store';
-import { setIsLoggedIn } from '@/store/authSlice';
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
   const { isLoggedIn } = useSelector((state: RootState) => state.auth || { isLoggedIn: false, loading: true });
-  const { execute, loading, error } = useApi();
-  const dispatch = useDispatch();
   const router = useRouter();
   const pathname = usePathname();
   const pdfUrl = useSelector((state: RootState) => state.pdf.pdfUrl);

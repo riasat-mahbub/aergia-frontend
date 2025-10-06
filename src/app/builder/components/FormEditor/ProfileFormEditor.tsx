@@ -1,6 +1,5 @@
 'use client'
 import { ResumeProfile } from "@/types/ResumeFormTypes";
-import { useState } from "react";
 import RichTextEditor from "@/components/RichTextEditor";
 
 interface ProfileFormEditorProps {
@@ -10,7 +9,7 @@ interface ProfileFormEditorProps {
   onCancel?: () => void;
 }
 
-export default function ProfileFormEditor({ formData, onSave, onCancel, handleChange }: ProfileFormEditorProps) {
+export default function ProfileFormEditor({ formData, handleChange }: ProfileFormEditorProps) {
 
   return (
 

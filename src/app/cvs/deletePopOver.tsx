@@ -2,9 +2,8 @@
 
 import { useApi } from "@/hooks/useApi";
 import { apiService } from "@/services/api";
-import { Check, Trash2, X } from "lucide-react";
-import { useState } from "react"
-import { CV } from "@/types/CvTypes";
+import { Check, X } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 interface popOverProps{
     id: string,
@@ -14,9 +13,14 @@ interface popOverProps{
 
 export default function DeletePopOver({id, closePopOver, removeCv}:popOverProps){
     const { execute, loading, error } = useApi();
+    const router = useRouter();
     
     const handleDeleteCV = async () => {
         if (loading) return;
+
+        if(error){
+            router.replace('/error')
+        }
         
         const result = await execute(() => apiService.cvs.delete(id));
         if(result){

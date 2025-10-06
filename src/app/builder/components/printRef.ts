@@ -1,3 +1,3 @@
-import { createRef, useRef } from "react";
+import { createRef } from "react";
 
 export const printRef = createRef<HTMLDivElement>();

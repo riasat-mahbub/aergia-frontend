@@ -10,7 +10,7 @@ interface ExperienceFormEditorProps {
   onCancel?: () => void;
 }
 
-export default function ExperienceFormEditor({ formData, onSave, onCancel, handleChange }: ExperienceFormEditorProps) {
+export default function ExperienceFormEditor({ formData, handleChange }: ExperienceFormEditorProps) {
 
   return (
 

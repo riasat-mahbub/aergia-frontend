@@ -1,7 +1,6 @@
 import React from "react";
 import { View, Text, Styles } from "@react-pdf/renderer";
 import { ResumeProject } from "@/types/ResumeFormTypes";
-import { styles } from './pdfStyles';
 import Html from "react-pdf-html";
 import SafeHTML from "@/components/SafeHTML";
 

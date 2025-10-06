@@ -2,9 +2,10 @@
 
 import { useApi } from "@/hooks/useApi";
 import { apiService } from "@/services/api";
-import { Check, Trash2, X } from "lucide-react";
+import { X } from "lucide-react";
 import { useState } from "react"
 import { CV } from "@/types/CvTypes";
+import { useRouter } from "next/navigation";
 
 interface popOverProps{
     closePopOver: () => void
@@ -13,11 +14,16 @@ interface popOverProps{
 
 export default function CreatePopOver({closePopOver, addCv}:popOverProps){
     const [title, setTitle] = useState('');
-    const [template, setTemplate] = useState('MIT');
+    const template= 'MIT';
     const { execute, loading, error } = useApi();
+    const router = useRouter()
     
     const handleCreateCV = async () => {
         if (loading || !title.trim()) return;
+
+        if (error){
+            router.replace('/error')
+        }
         
         const result = await execute(() => apiService.cvs.create({title: title, template: template}));
         if(result){
