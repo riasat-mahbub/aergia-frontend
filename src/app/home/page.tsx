@@ -2,13 +2,22 @@
 import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 import { RootState } from "@/store/store";
+import { useEffect, useState } from "react";
 
 
 export default function Home() {
   const { isLoggedIn } = useSelector((state: RootState) => state.auth);
   const router = useRouter();
+  const [isInitialized, setIsInitialized] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setIsInitialized(true), 100);
+    return () => clearTimeout(timer);
+  }, []);
 
   const handleBuilder = () => {
+    if(!isInitialized) return;
+    
     if(isLoggedIn){
       router.push('/cvs')
     }else{
@@ -31,7 +40,7 @@ export default function Home() {
         <p className="h-20">
 
         </p>
-        <div onClick={handleBuilder} className="bg-emerald-500 hover:bg-emerald-700 text-white font-bold py-2 px-4 rounded-full w-44 cursor-pointer">
+        <div onClick={handleBuilder} className={`bg-emerald-500 hover:bg-emerald-700 text-white font-bold py-2 px-4 rounded-full w-44 cursor-pointer ${!isInitialized ? 'opacity-50' : ''}`}>
           Create Resume <span aria-hidden="true">→</span>
         </div>
         {/* <p className="mt-3 text-sm text-gray-600 lg:mt-36">

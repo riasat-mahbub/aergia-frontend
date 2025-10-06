@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useApi } from './useApi';
 import { setFormHolders } from '@/store/formSlice';
@@ -6,16 +6,23 @@ import { FormHolder } from '@/types/FormHolderTypes';
 import { ResumeForm } from '@/types/ResumeFormTypes';
 import { RootState } from '@/store/store';
 
+// Global state to track loading
+let globalLoadingState: { [key: string]: boolean } = {};
+let globalLoadedCvIds: { [key: string]: boolean } = {};
+
 export function useFormHolders(cvId: string | null) {
   const { execute, loading, error, api } = useApi();
   const dispatch = useDispatch();
   const formHolders = useSelector((state: RootState) => state.forms.formHolders);
-  const loadedCvId = useRef<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    if (!cvId || loadedCvId.current === cvId) return;
+    if (!cvId || globalLoadedCvIds[cvId] || globalLoadingState[cvId]) return;
 
     const loadFormHolders = async () => {
+      globalLoadingState[cvId] = true;
+      setIsLoading(true);
+      
       const result = await execute(() => api.formGroups.getAll(cvId));
       if (result) {
         const formHolders: FormHolder[] = result.formHolders.map((formGroup: any) => ({
@@ -31,8 +38,11 @@ export function useFormHolders(cvId: string | null) {
 
         formHolders.sort((a,b) => (a.order > b.order) ? 1 : ((b.order > a.order) ? -1 : 0))
         dispatch(setFormHolders(formHolders));
-        loadedCvId.current = cvId;
+        globalLoadedCvIds[cvId] = true;
       }
+      
+      globalLoadingState[cvId] = false;
+      setIsLoading(false);
     };
 
     loadFormHolders();
@@ -99,7 +109,7 @@ export function useFormHolders(cvId: string | null) {
   };
 
   return {
-    loading,
+    loading: loading || isLoading,
     error,
     saveFormHolder,
     updateFormHolder,
