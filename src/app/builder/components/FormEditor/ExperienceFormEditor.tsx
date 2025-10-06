@@ -1,6 +1,5 @@
 'use client'
 import { ResumeExperience } from "@/types/ResumeFormTypes";
-import { useState } from "react";
 import RichTextEditor from "@/components/RichTextEditor";
 
 interface ExperienceFormEditorProps {

@@ -6,8 +6,8 @@ import { FormHolder } from '@/types/FormHolderTypes';
 import { ResumeForm } from '@/types/ResumeFormTypes';
 
 // Global state to track loading
-let globalLoadingState: { [key: string]: boolean } = {};
-let globalLoadedCvIds: { [key: string]: boolean } = {};
+const globalLoadingState: { [key: string]: boolean } = {};
+const globalLoadedCvIds: { [key: string]: boolean } = {};
 
 export function useFormHolders(cvId: string | null) {
   const { execute, loading, error, api } = useApi();

@@ -16,7 +16,6 @@ export default function IconInput({
   value = "", 
   iconValue = "Email",
   onChange,
-  onIconChange
 }: IconInputProps) {
   const [text, setText] = useState(value);
   const [selectedIcon, setSelectedIcon] = useState<IconOption>(

@@ -20,7 +20,7 @@ export default function Importer(){
                 </div>
 
                 <div className="flex flex-col text-center gap-4">
-                    <p className="mb-2">Don't have a resume?</p>
+                    <p className="mb-2">Don&apos;t have a resume?</p>
                     <Link href={"builder"} className="bg-emerald-600 text-white px-4 py-2 rounded-full hover:bg-emerald-700 transition-colors">Create new</Link>
                 </div>
             </div>

@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { useCollapse } from "react-collapsed";
 import { ChevronDown, ChevronLeft, Plus, GripVertical, Trash2, Eye, EyeOff, Palette } from "lucide-react";
 import { FormHolder } from "@/types/FormHolderTypes";
@@ -22,12 +21,10 @@ import {
 } from "@dnd-kit/core";
 import { restrictToVerticalAxis } from "@dnd-kit/modifiers";
 import { SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy } from "@dnd-kit/sortable";
-import { popover } from "@/constants/popovers";
 import { createFormByType } from "./FormTemplates";
 import { iconOptions } from "./IconOptions";
 import IconInput from "../IconInput";
 import Form from "../Form";
-import PopoverDirector from "../popovers/PopoverDirector";
 
 interface FormHolderProps {
   formHolder: FormHolder;
@@ -35,7 +32,6 @@ interface FormHolderProps {
 }
 
 export default function FormHolderCard({ formHolder, onDeleteClick }: FormHolderProps) {
-  const [activePopover, setActivePopover] = useState<popover>(null);
   const dispatch = useDispatch();
   const cvId = useSelector((state: RootState) => state.forms.cvId);
   const { updateFormHolder: updateFormHolderAPI } = useFormHolders(cvId);

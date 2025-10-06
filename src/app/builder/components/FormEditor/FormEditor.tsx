@@ -78,7 +78,7 @@ export default function FormEditor({ form, formHolderId }: FormEditorProps) {
                 </svg>
               </div>
               <h3 className="text-lg font-semibold text-gray-900 mb-2">Unknown Form Type</h3>
-              <p className="text-gray-500">The form type "{form.type}" is not recognized</p>
+              <p className="text-gray-500">The form type &quot;{form.type}&quot; is not recognized</p>
             </div>
           )}
         </div>
