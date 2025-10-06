@@ -26,7 +26,7 @@ export default function CVsContent() {
       }
     };
     fetchCVs();
-  }, []);
+  }, [execute]);
 
 
   const openPopOver = (popoverName: string) => {

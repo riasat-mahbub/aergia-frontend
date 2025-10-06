@@ -1,22 +1,23 @@
 "use client";
-
 import { Document, Page, pdf } from "@react-pdf/renderer";
 import FormHolderPreview from "./ResumePreview/FormHolderPreview";
 import { shallowEqual, useSelector, useDispatch } from "react-redux";
 import { RootState } from "@/store/store";
 import Spinner from "@/components/Spinner";
-import { useMemo, useEffect } from "react";
+import { useMemo, useEffect, useRef } from "react";
 import { setPdfUrl } from "@/store/pdfSlice";
 
 export default function FormToPDF() {
   const dispatch = useDispatch();
-  const pdfUrl = useSelector((state: RootState) => state.pdf.pdfUrl);
+  const prevPdfUrlRef = useRef<string | null>(null);
+  
   const formHolders = useSelector(
     (state: RootState) =>
       state.forms.formHolders.filter((holder) => holder.visible !== false),
     shallowEqual
   );
   const cvTemplate = useSelector((state: RootState) => state.forms.cvTemplate);
+  const pdfUrl = useSelector((state: RootState) => state.pdf.pdfUrl);
 
   const documentContent = useMemo(() => {
     return formHolders.map((formHolder) => (
@@ -32,6 +33,11 @@ export default function FormToPDF() {
     if (!formHolders.length) return;
 
     const generatePdf = async () => {
+      // Clean up previous URL
+      if (prevPdfUrlRef.current) {
+        URL.revokeObjectURL(prevPdfUrlRef.current);
+      }
+
       const doc = (
         <Document>
           <Page size="A4" style={{ padding: 30 }}>
@@ -39,27 +45,27 @@ export default function FormToPDF() {
           </Page>
         </Document>
       );
-      
+     
       const blob = await pdf(doc).toBlob();
       const url = URL.createObjectURL(blob);
+      
+      prevPdfUrlRef.current = url;
       dispatch(setPdfUrl(url));
     };
 
     generatePdf();
+  }, [formHolders, cvTemplate, documentContent, dispatch]);
 
+  useEffect(() => {
     return () => {
-      if (pdfUrl) {
-        URL.revokeObjectURL(pdfUrl);
+      if (prevPdfUrlRef.current) {
+        URL.revokeObjectURL(prevPdfUrlRef.current);
         dispatch(setPdfUrl(null));
       }
     };
-  }, [formHolders, cvTemplate]);
+  }, [dispatch]);
 
-  if (!formHolders.length) {
-    return <Spinner />;
-  }
-
-  if (!pdfUrl) {
+  if (!formHolders.length || !pdfUrl) {
     return <Spinner />;
   }
 

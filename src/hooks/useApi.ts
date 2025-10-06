@@ -1,11 +1,11 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { apiService } from '@/services/api';
 
 export function useApi() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const execute = async <T>(apiCall: () => Promise<T>): Promise<T | null> => {
+  const execute = useCallback(async <T>(apiCall: () => Promise<T>): Promise<T | null> => {
     setLoading(true);
     setError(null);
     
@@ -18,7 +18,7 @@ export function useApi() {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
   return { execute, loading, error, api: apiService };
 }

@@ -44,7 +44,7 @@ export function useFormHolders(cvId: string | null) {
     };
 
     loadFormHolders();
-  }, [cvId, execute, dispatch]);
+  }, [cvId, execute, dispatch, api.formGroups]);
 
   const saveFormHolder = async (formHolder: FormHolder) => {
     if (!cvId) return null;
