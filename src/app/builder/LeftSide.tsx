@@ -1,16 +1,24 @@
 import { Plus } from "lucide-react";
 import FormCollection from "./components/FormCollection";
 import FormEditor from "./components/FormEditor/FormEditor";
+import StyleEditor from "./components/StyleEditor/StyleEditor";
 import { useState } from "react";
 import { RootState } from "@/store/store";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { getFormHolderById } from "@/store/formSlice";
+import { setSelectedStyleEditor } from "@/store/settingSlice";
 import PopoverDirector from "./components/popovers/PopoverDirector";
 import { popover } from "@/constants/popovers";
 
 
 export default function LeftSide(){
     const [activePopover, setActivePopover] = useState<popover>(null);
+    const dispatch = useDispatch();
     const selectedForm = useSelector((state: RootState) => state.forms.selectedForm);
+    const selectedStyleEditor = useSelector((state: RootState) => state.settings.selectedStyleEditor);
+    const formHolder = useSelector((state: RootState) => 
+        selectedStyleEditor ? getFormHolderById(state, selectedStyleEditor) : null
+    );
     
     return(
         <div className="lg:w-5/12 w-full flex flex-col items-center">
@@ -18,6 +26,11 @@ export default function LeftSide(){
                 <FormEditor 
                     form={selectedForm.form} 
                     formHolderId={selectedForm.formHolderId}
+                />
+            ) : formHolder ? (
+                <StyleEditor 
+                    formHolder={formHolder}
+                    onClose={() => dispatch(setSelectedStyleEditor(null))}
                 />
             ) : (
                 <>

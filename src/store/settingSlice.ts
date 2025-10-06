@@ -7,6 +7,7 @@ interface Settings {
   fontSize: string;
   documentSize: string;
   expandedFormHolder: string | null;
+  selectedStyleEditor: string | null;
 }
 
 export const DEFAULT_THEME_COLOR = "#38bdf8"; // sky-400
@@ -19,7 +20,8 @@ export const initialSettings: Settings = {
   fontFamily: DEFAULT_FONT_FAMILY,
   fontSize: DEFAULT_FONT_SIZE,
   documentSize: "Letter",
-  expandedFormHolder: null
+  expandedFormHolder: null,
+  selectedStyleEditor: null
 };
 
 
@@ -39,6 +41,9 @@ export const settingsSlice = createSlice({
     setExpandedFormHolder: (state, action: PayloadAction<string | null>) => {
       state.expandedFormHolder = action.payload;
     },
+    setSelectedStyleEditor: (state, action: PayloadAction<string | null>) => {
+      state.selectedStyleEditor = action.payload;
+    },
   },
 });
 
@@ -46,5 +51,6 @@ export const {
     setThemeColor,
     setFontFamily,
     setFontSize,
-    setExpandedFormHolder
+    setExpandedFormHolder,
+    setSelectedStyleEditor
 } = settingsSlice.actions;

@@ -2,11 +2,11 @@
 
 import { useState } from "react";
 import { useCollapse } from "react-collapsed";
-import { ChevronDown, ChevronLeft, Plus, GripVertical, Trash2, Eye, EyeOff } from "lucide-react";
+import { ChevronDown, ChevronLeft, Plus, GripVertical, Trash2, Eye, EyeOff, Palette } from "lucide-react";
 import { FormHolder } from "@/types/FormHolderTypes";
 import { useDispatch, useSelector } from "react-redux";
 import { addForm, updateFormHolder, reorderForms, setSelectedForm } from "@/store/formSlice";
-import { setExpandedFormHolder } from "@/store/settingSlice";
+import { setExpandedFormHolder, setSelectedStyleEditor } from "@/store/settingSlice";
 import { RootState } from "@/store/store";
 import { useFormHolders } from "@/hooks/useFormHolders";
 import { useSortable } from "@dnd-kit/sortable";
@@ -184,6 +184,11 @@ export default function FormHolderCard({ formHolder }: FormHolderProps) {
             </button>
             
             <div className="flex flex-row gap-3">
+              <Palette 
+                className="text-orange-600 cursor-pointer" 
+                onClick={() => dispatch(setSelectedStyleEditor(formHolder.id))} 
+              />
+              
               {formHolder.visible ? (
                 <Eye className="text-red-950 cursor-pointer" onClick={handleVisibilityToggle} />
               ) : (
