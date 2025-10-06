@@ -31,9 +31,10 @@ import PopoverDirector from "../popovers/PopoverDirector";
 
 interface FormHolderProps {
   formHolder: FormHolder;
+  onDeleteClick: (formHolderId: string) => void;
 }
 
-export default function FormHolderCard({ formHolder }: FormHolderProps) {
+export default function FormHolderCard({ formHolder, onDeleteClick }: FormHolderProps) {
   const [activePopover, setActivePopover] = useState<popover>(null);
   const dispatch = useDispatch();
   const cvId = useSelector((state: RootState) => state.forms.cvId);
@@ -197,18 +198,14 @@ export default function FormHolderCard({ formHolder }: FormHolderProps) {
               
               <Trash2 
                 className="text-red-600 cursor-pointer" 
-                onClick={() => setActivePopover("DeleteFormHolder")} 
+                onClick={() => onDeleteClick(formHolder.id)} 
               />
             </div>
           </div>
         </div>
       )}
 
-      <PopoverDirector 
-        activePopover={activePopover} 
-        popoverData={formHolder.id} 
-        onClose={() => setActivePopover(null)} 
-      />
+
     </div>
   );
 }

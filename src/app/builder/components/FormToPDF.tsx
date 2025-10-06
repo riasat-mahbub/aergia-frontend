@@ -53,7 +53,7 @@ export default function FormToPDF() {
         dispatch(setPdfUrl(null));
       }
     };
-  }, [documentContent, formHolders.length]);
+  }, [formHolders, cvTemplate]);
 
   if (!formHolders.length) {
     return <Spinner />;

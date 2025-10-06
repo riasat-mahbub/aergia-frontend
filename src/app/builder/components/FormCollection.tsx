@@ -21,7 +21,11 @@ import {
 } from "@dnd-kit/sortable";
 import { useFormHolders } from "@/hooks/useFormHolders";
 
-export default function FormCollection() {
+interface FormCollectionProps {
+  onDeleteFormHolder: (formHolderId: string) => void;
+}
+
+export default function FormCollection({ onDeleteFormHolder }: FormCollectionProps) {
   const dispatch = useDispatch();
   const cvId = useSelector((state: RootState) => state.forms.cvId);
   const { reorderFormHolder } = useFormHolders(cvId);
@@ -76,7 +80,7 @@ const handleDragEnd = (event: DragEndEvent) => {
       >
         <div className="w-11/12 my-6 flex flex-col gap-4">
           {formHolders.map((formHolder) => (
-            <FormHolderCard key={formHolder.id} formHolder={formHolder}/>
+            <FormHolderCard key={formHolder.id} formHolder={formHolder} onDeleteClick={onDeleteFormHolder}/>
           ))}
         </div>
       </SortableContext>
