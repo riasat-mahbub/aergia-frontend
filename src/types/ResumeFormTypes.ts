@@ -5,17 +5,6 @@ export interface ResumeFormBase {
     visible: boolean;
 }
 
-export type FormKey = "custom" | "education" | "experience" | "profile" | "project" | "skills";
-
-export type FormTypeMap = {
-  custom: ResumeCustom;
-  education: ResumeEducation;
-  experience: ResumeExperience;
-  profile: ResumeProfile;
-  project: ResumeProject;
-  skills: ResumeSkills;
-};
-
 export type ResumeForm = 
   | ResumeProfile 
   | ResumeExperience 

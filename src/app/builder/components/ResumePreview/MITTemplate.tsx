@@ -5,10 +5,19 @@ import ExperienceForm from "./ExperienceForm";
 import ProjectForm from "./ProjectForm";
 import SkillsForm from "./SkillsForm";
 import ProfileForm from "./ProfileForm";
-import { FormKey, FormTypeMap } from "@/types/ResumeFormTypes";
-import { BaseFormProps } from "./ResumePreview";
+import { ResumeCustom, ResumeEducation, ResumeExperience, ResumeProfile, ResumeProject, ResumeSkills } from "@/types/ResumeFormTypes";
+import { Template } from "./TemplateRegistry";
 
-export const MITTemplate: { [K in FormKey]: ComponentType<BaseFormProps<FormTypeMap[K]>> } = {
+type MITFormMap = {
+  custom: ResumeCustom;
+  education: ResumeEducation;
+  experience: ResumeExperience;
+  profile: ResumeProfile;
+  project: ResumeProject;
+  skills: ResumeSkills;
+};
+
+export const MITTemplate: Template<MITFormMap>= {
   custom: memo(CustomForm),
   education: memo(EducationForm),
   experience: memo(ExperienceForm),
