@@ -1,7 +1,6 @@
 [build]
-  command = "rm -rf node_modules && npm install && npm run build"
+  command = "npm ci && npm run build"
   publish = ".next"
 
 [build.environment]
   NODE_VERSION = "20"
-  NPM_FLAGS = "--include=optional"
