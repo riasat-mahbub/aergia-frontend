@@ -1,14 +1,23 @@
 import { ResumeCustom, ResumeEducation, ResumeForm, ResumeProfile, ResumeProject, ResumeSkills, ResumeExperience } from "./ResumeFormTypes";
 
-export interface FormHolder{
-    id: string;
+interface FormHolderBase{
     title: string;
-    icon: string;
     type: string;
-    data: ResumeForm[];
-    style: object;
     visible: boolean;
     order: number;
+}
+
+export interface FormHolder extends FormHolderBase{
+    id: string;
+    icon: string;
+    data: ResumeForm[];
+    style: object;
+}
+
+// separate type for API to handel stringified JSON
+export interface ApiFormHolder extends FormHolderBase{
+    data: string;
+    style: string;
 }
 
 export type FormTypeMap = {

@@ -48,7 +48,7 @@ export const formSlice = createSlice({
     deleteFormHolder: (state, action: PayloadAction<string>) => {
       state.formHolders = state.formHolders.filter((holder) => holder.id !== action.payload);
     },
-    addFormHolder: (state, action: PayloadAction<{formHolderTitle:string, formHolderIcon:string, formHolderType:string, formHolderData:any[], formHolderStyle:object}>) => {
+    addFormHolder: (state, action: PayloadAction<{formHolderTitle:string, formHolderIcon:string, formHolderType:string, formHolderData:ResumeForm[], formHolderStyle:object}>) => {
       const newFormHolder = createFormHolder(
         action.payload.formHolderTitle,
         action.payload.formHolderIcon,

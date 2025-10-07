@@ -63,7 +63,7 @@ class ApiService {
   formGroups = {
     getAll: (cvId: string) => this.request(`/formGroup/${cvId}`),
     
-    create: (cvId: string, data: { title: string; type: string; data: any }) =>
+    create: (cvId: string, data: { title: string; type: string; data: string }) =>
       this.request(`/formGroup/${cvId}`, {
         method: 'POST',
         body: JSON.stringify(data),
@@ -71,7 +71,7 @@ class ApiService {
     
     get: (cvId: string, id: string) => this.request(`/formGroup/${cvId}/${id}`),
     
-    update: (cvId: string, id: string, data: { title: string; type: string; data: any; order: number; visible:boolean }) =>
+    update: (cvId: string, id: string, data: { title: string; type: string; data: string; order: number; visible:boolean }) =>
       this.request(`/formGroup/${cvId}/${id}`, {
         method: 'PUT',
         body: JSON.stringify(data),
