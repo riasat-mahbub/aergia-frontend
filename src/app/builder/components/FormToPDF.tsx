@@ -30,7 +30,6 @@ export default function FormToPDF() {
   }, [formHolders, cvTemplate]);
 
   useEffect(() => {
-    if (!formHolders.length) return;
 
     const generatePdf = async () => {
       // Clean up previous URL
@@ -65,7 +64,7 @@ export default function FormToPDF() {
     };
   }, [dispatch]);
 
-  if (!formHolders.length || !pdfUrl) {
+  if (!pdfUrl) {
     return <Spinner />;
   }
 
