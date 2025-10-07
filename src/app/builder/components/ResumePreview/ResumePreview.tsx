@@ -1,7 +1,7 @@
 import { Styles, StyleSheet, View } from "@react-pdf/renderer";
 import { ResumeForm } from "@/types/ResumeFormTypes";
 import { templateRegistry } from "./TemplateRegistry";
-import { FormTypeMap } from "@/types/FormHolderTypes";
+import { ComponentType } from "react";
 
 interface ResumePreviewProps{
     form: ResumeForm;
@@ -11,19 +11,28 @@ interface ResumePreviewProps{
 
 export interface BaseFormProps<T>{
     form: T;
-    styles: Styles
+    styles: Styles;
 }
 
 export default function ResumePreview({ form, cvTemplate, styles }: ResumePreviewProps) {
    
-    const TemplateForm = cvTemplate ? templateRegistry[cvTemplate]?.[form.type.toLowerCase()] : null;
-    const ResumeStyle = styles ? StyleSheet.create(styles) : null;
+    const template = cvTemplate 
+        ? templateRegistry[cvTemplate as keyof typeof templateRegistry]
+        : null;
+    
+    const TemplateForm = template 
+        ? template[form.type.toLowerCase() as keyof typeof template]
+        : null;
+    
+    const ResumeStyle = StyleSheet.create(styles);
    
     if(!TemplateForm){
         return <View/>
     }
-    
+   
+    const Component = TemplateForm as ComponentType<BaseFormProps<ResumeForm>>;
+   
     return(
-        <TemplateForm form={form as FormTypeMap[keyof FormTypeMap]} styles={ResumeStyle}/>
+        <Component form={form} styles={ResumeStyle}/>
     )
 }
