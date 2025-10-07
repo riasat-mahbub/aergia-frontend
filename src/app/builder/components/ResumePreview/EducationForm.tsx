@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, Styles } from "@react-pdf/renderer";
+import { View, Text } from "@react-pdf/renderer";
 import { ResumeEducation } from "@/types/ResumeFormTypes";
 import Html from 'react-pdf-html';
 import SafeHTML from "@/components/SafeHTML";

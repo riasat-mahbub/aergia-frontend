@@ -1,14 +1,10 @@
 import React from "react";
-import { View, Text, Styles } from "@react-pdf/renderer";
+import { View, Text } from "@react-pdf/renderer";
 import { ResumeSkills } from "@/types/ResumeFormTypes";
 import Html from "react-pdf-html";
 import SafeHTML from "@/components/SafeHTML";
 import { BaseFormProps } from "./ResumePreview";
 
-interface SkillsFormProps{
-    form: ResumeSkills;
-    styles: Styles;
-}
 
 export default React.memo(function SkillsForm({form, styles}: BaseFormProps<ResumeSkills>) {
     if(!form.visible) return <View />;
