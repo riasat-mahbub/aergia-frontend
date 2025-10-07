@@ -1,4 +1,5 @@
 import { FormHolder } from "@/types/FormHolderTypes";
+import { ResumeForm } from "@/types/ResumeFormTypes";
 import { v4 as uuidv4 } from "uuid";
 
 
@@ -10,7 +11,7 @@ export const createFormHolder = (
   title: string,
   icon: string,
   type: string,
-  data: any[] = [],
+  data: ResumeForm[] = [],
   style: object = {},
   visible: boolean = true,
   order: number = 0,

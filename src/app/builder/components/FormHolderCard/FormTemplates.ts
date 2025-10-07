@@ -16,7 +16,7 @@ type FormTemplate = {
 
 const FORM_TEMPLATES: Record<string, FormTemplate> = {
   profile: { template: emptyProfile, titlePrefix: 'Profile' },
-  Experience: { template: emptyExperience, titlePrefix: 'Work Experience' },
+  experience: { template: emptyExperience, titlePrefix: 'Work Experience' },
   education: { template: emptyEducation, titlePrefix: 'Education' },
   project: { template: emptyProject, titlePrefix: 'Project' },
   skills: { template: emptySkills, titlePrefix: 'Skills' },

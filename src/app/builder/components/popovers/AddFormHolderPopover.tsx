@@ -7,7 +7,7 @@ import { useFormHolders } from "@/hooks/useFormHolders";
 import { RootState } from "@/store/store";
 import { useState } from "react";
 import Spinner from "@/components/Spinner";
-import { templateStyleRegistry } from "../../TemplateStyles/TemplateStyleRegistry";
+import { templateStyleRegistry } from "../TemplateStyles/TemplateStyleRegistry";
 
 export const formHolderTypes = [
   { type: "profile", name: "Profile", icon: "Person" },

@@ -23,7 +23,7 @@ export function useFormHolders(cvId: string | null) {
       
       const result = await execute(() => api.formGroups.getAll(cvId));
       if (result) {
-        const formHolders: FormHolder[] = result.formHolders.map((formGroup: any) => ({
+        const formHolders: FormHolder[] = result.formHolders.map((formGroup: FormHolder) => ({
           id: formGroup.id,
           title: formGroup.title,
           icon: 'default',

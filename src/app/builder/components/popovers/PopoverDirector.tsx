@@ -5,7 +5,7 @@ import DeleteFormHolderPopover from "./DeleteFormHolderPopover";
 
 interface PopoverDirectorProps {
     activePopover: popover;
-    popoverData: string;
+    popoverData: string | null;
     onClose: () => void;
 }
 
@@ -18,7 +18,7 @@ export default function PopoverDirector({ activePopover, onClose, popoverData }:
             case 'AddFormHolder':
                 return <AddFormHolderPopover onClose={onClose} />;
             case "DeleteFormHolder":
-                return <DeleteFormHolderPopover onClose={onClose} formHolderId={popoverData} />
+                return <DeleteFormHolderPopover onClose={onClose} formHolderId={popoverData ? popoverData : ""} />
           default:
             return (
                 <></>
