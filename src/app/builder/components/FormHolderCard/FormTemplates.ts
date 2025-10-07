@@ -7,9 +7,10 @@ import {
   emptyProject, 
   emptySkills 
 } from "@/constants/resumeFormTemplates";
+import { ResumeForm } from "@/types/ResumeFormTypes";
 
 type FormTemplate = {
-  template: any;
+  template: ResumeForm;
   titlePrefix: string;
 };
 

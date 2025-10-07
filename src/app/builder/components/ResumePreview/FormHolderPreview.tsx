@@ -1,4 +1,4 @@
-import { View, Text } from "@react-pdf/renderer";
+import { View, Text, Styles } from "@react-pdf/renderer";
 import { FormHolder } from "@/types/FormHolderTypes"
 import ResumePreview from "./ResumePreview";
 import { styles } from './pdfStyles';
@@ -17,7 +17,7 @@ export default function FormHolderPreview({formHolder, cvTemplate}: FormHolderPr
                </Text>
            )}
            {formHolder.data.map((form) => (
-               <ResumePreview key={form.id} form={form} cvTemplate={cvTemplate} styles={formHolder.style as Record<string, any>}/>
+               <ResumePreview key={form.id} form={form} cvTemplate={cvTemplate} styles={formHolder.style as Styles}/>
            ))}
        </View>
    );
