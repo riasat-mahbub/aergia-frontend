@@ -1,13 +1,20 @@
-import { ComponentType } from "react";
-import { MITTemplate } from "./MITTemplate";
+import { ComponentType, MemoExoticComponent } from "react";
+import { MITFormMap, MITTemplate } from "./MITTemplate";
 
 import { BaseFormProps } from "./ResumePreview";
 
-// Generic type for a template: maps form keys to form components
-export type Template<TFormMap extends Record<string, any>> = {
-  [K in keyof TFormMap]: ComponentType<BaseFormProps<TFormMap[K]>>;
+export type Template<TFormMap extends Record<string, object>> = {
+  [K in keyof TFormMap]: MemoExoticComponent<ComponentType<BaseFormProps<TFormMap[K]>>>;
 };
 
-export const templateRegistry: Record<string, Record< string, ComponentType<any>>> = {
+type TemplateRegistryMap = {
+  MIT: MITFormMap;
+};
+
+type TemplateRegistry = {
+  [TName in keyof TemplateRegistryMap]: Template<TemplateRegistryMap[TName]>;
+};
+
+export const templateRegistry: TemplateRegistry = {
   MIT: MITTemplate,
 };

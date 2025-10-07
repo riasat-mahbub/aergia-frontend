@@ -1,4 +1,4 @@
-import { ComponentType, memo } from "react";
+import { memo } from "react";
 import CustomForm from "./CustomForm";
 import EducationForm from "./EducationForm";
 import ExperienceForm from "./ExperienceForm";
@@ -8,7 +8,7 @@ import ProfileForm from "./ProfileForm";
 import { ResumeCustom, ResumeEducation, ResumeExperience, ResumeProfile, ResumeProject, ResumeSkills } from "@/types/ResumeFormTypes";
 import { Template } from "./TemplateRegistry";
 
-type MITFormMap = {
+export type MITFormMap = {
   custom: ResumeCustom;
   education: ResumeEducation;
   experience: ResumeExperience;
