@@ -1,15 +1,10 @@
 'use client'
 import { ResumeCustom } from "@/types/ResumeFormTypes";
 import RichTextEditor from "@/components/RichTextEditor";
+import { BaseEditorProps } from "./FormEditor";
 
-interface CustomFormEditorProps {
-  formData: ResumeCustom;
-  onSave?: () => void;
-  handleChange: (field: keyof ResumeCustom, value:string) => void;
-  onCancel?: () => void;
-}
 
-export default function CustomFormEditor({ formData, handleChange }: CustomFormEditorProps) {
+export default function CustomFormEditor({ formData, handleChange }: BaseEditorProps<ResumeCustom>) {
 
   return (
 

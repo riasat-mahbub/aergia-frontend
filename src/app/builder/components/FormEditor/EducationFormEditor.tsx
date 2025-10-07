@@ -1,15 +1,10 @@
 'use client'
 import { ResumeEducation } from "@/types/ResumeFormTypes";
 import RichTextEditor from "@/components/RichTextEditor";
+import { BaseEditorProps } from "./FormEditor";
 
-interface EducationFormEditorProps {
-  formData: ResumeEducation;
-  onSave?: () => void;
-  handleChange: (field: keyof ResumeEducation, value:string) => void;
-  onCancel?: () => void;
-}
 
-export default function EducationFormEditor({ formData, handleChange }: EducationFormEditorProps) {
+export default function EducationFormEditor({ formData, handleChange }: BaseEditorProps<ResumeEducation>) {
 
 
   return (

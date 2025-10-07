@@ -1,15 +1,10 @@
 'use client'
 import { ResumeProject } from "@/types/ResumeFormTypes";
 import RichTextEditor from "@/components/RichTextEditor";
+import { BaseEditorProps } from "./FormEditor";
 
-interface ProjectFormEditorProps {
-  formData: ResumeProject;
-  onSave?: () => void;
-  handleChange: (field: keyof ResumeProject, value:string) => void;
-  onCancel?: () => void;
-}
 
-export default function ProjectFormEditor({ formData, handleChange }: ProjectFormEditorProps) {
+export default function ProjectFormEditor({ formData, handleChange }: BaseEditorProps<ResumeProject>) {
 
   return (
 

@@ -1,15 +1,10 @@
 'use client'
 import { ResumeExperience } from "@/types/ResumeFormTypes";
 import RichTextEditor from "@/components/RichTextEditor";
+import { BaseEditorProps } from "./FormEditor";
 
-interface ExperienceFormEditorProps {
-  formData: ResumeExperience;
-  onSave?: () => void;
-  handleChange: (field: keyof ResumeExperience, value:string) => void;
-  onCancel?: () => void;
-}
 
-export default function ExperienceFormEditor({ formData, handleChange }: ExperienceFormEditorProps) {
+export default function ExperienceFormEditor({ formData, handleChange }: BaseEditorProps<ResumeExperience>) {
 
   return (
 

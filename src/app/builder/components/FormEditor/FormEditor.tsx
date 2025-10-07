@@ -12,6 +12,13 @@ interface FormEditorProps {
   formHolderId: string;
 }
 
+export interface BaseEditorProps<T extends ResumeForm>{
+    formData: T;
+    onSave?: () => void;
+    handleChange: (field: keyof T, value: string) => void;
+    onCancel?: () => void;
+}
+
 export default function FormEditor({ form, formHolderId }: FormEditorProps) {
   const dispatch = useDispatch();
   const cvId = useSelector((state: RootState) => state.forms.cvId);
@@ -44,7 +51,35 @@ export default function FormEditor({ form, formHolderId }: FormEditorProps) {
     dispatch(setSelectedForm(null));
   };
 
-  const FormComponent = FORM_COMPONENTS[form.type as keyof typeof FORM_COMPONENTS];
+  const formType = form.type.toLowerCase() as keyof typeof FORM_COMPONENTS;
+  const FormComponent = FORM_COMPONENTS[formType];
+
+  const renderFormComponent = () => {
+    if (!FormComponent) {
+      return (
+        <div className="text-center py-12">
+          <div className="inline-flex items-center justify-center w-16 h-16 bg-gray-100 rounded-full mb-4">
+            <svg className="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+            </svg>
+          </div>
+          <h3 className="text-lg font-semibold text-gray-900 mb-2">Unknown Form Type</h3>
+          <p className="text-gray-500">The form type &quot;{form.type}&quot; is not recognized</p>
+        </div>
+      );
+    }
+
+    const Component = FormComponent as React.ComponentType<BaseEditorProps<ResumeForm>>;
+    
+    return (
+      <Component 
+        formData={formData}
+        onSave={handleSave}
+        onCancel={handleCancel}
+        handleChange={handleChange}
+      />
+    );
+  };
 
   return (
     <div className="w-full max-w-4xl mx-auto my-8 px-4">
@@ -63,24 +98,7 @@ export default function FormEditor({ form, formHolderId }: FormEditorProps) {
       {/* Form Card */}
       <div className="bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden">
         <div className="p-8">
-          {FormComponent ? (
-            <FormComponent 
-              formData={formData as any}
-              onSave={handleSave}
-              onCancel={handleCancel}
-              handleChange={handleChange}
-            />
-          ) : (
-            <div className="text-center py-12">
-              <div className="inline-flex items-center justify-center w-16 h-16 bg-gray-100 rounded-full mb-4">
-                <svg className="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                </svg>
-              </div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">Unknown Form Type</h3>
-              <p className="text-gray-500">The form type &quot;{form.type}&quot; is not recognized</p>
-            </div>
-          )}
+          {renderFormComponent()}
         </div>
 
         {/* Action Buttons */}

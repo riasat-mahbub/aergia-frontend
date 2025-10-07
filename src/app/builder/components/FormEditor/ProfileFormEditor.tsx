@@ -1,15 +1,10 @@
 'use client'
 import { ResumeProfile } from "@/types/ResumeFormTypes";
 import RichTextEditor from "@/components/RichTextEditor";
+import { BaseEditorProps } from "./FormEditor";
 
-interface ProfileFormEditorProps {
-  formData: ResumeProfile;
-  onSave?: () => void;
-  handleChange: (field: keyof ResumeProfile, value:string) => void;
-  onCancel?: () => void;
-}
 
-export default function ProfileFormEditor({ formData, handleChange }: ProfileFormEditorProps) {
+export default function ProfileFormEditor({ formData, handleChange }: BaseEditorProps<ResumeProfile>) {
 
   return (
 
