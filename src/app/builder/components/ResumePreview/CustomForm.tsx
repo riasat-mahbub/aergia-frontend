@@ -3,14 +3,12 @@ import { View, Text, Styles } from "@react-pdf/renderer";
 import { ResumeCustom } from "@/types/ResumeFormTypes";
 import Html from "react-pdf-html";
 import SafeHTML from "@/components/SafeHTML";
-
-interface CustomFormProps{
-    form: ResumeCustom;
-    styles: Styles;
-}
+import { BaseFormProps } from "./ResumePreview";
 
 
-export default React.memo(function CustomForm({form, styles}: CustomFormProps) {
+
+
+export default React.memo(function CustomForm({form, styles}: BaseFormProps<ResumeCustom>) {
     if(!form.visible) return <View />;
     
     return (

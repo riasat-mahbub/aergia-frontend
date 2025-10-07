@@ -9,6 +9,11 @@ interface ResumePreviewProps{
     styles: Styles;
 }
 
+export interface BaseFormProps<T>{
+    form: T;
+    styles: Styles
+}
+
 export default function ResumePreview({ form, cvTemplate, styles }: ResumePreviewProps) {
    
     const TemplateForm = cvTemplate ? templateRegistry[cvTemplate]?.[form.type.toLowerCase()] : null;

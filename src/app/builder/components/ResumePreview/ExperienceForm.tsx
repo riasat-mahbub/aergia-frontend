@@ -3,13 +3,10 @@ import { View, Text, Styles } from "@react-pdf/renderer";
 import { ResumeExperience } from "@/types/ResumeFormTypes";
 import Html from "react-pdf-html";
 import SafeHTML from "@/components/SafeHTML";
+import { BaseFormProps } from "./ResumePreview";
 
-interface ExperienceFormProps{
-    form: ResumeExperience;
-    styles: Styles;
-}
 
-export default React.memo(function ExperienceForm({form, styles}: ExperienceFormProps) {
+export default React.memo(function ExperienceForm({form, styles}: BaseFormProps<ResumeExperience>) {
   if(!form.visible) return <View />;
   
   return (
