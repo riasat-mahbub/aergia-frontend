@@ -28,6 +28,12 @@ export default function CVsContent() {
     fetchCVs();
   }, [execute]);
 
+  useEffect(() => {
+    if (error) {
+      router.replace('/error');
+    }
+  }, [error, router]);
+
 
   const openPopOver = (popoverName: string) => {
     setCurrentPopOver(popoverName);
@@ -47,10 +53,6 @@ export default function CVsContent() {
   
 
   if (loading) return <Spinner/>
-
-  if (error){
-    router.replace('/error')
-  }
 
   return (
     <div className="p-8">
