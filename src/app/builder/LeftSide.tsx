@@ -17,7 +17,7 @@ export default function LeftSide(){
     const dispatch = useDispatch();
     const selectedForm = useSelector((state: RootState) => state.forms.selectedForm);
     const selectedStyleEditor = useSelector((state: RootState) => state.settings.selectedStyleEditor);
-    const formHolder = useSelector((state: RootState) => 
+    const styleFormHolder = useSelector((state: RootState) => 
         selectedStyleEditor ? getFormHolderById(state, selectedStyleEditor) : null
     );
     
@@ -38,9 +38,9 @@ export default function LeftSide(){
                     form={selectedForm.form} 
                     formHolderId={selectedForm.formHolderId}
                 />
-            ) : formHolder ? (
+            ) : styleFormHolder ? (
                 <StyleEditor 
-                    formHolder={formHolder}
+                    formHolder={styleFormHolder}
                     onClose={() => dispatch(setSelectedStyleEditor(null))}
                 />
             ) : (

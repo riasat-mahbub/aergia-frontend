@@ -6,10 +6,13 @@ import { RootState } from "@/store/store";
 import Spinner from "@/components/Spinner";
 import { useMemo, useEffect, useRef } from "react";
 import { setPdfUrl } from "@/store/pdfSlice";
+import { useFormHolders } from "@/hooks/useFormHolders";
 
 export default function FormToPDF() {
   const dispatch = useDispatch();
   const prevPdfUrlRef = useRef<string | null>(null);
+
+  const {loading} = useFormHolders()
   
   const formHolders = useSelector(
     (state: RootState) =>
@@ -32,7 +35,6 @@ export default function FormToPDF() {
   useEffect(() => {
 
     const generatePdf = async () => {
-      // Clean up previous URL
       if (prevPdfUrlRef.current) {
         URL.revokeObjectURL(prevPdfUrlRef.current);
       }
@@ -53,7 +55,7 @@ export default function FormToPDF() {
     };
 
     generatePdf();
-  }, [formHolders, cvTemplate, documentContent, dispatch]);
+  }, [formHolders, cvTemplate, documentContent, dispatch, loading]);
 
   useEffect(() => {
     return () => {
@@ -64,7 +66,7 @@ export default function FormToPDF() {
     };
   }, [dispatch]);
 
-  if (!pdfUrl) {
+  if (!pdfUrl || loading) {
     return <Spinner />;
   }
 
