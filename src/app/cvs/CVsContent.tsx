@@ -1,87 +1,96 @@
-"use client"
+"use client";
 
-import { useApi } from "@/hooks/useApi";
-import { apiService } from "@/services/api";
-import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import CreatePopOver from "./createPopOver";
-import Spinner from "@/components/Spinner";
-import { CV } from "@/types/CvTypes";
+import { useDispatch, useSelector } from "react-redux";
+import { useRouter } from "next/navigation";
 import { Plus, Trash2 } from "lucide-react";
+
+import Spinner from "@/components/Spinner";
+import CreatePopOver from "./createPopOver";
 import DeletePopOver from "./deletePopOver";
+import { apiService } from "@/services/api";
+import { RootState } from "@/store/store";
+import { CV } from "@/types/CvTypes";
+import { addCv, removeCv, setCvLoading, setCvs } from "@/store/cvsSlice";
 
 export default function CVsContent() {
-  const [cvs, setCvs] = useState<CV[]>([]);
-  const [currentPopOver, setCurrentPopOver] = useState('')
-  const [ currentId, setCurrentId] = useState('')
-
-  const { execute, loading, error } = useApi();
+  const dispatch = useDispatch();
   const router = useRouter();
 
+  const cvs = useSelector((state: RootState) => state.cv.cvs);
+  const loading = useSelector((state: RootState) => state.cv.loading);
+
+  const [currentPopOver, setCurrentPopOver] = useState("");
+  const [currentId, setCurrentId] = useState("");
+
   useEffect(() => {
+    // Always refetch to keep data fresh — but don't block UI
     const fetchCVs = async () => {
-      const result = await execute(() => apiService.cvs.getAll());
-      if (result) {
-        setCvs(result.cvs);
+      dispatch(setCvLoading(true));
+      try {
+        const result = await apiService.cvs.getAll();
+        if (result?.cvs) {
+          dispatch(setCvs(result.cvs));
+        }
+      } catch (error) {
+        console.error("Error fetching CVs:", error);
+        router.replace("/error");
+      } finally {
+        dispatch(setCvLoading(false));
       }
     };
-    fetchCVs();
-  }, [execute]);
 
-  useEffect(() => {
-    if (error) {
-      router.replace('/error');
+    if (cvs.length === 0) {
+      fetchCVs();
+    } else {
+      fetchCVs();
     }
-  }, [error, router]);
+  }, [dispatch, router]);
 
-
-  const openPopOver = (popoverName: string) => {
-    setCurrentPopOver(popoverName);
+  const openPopOver = (name: string, id?: string) => {
+    setCurrentPopOver(name);
+    if (id) setCurrentId(id);
   };
 
-  const closePopOver = () =>{
-    setCurrentPopOver('')
-  } 
+  const closePopOver = () => setCurrentPopOver("");
 
-  const addCV = (cv: CV) => {
-    setCvs([...cvs, cv])
-  }
+  const handleAddCv = (cv: CV) => dispatch(addCv(cv));
+  const handleRemoveCv = (id: string) => dispatch(removeCv(id));
 
-  const removeCV = (id: string) => {
-    setCvs(cvs.filter(cv => cv.id !== id))
-  }
-  
-
-  if (loading) return <Spinner/>
+  if (loading && cvs.length === 0) return <Spinner />;
 
   return (
     <div className="p-8">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold">My CVs</h1>
         <button
-          onClick={() => openPopOver('create')}
+          onClick={() => openPopOver("create")}
           className="bg-emerald-500 hover:bg-emerald-700 text-white font-bold py-4 px-4 rounded-full"
         >
-            <Plus className="cursor-pointer"></Plus>
+          <Plus />
         </button>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {cvs.map((cv) => (
-          <div key={cv.id} className="border rounded-lg pr-6 shadow-md hover:shadow-lg flex flex-row justify-between items-center" >
-            
-            <div className="text-black text-3xl mb-4 w-full cursor-pointer py-6 pl-6" onClick={() => router.push(`/builder/?cvId=${cv.id}&cvTemplate=${cv.template}`)}>
+          <div
+            key={cv.id}
+            className="border rounded-lg pr-6 shadow-md hover:shadow-lg flex flex-row justify-between items-center"
+          >
+            <div
+              className="text-black text-3xl mb-4 w-full cursor-pointer py-6 pl-6"
+              onClick={() =>
+                router.push(`/builder/?cvId=${cv.id}&cvTemplate=${cv.template}`)
+              }
+            >
               {cv.title}
             </div>
-
-            <div className="flex space-x-2">
-              <button
-                onClick={() => {openPopOver('delete'); setCurrentId(cv.id); }}
-                className="hover:text-red-700 text-red-500 border-black  py-1 px-3 rounded text-sm cursor-pointer"
-              >
-                <Trash2></Trash2>
-              </button>
-            </div>
+            <button
+              onClick={() => openPopOver("delete", cv.id)}
+              className="hover:text-red-700 text-red-500 py-1 px-3 rounded text-sm"
+            >
+              <Trash2 />
+            </button>
           </div>
         ))}
       </div>
@@ -90,21 +99,21 @@ export default function CVsContent() {
         <div className="text-center py-12">
           <p className="text-gray-500 mb-4">No CVs found</p>
           <button
-            onClick={() => openPopOver('create')}
-            className="bg-emerald-500 hover:bg-emerald-700 text-white font-bold py-2 px-4 rounded cursor-pointer"
+            onClick={() => openPopOver("create")}
+            className="bg-emerald-500 hover:bg-emerald-700 text-white font-bold py-2 px-4 rounded"
           >
             Create Your First CV
           </button>
         </div>
       )}
 
-      {currentPopOver==='create' &&
-        <CreatePopOver closePopOver={closePopOver} addCv={addCV}/>
-      }
+      {currentPopOver === "create" && (
+        <CreatePopOver closePopOver={closePopOver} addCv={handleAddCv} />
+      )}
 
-      {currentPopOver==='delete' &&
-        <DeletePopOver id={currentId} closePopOver={closePopOver} removeCv={removeCV}/>
-      }
+      {currentPopOver === "delete" && (
+        <DeletePopOver id={currentId} closePopOver={closePopOver} removeCv={handleRemoveCv} />
+      )}
     </div>
   );
 }
