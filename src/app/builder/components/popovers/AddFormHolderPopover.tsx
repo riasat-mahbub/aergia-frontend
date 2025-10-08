@@ -24,8 +24,7 @@ interface AddFormHolderPopoverProps {
 
 export default function AddFormHolderPopover({ onClose }: AddFormHolderPopoverProps) {
   const dispatch = useDispatch();
-  const cvId = useSelector((state: RootState) => state.forms.cvId);
-  const { saveFormHolder } = useFormHolders(cvId);
+  const { saveFormHolder } = useFormHolders();
   const [loading, setLoading] = useState(false);
 
   const cvTemplate = useSelector((state: RootState) => state.forms.cvTemplate)
@@ -34,7 +33,7 @@ export default function AddFormHolderPopover({ onClose }: AddFormHolderPopoverPr
     if (loading) return;
     
     const selectedType = formHolderTypes.find(t => t.type === type);
-    if (!selectedType || !cvId) return;
+    if (!selectedType) return;
     
     setLoading(true);
     

@@ -20,9 +20,8 @@ interface BaseOptionProps {
 
 export default function Form({ formHolderId, form}: BaseOptionProps) {
   const dispatch = useDispatch();
-  const cvId = useSelector((state: RootState) => state.forms.cvId);
   const formHolders = useSelector((state: RootState) => state.forms.formHolders);
-  const { updateFormHolder } = useFormHolders(cvId);
+  const { updateFormHolder } = useFormHolders();
 
   const onFormClick = (formHolderId: string, form: ResumeForm) => {
   dispatch(

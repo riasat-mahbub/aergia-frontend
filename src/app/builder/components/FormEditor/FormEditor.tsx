@@ -21,8 +21,7 @@ export interface BaseEditorProps<T extends ResumeForm>{
 
 export default function FormEditor({ form, formHolderId }: FormEditorProps) {
   const dispatch = useDispatch();
-  const cvId = useSelector((state: RootState) => state.forms.cvId);
-  const { updateFormHolderData } = useFormHolders(cvId);
+  const { updateFormHolderData } = useFormHolders();
   const formHolder = useSelector((state: RootState) => 
     getFormHolderById(state, formHolderId)
   );
@@ -35,7 +34,7 @@ export default function FormEditor({ form, formHolderId }: FormEditorProps) {
   };
 
   const handleSave = async () => {
-    if (!formHolder || !cvId) return;
+    if (!formHolder) return;
 
     setLoading(true);
     try {

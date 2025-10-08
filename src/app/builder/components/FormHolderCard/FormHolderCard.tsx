@@ -33,8 +33,7 @@ interface FormHolderProps {
 
 export default function FormHolderCard({ formHolder, onDeleteClick }: FormHolderProps) {
   const dispatch = useDispatch();
-  const cvId = useSelector((state: RootState) => state.forms.cvId);
-  const { updateFormHolder: updateFormHolderAPI } = useFormHolders(cvId);
+  const { updateFormHolder: updateFormHolderAPI } = useFormHolders();
   
   const sensors = useSensors(
     useSensor(PointerSensor, {

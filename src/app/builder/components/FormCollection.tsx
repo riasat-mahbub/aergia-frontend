@@ -27,8 +27,7 @@ interface FormCollectionProps {
 
 export default function FormCollection({ onDeleteFormHolder }: FormCollectionProps) {
   const dispatch = useDispatch();
-  const cvId = useSelector((state: RootState) => state.forms.cvId);
-  const { reorderFormHolder } = useFormHolders(cvId);
+  const { reorderFormHolder } = useFormHolders();
   
   const formHolders = useSelector((state: RootState) => state.forms.formHolders);
   

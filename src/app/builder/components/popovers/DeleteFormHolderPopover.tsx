@@ -15,8 +15,7 @@ interface AddFormHolderPopoverProps {
 
 export default function DeleteFormHolderPopover({formHolderId, onClose }: AddFormHolderPopoverProps) {
   const dispatch = useDispatch();
-  const cvId = useSelector((state: RootState) => state.forms.cvId);
-  const { deleteFormHolder: deleteFormHolderAPI } = useFormHolders(cvId);
+  const { deleteFormHolder: deleteFormHolderAPI } = useFormHolders();
   const [loading, setLoading] = useState(false);
   
   const handleDeleteFormHolder = async () => {

@@ -16,7 +16,7 @@ export default function BuilderContent(){
     const router = useRouter()
 
     const cvId = useSelector((state: RootState) => state.forms.cvId);
-    const { loading, error } = useFormHolders(cvId);
+    const { loading, error } = useFormHolders();
     
     const [mounted, setMounted] = useState(false)
 

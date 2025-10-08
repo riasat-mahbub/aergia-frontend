@@ -52,8 +52,7 @@ const TEXT_ALIGNMENTS = [
 
 export default function StyleEditor({ formHolder, onClose }: StyleEditorProps) {
   const dispatch = useDispatch();
-  const cvId = useSelector((state: RootState) => state.forms.cvId);
-  const { updateFormHolder: updateFormHolderAPI } = useFormHolders(cvId);
+  const { updateFormHolder: updateFormHolderAPI } = useFormHolders();
   
   const [styleData, setStyleData] = useState<Styles>(
     (formHolder.style as Styles) || {}
@@ -141,7 +140,7 @@ export default function StyleEditor({ formHolder, onClose }: StyleEditorProps) {
   };
 
   const handleSave = async () => {
-    if (!cvId) return;
+    if (!formHolder) return;
 
     setLoading(true);
     try {
