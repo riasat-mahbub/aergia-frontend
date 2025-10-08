@@ -11,15 +11,15 @@ interface selectedForm{
 interface FormState {
   formHolders: FormHolder[];
   selectedForm: selectedForm | null;
-  cvId: string | null;
-  cvTemplate: string | null;
+  selectedCvId: string | null;
+  selectedCvTemplate: string | null;
 }
 
 export const initialFormState: FormState = {
   formHolders: [],
   selectedForm: null,
-  cvId: null,
-  cvTemplate: null
+  selectedCvId: null,
+  selectedCvTemplate: null
 };
 
 export const formSlice = createSlice({
@@ -126,10 +126,10 @@ export const formSlice = createSlice({
       state.selectedForm = action.payload;
     },
     setCvId(state, action: PayloadAction<string | null>){
-      state.cvId = action.payload;
+      state.selectedCvId = action.payload;
     },
     setCvTemplate(state, action: PayloadAction<string | null>){
-      state.cvTemplate = action.payload;
+      state.selectedCvTemplate = action.payload;
     }
   },
 });

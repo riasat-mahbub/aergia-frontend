@@ -15,7 +15,7 @@ export default function BuilderContent(){
     const dispatch = useDispatch();
     const router = useRouter()
 
-    const cvId = useSelector((state: RootState) => state.forms.cvId);
+    const cvId = useSelector((state: RootState) => state.forms.selectedCvId);
     const { loading, error } = useFormHolders();
     
     const [mounted, setMounted] = useState(false)
@@ -30,7 +30,7 @@ export default function BuilderContent(){
         }
     }, [cvIdFromParams, dispatch, cvId]);
 
-    const cvTemplate = useSelector((state: RootState) => state.forms.cvTemplate)
+    const cvTemplate = useSelector((state: RootState) => state.forms.selectedCvTemplate)
     const cvTemplateFromParams = useMemo(() => searchParams.get('cvTemplate'), [searchParams]);
 
     useEffect(() => {

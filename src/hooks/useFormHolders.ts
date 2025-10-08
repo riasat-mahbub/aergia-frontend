@@ -13,7 +13,7 @@ export function useFormHolders() {
   const [isLoading, setIsLoading] = useState(false);
   const hasLoadedRef = useRef<string | null>(null);
 
-  const cvId = useSelector((state: RootState) => state.forms.cvId);
+  const cvId = useSelector((state: RootState) => state.forms.selectedCvId);
 
   useEffect(() => {
     if (!cvId || hasLoadedRef.current === cvId) return;
