@@ -57,9 +57,16 @@ export function useCVs() {
 
 
     const updateCv = async (id: string, data: { title: string; template: string; order: number }) => {
-        const updatedCv = await execute(() => api.cvs.update(id, data));
-        if (updatedCv) dispatch(updateCvSlice(updatedCv));
-        return updatedCv;
+        const result = await execute(() => api.cvs.update(id, data));
+        
+        const updatedCv = { 
+            ...cvs.find(cv => cv.id === id)!, 
+            title: data.title, 
+            template: data.template 
+        };
+        dispatch(updateCvSlice(updatedCv));
+        
+        return result;
     };
 
     const reorderCvs = async (activeId: string, overId: string) => {
