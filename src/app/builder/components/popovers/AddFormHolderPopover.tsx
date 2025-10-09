@@ -27,7 +27,7 @@ export default function AddFormHolderPopover({ onClose }: AddFormHolderPopoverPr
   const { saveFormHolder } = useFormHolders();
   const [loading, setLoading] = useState(false);
 
-  const cvTemplate = useSelector((state: RootState) => state.cv.selectedCvId)
+  const cvTemplate = useSelector((state: RootState) => state.cv.selectedCvTemplate)
   
   const handleAddFormHolder = async (type: string) => {
     if (loading) return;
@@ -39,7 +39,6 @@ export default function AddFormHolderPopover({ onClose }: AddFormHolderPopoverPr
     
     const TemplateStyle = cvTemplate && templateStyleRegistry[cvTemplate]?.[type.toLowerCase()] || {};
     try {
-      // Add to Redux store
       dispatch(addFormHolder({
         formHolderTitle: selectedType.name,
         formHolderIcon: selectedType.icon,
@@ -48,7 +47,6 @@ export default function AddFormHolderPopover({ onClose }: AddFormHolderPopoverPr
         formHolderStyle: TemplateStyle,
       }));
       
-      // Save to backend
       await saveFormHolder({
         id: '',
         title: selectedType.name,
