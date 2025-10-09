@@ -19,7 +19,7 @@ export default function FormToPDF() {
       state.forms.formHolders.filter((holder) => holder.visible !== false),
     shallowEqual
   );
-  const cvTemplate = useSelector((state: RootState) => state.forms.selectedCvTemplate);
+  const cvTemplate = useSelector((state: RootState) => state.cv.selectedCvTemplate);
   const pdfUrl = useSelector((state: RootState) => state.pdf.pdfUrl);
 
   const documentContent = useMemo(() => {

@@ -13,11 +13,10 @@ export function useFormHolders() {
   const [isLoading, setIsLoading] = useState(false);
   const hasLoadedRef = useRef<string | null>(null);
 
-  const cvId = useSelector((state: RootState) => state.forms.selectedCvId);
+  const cvId = useSelector((state: RootState) => state.cv.selectedCvId);
 
   useEffect(() => {
     if (!cvId || hasLoadedRef.current === cvId) return;
-        console.log("RUN")
 
 
     const loadFormHolders = async () => {
