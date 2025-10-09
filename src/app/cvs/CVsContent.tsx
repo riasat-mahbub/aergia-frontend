@@ -4,6 +4,20 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 import { Plus, Trash2 } from "lucide-react";
+import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  DragEndEvent
+} from "@dnd-kit/core";
+import {
+  SortableContext,
+  sortableKeyboardCoordinates,
+  rectSortingStrategy
+} from "@dnd-kit/sortable";
 
 import Spinner from "@/components/Spinner";
 import CreatePopOver from "./createPopOver";
@@ -58,6 +72,33 @@ export default function CVsContent() {
   const handleAddCv = (cv: CV) => dispatch(addCv(cv));
   const handleRemoveCv = (id: string) => dispatch(removeCv(id));
 
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 8,
+      },
+    }),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    })
+  );
+
+  const handleDragEnd = (event: DragEndEvent) => {
+    const { active, over } = event;
+    
+    if (over && active.id !== over.id) {
+      const oldIndex = cvs.findIndex(cv => cv.id === active.id);
+      const newIndex = cvs.findIndex(cv => cv.id === over.id);
+      
+      if (oldIndex !== -1 && newIndex !== -1) {
+        const newCvs = [...cvs];
+        const [movedItem] = newCvs.splice(oldIndex, 1);
+        newCvs.splice(newIndex, 0, movedItem);
+        dispatch(setCvs(newCvs));
+      }
+    }
+  };
+
   if (loading && cvs.length === 0) return <Spinner />;
 
   return (
@@ -72,11 +113,22 @@ export default function CVsContent() {
         </button>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {cvs.map((cv) => (
-          <CVCard key={cv.id} cv={cv} openDeletePopOver={() => openPopOver("delete", cv.id)}/>
-        ))}
-      </div>
+      <DndContext
+        sensors={sensors}
+        collisionDetection={closestCenter}
+        onDragEnd={handleDragEnd}
+      >
+        <SortableContext
+          items={cvs.map(cv => cv.id)}
+          strategy={rectSortingStrategy}
+        >
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {cvs.map((cv) => (
+              <CVCard key={cv.id} cv={cv} openDeletePopOver={() => openPopOver("delete", cv.id)}/>
+            ))}
+          </div>
+        </SortableContext>
+      </DndContext>
 
       {cvs.length === 0 && !loading && (
         <div className="text-center py-12">

@@ -42,12 +42,11 @@ export default function FormCollection({ onDeleteFormHolder }: FormCollectionPro
     })
   );
   
-  // Handle drag end event
 const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
     
     if (over && active.id !== over.id) {
-      const prevFormHolders = [...formHolders]; // snapshot current order
+      const prevFormHolders = [...formHolders];
 
       dispatch(
         reorderFormHolders({
@@ -56,7 +55,6 @@ const handleDragEnd = (event: DragEndEvent) => {
         })
       );
 
-      // Background persistence
       reorderFormHolder(active.id.toString(), over.id.toString())
         .catch((error) => {
           console.error("Failed to reorder form holders:", error);
