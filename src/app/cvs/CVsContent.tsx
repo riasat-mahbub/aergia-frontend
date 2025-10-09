@@ -26,20 +26,20 @@ import { apiService } from "@/services/api";
 import { RootState } from "@/store/store";
 import { CV } from "@/types/CvTypes";
 import { addCv, removeCv, setCvLoading, setCvs } from "@/store/cvsSlice";
-import { CVCard } from "./CVCard";
+import { CVGrid } from "./CVGrid";
 
 export default function CVsContent() {
+  
   const dispatch = useDispatch();
   const router = useRouter();
 
-  const cvs = useSelector((state: RootState) => state.cv.cvs);
+  const cvs:CV[] = useSelector((state: RootState) => state.cv.cvs);
   const loading = useSelector((state: RootState) => state.cv.loading);
 
   const [currentPopOver, setCurrentPopOver] = useState("");
   const [currentId, setCurrentId] = useState("");
 
   useEffect(() => {
-    // Always refetch to keep data fresh — but don't block UI
     const fetchCVs = async () => {
       dispatch(setCvLoading(true));
       try {
@@ -72,32 +72,6 @@ export default function CVsContent() {
   const handleAddCv = (cv: CV) => dispatch(addCv(cv));
   const handleRemoveCv = (id: string) => dispatch(removeCv(id));
 
-  const sensors = useSensors(
-    useSensor(PointerSensor, {
-      activationConstraint: {
-        distance: 8,
-      },
-    }),
-    useSensor(KeyboardSensor, {
-      coordinateGetter: sortableKeyboardCoordinates,
-    })
-  );
-
-  const handleDragEnd = (event: DragEndEvent) => {
-    const { active, over } = event;
-    
-    if (over && active.id !== over.id) {
-      const oldIndex = cvs.findIndex(cv => cv.id === active.id);
-      const newIndex = cvs.findIndex(cv => cv.id === over.id);
-      
-      if (oldIndex !== -1 && newIndex !== -1) {
-        const newCvs = [...cvs];
-        const [movedItem] = newCvs.splice(oldIndex, 1);
-        newCvs.splice(newIndex, 0, movedItem);
-        dispatch(setCvs(newCvs));
-      }
-    }
-  };
 
   if (loading && cvs.length === 0) return <Spinner />;
 
@@ -113,22 +87,7 @@ export default function CVsContent() {
         </button>
       </div>
 
-      <DndContext
-        sensors={sensors}
-        collisionDetection={closestCenter}
-        onDragEnd={handleDragEnd}
-      >
-        <SortableContext
-          items={cvs.map(cv => cv.id)}
-          strategy={rectSortingStrategy}
-        >
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {cvs.map((cv) => (
-              <CVCard key={cv.id} cv={cv} openDeletePopOver={() => openPopOver("delete", cv.id)}/>
-            ))}
-          </div>
-        </SortableContext>
-      </DndContext>
+      <CVGrid cvs={cvs} openPopOver={openPopOver}/>
 
       {cvs.length === 0 && !loading && (
         <div className="text-center py-12">
