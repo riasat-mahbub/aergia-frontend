@@ -12,6 +12,7 @@ import { apiService } from "@/services/api";
 import { RootState } from "@/store/store";
 import { CV } from "@/types/CvTypes";
 import { addCv, removeCv, setCvLoading, setCvs } from "@/store/cvsSlice";
+import { CVCard } from "./CVCard";
 
 export default function CVsContent() {
   const dispatch = useDispatch();
@@ -73,25 +74,7 @@ export default function CVsContent() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {cvs.map((cv) => (
-          <div
-            key={cv.id}
-            className="border rounded-lg pr-6 shadow-md hover:shadow-lg flex flex-row justify-between items-center"
-          >
-            <div
-              className="text-black text-3xl mb-4 w-full cursor-pointer py-6 pl-6"
-              onClick={() =>
-                router.push(`/builder/?cvId=${cv.id}&cvTemplate=${cv.template}`)
-              }
-            >
-              {cv.title}
-            </div>
-            <button
-              onClick={() => openPopOver("delete", cv.id)}
-              className="hover:text-red-700 text-red-500 py-1 px-3 rounded text-sm"
-            >
-              <Trash2 />
-            </button>
-          </div>
+          <CVCard key={cv.id} cv={cv} openDeletePopOver={() => openPopOver("delete", cv.id)}/>
         ))}
       </div>
 
