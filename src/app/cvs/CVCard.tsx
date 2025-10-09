@@ -2,16 +2,17 @@
 
 import { CV } from "@/types/CvTypes"
 import { useSortable } from "@dnd-kit/sortable";
-import { Trash2 } from "lucide-react";
+import { Trash2, Edit } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { CSS } from "@dnd-kit/utilities";
 
 interface CVCardProps{
     cv: CV;
     openDeletePopOver: () => void;
+    openEditPopOver: () => void;
 }
 
-export function CVCard({cv, openDeletePopOver}: CVCardProps){
+export function CVCard({cv, openDeletePopOver, openEditPopOver}: CVCardProps){
 
     const router = useRouter();
 
@@ -39,9 +40,14 @@ export function CVCard({cv, openDeletePopOver}: CVCardProps){
                 <div className="text-black text-3xl mb-4 w-full cursor-pointer py-6 pl-6" onClick={() => router.push(`/builder/?cvId=${cv.id}&cvTemplate=${cv.template}`)}>
                     {cv.title}
                 </div>
-                <button onClick={() => openDeletePopOver()} className="hover:text-red-700 text-red-500 py-1 px-3 rounded text-sm">
-                    <Trash2 />
-                </button>
+                <div className="flex gap-2">
+                    <button onClick={() => openEditPopOver()} className="hover:text-blue-700 text-blue-500 py-1 px-3 rounded text-sm">
+                        <Edit />
+                    </button>
+                    <button onClick={() => openDeletePopOver()} className="hover:text-red-700 text-red-500 py-1 px-3 rounded text-sm">
+                        <Trash2 />
+                    </button>
+                </div>
             </div>
         </div>
     )

@@ -6,7 +6,7 @@ import { useCVs } from "@/hooks/useCVs";
 
 interface CVGridProps {
   cvs: CV[];
-  openPopOver: (popOverName: string, id?: string) => void;
+  openPopOver: (popOverName: string, id?: string, cv?: CV) => void;
 }
 
 export function CVGrid({ cvs, openPopOver }: CVGridProps) {
@@ -52,6 +52,7 @@ export function CVGrid({ cvs, openPopOver }: CVGridProps) {
               key={cv.id}
               cv={cv}
               openDeletePopOver={() => openPopOver("delete", cv.id)}
+              openEditPopOver={() => openPopOver("edit", cv.id, cv)}
             />
           ))}
         </div>

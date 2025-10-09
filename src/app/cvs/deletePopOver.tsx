@@ -1,63 +1,75 @@
 "use client";
 
-import { Check, X } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { X, Check } from "lucide-react";
 import { useCVs } from "@/hooks/useCVs";
+import { useState } from "react";
 
-interface PopOverProps {
+interface DeletePopOverProps {
   id: string;
   closePopOver: () => void;
 }
 
-export default function DeletePopOver({ id, closePopOver }: PopOverProps) {
-  const router = useRouter();
-  const { loading, error, deleteCv } = useCVs();
+export default function DeletePopOver({ id, closePopOver }: DeletePopOverProps) {
+  const { deleteCv } = useCVs();
+  const [deleting, setDeleting] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleDeleteCV = async () => {
-    if (loading) return;
+    if (deleting) return;
+    setDeleting(true);
+    setErrorMessage("");
 
-    if (error) {
-      router.replace("/error");
-      return;
-    }
-
-      try {
+    try {
       await deleteCv(id);
       closePopOver();
-    } catch (error) {
-      console.error("Delete failed:", error);
-      router.replace("/error");
-    } 
+    } catch (err) {
+      console.error("Failed to delete CV:", err);
+      setErrorMessage("Something went wrong while deleting this CV.");
+    } finally {
+      setDeleting(false);
+    }
   };
 
   return (
-    <div className="flex flex-col fixed inset-0 backdrop-blur-sm items-center justify-center z-50">
-      <div className="bg-white p-10 rounded-lg">
-        <div className="flex flex-row justify-between items-center mb-8">
-          <div className="text-16 font-bold">Delete this CV?</div>
-
-          <X
-            className={`cursor-pointer ml-4 ${
-              loading ? "opacity-50 cursor-not-allowed" : ""
-            }`}
-            onClick={loading ? undefined : closePopOver}
-          />
+    <div className="fixed inset-0 backdrop-blur-sm flex items-center justify-center z-50">
+      <div className="bg-white rounded-lg p-8 w-96 shadow-xl">
+        <div className="flex justify-between items-center mb-6">
+          <h3 className="text-lg font-medium">Delete this CV?</h3>
+          <button
+            onClick={closePopOver}
+            disabled={deleting}
+            className="text-gray-500 hover:text-gray-700 disabled:opacity-50"
+          >
+            <X size={20} />
+          </button>
         </div>
 
-        <div className="flex flex-row justify-between mt-10 w-full">
+        <p className="text-sm text-gray-600 mb-6">
+          This action cannot be undone. Are you sure you want to delete this CV?
+        </p>
+
+        {errorMessage && (
+          <p className="text-red-500 text-sm mb-4">{errorMessage}</p>
+        )}
+
+        <div className="flex justify-end gap-3">
           <button
-            className="bg-red-500 p-2 rounded-lg text-white cursor-pointer hover:bg-red-700 disabled:opacity-50 disabled:cursor-not-allowed"
-            onClick={handleDeleteCV}
-            disabled={loading}
+            onClick={closePopOver}
+            disabled={deleting}
+            className="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50"
           >
-            {loading ? "Deleting..." : <Check />}
+            Cancel
           </button>
           <button
-            className="bg-emerald-500 p-2 rounded-lg text-white cursor-pointer hover:bg-emerald-700 disabled:opacity-50"
-            onClick={closePopOver}
-            disabled={loading}
+            onClick={handleDeleteCV}
+            disabled={deleting}
+            className="px-4 py-2 rounded-md text-sm font-medium text-white bg-red-600 hover:bg-red-700 disabled:opacity-50 flex items-center gap-2"
           >
-            <X />
+            {deleting ? "Deleting..." : (
+              <>
+                <Check size={16} /> Confirm
+              </>
+            )}
           </button>
         </div>
       </div>
