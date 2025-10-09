@@ -53,6 +53,18 @@ class ApiService {
       this.request(`/cv`, {
         method: 'POST',
         body: JSON.stringify(data),
+    }),
+
+    update: (id:string, data: { title: string; template:string; order:number;}) =>
+      this.request(`/cv/${id}`, {
+        method: 'PUT',
+        body: JSON.stringify(data),
+    }),
+    
+    reorder: (data: {activeId:string; overId:string}) =>
+      this.request(`/cv/reorder`, {
+        method:'POST',
+        body: JSON.stringify(data)
       }),
     
     get: (id: string) => this.request(`/cv/${id}`),

@@ -3,8 +3,8 @@ import { configureStore } from '@reduxjs/toolkit';
 import { settingsSlice } from './settingSlice';
 import { formSlice } from './formSlice';
 import { authSlice } from './authSlice';
-import { cvSlice } from './cvsSlice';
 import pdfReducer from './pdfSlice';
+import { cvSlice } from './cvsSlice';
 
 export const store = configureStore({
   reducer: {
