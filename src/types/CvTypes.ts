@@ -4,4 +4,5 @@ export interface CV {
   template: string;
   createdAt: string;
   updatedAt: string;
+  order: number;
 }
