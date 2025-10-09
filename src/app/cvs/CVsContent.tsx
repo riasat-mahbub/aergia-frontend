@@ -4,9 +4,9 @@ import { useState } from "react";
 import { Plus } from "lucide-react";
 
 import Spinner from "@/components/Spinner";
-import CreatePopOver from "./createPopOver";
-import DeletePopOver from "./deletePopOver";
-import EditPopOver from "./editPopOver";
+import CreatePopOver from "./popovers/createPopOver";
+import DeletePopOver from "./popovers/deletePopOver";
+import EditPopOver from "./popovers/editPopOver";
 import { useCVs } from "@/hooks/useCVs";
 import { CV } from "@/types/CvTypes";
 import { CVGrid } from "./CVGrid";
