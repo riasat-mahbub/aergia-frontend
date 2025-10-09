@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import FormToPDF from "./components/FormToPDF";
 import LeftSide from "./LeftSide";
 import { useFormHolders } from "@/hooks/useFormHolders";
-import { setCvId, setCvTemplate } from "@/store/formSlice";
+import { setSelectedCvId, setSelectedCvTemplate } from "@/store/cvsSlice";
 import { RootState } from "@/store/store";
 import Spinner from "@/components/Spinner";
 
@@ -15,7 +15,7 @@ export default function BuilderContent(){
     const dispatch = useDispatch();
     const router = useRouter()
 
-    const cvId = useSelector((state: RootState) => state.forms.selectedCvId);
+    const cvId = useSelector((state: RootState) => state.cv.selectedCvId);
     const { loading, error } = useFormHolders();
     
     const [mounted, setMounted] = useState(false)
@@ -26,16 +26,16 @@ export default function BuilderContent(){
 
     useEffect(() => {
         if (cvIdFromParams !== cvId) {
-            dispatch(setCvId(cvIdFromParams));
+            dispatch(setSelectedCvId(cvIdFromParams));
         }
     }, [cvIdFromParams, dispatch, cvId]);
 
-    const cvTemplate = useSelector((state: RootState) => state.forms.selectedCvTemplate)
+    const cvTemplate = useSelector((state: RootState) => state.cv.selectedCvTemplate)
     const cvTemplateFromParams = useMemo(() => searchParams.get('cvTemplate'), [searchParams]);
 
     useEffect(() => {
         if (cvTemplateFromParams !== cvTemplate) {
-            dispatch(setCvTemplate(cvTemplateFromParams));
+            dispatch(setSelectedCvTemplate(cvTemplateFromParams));
         }
     }, [cvTemplateFromParams, dispatch, cvTemplate]);
     

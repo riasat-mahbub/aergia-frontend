@@ -11,15 +11,11 @@ interface selectedForm{
 interface FormState {
   formHolders: FormHolder[];
   selectedForm: selectedForm | null;
-  selectedCvId: string | null;
-  selectedCvTemplate: string | null;
 }
 
 export const initialFormState: FormState = {
   formHolders: [],
   selectedForm: null,
-  selectedCvId: null,
-  selectedCvTemplate: null
 };
 
 export const formSlice = createSlice({
@@ -125,12 +121,6 @@ export const formSlice = createSlice({
     setSelectedForm(state, action: PayloadAction<{formHolderId: string, form: ResumeForm} | null>){
       state.selectedForm = action.payload;
     },
-    setCvId(state, action: PayloadAction<string | null>){
-      state.selectedCvId = action.payload;
-    },
-    setCvTemplate(state, action: PayloadAction<string | null>){
-      state.selectedCvTemplate = action.payload;
-    }
   },
 });
 
@@ -148,8 +138,6 @@ export const {
   reorderFormHolders,
   reorderForms,
   setSelectedForm,
-  setCvId,
-  setCvTemplate
 } = formSlice.actions;
 
 // Selectors
