@@ -2,7 +2,7 @@
 
 import { CV } from "@/types/CvTypes";
 import { useSortable } from "@dnd-kit/sortable";
-import { Trash2, Edit, GripVertical, Eye } from "lucide-react";
+import { Trash2, Edit, Eye } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { CSS } from "@dnd-kit/utilities";
 import { useState } from "react";
@@ -22,8 +22,8 @@ export function CVCard({ cv, openDeletePopOver, openEditPopOver }: CVCardProps) 
 
   const style = {
     transform: CSS.Transform.toString(transform),
-    transition,
-    opacity: isDragging ? 0.5 : 1,
+    transition: isDragging ? undefined : transition,
+    opacity: isDragging ? 0.8 : 1,
     zIndex: isDragging ? 1000 : 1,
     willChange: "transform",
   };
@@ -40,22 +40,17 @@ export function CVCard({ cv, openDeletePopOver, openEditPopOver }: CVCardProps) 
     <div
       ref={setNodeRef}
       style={style}
-      className="rounded-xl border border-gray-200 bg-white shadow-md hover:shadow-xl transition-transform duration-200 w-64 h-64 flex flex-col justify-start p-4"
+      {...attributes}
+      {...listeners}
+      className={`rounded-xl border border-gray-200 bg-white shadow-md hover:shadow-xl transition-transform duration-200 w-64 h-64 flex flex-col justify-start p-4 ${isDragging ? 'cursor-grabbing' : 'cursor-grab'}`}
     >
       {/* Title + Actions */}
-      <div className="flex justify-between items-start mb-4 cursor-pointer">
-        <div className="flex items-center gap-3">
-          <div {...attributes} {...listeners} className="cursor-grab text-gray-400">
-            <GripVertical size={24} />
-          </div>
-          <div className="flex flex-col">
-            <h3
-              className="text-lg font-bold text-gray-800 truncate"
-            >
-              {cv.title}
-            </h3>
-            <span className="text-sm text-gray-500">{cv.template} Template</span>
-          </div>
+      <div className="flex justify-between items-start mb-4">
+        <div className="flex flex-col">
+          <h3 className="text-lg font-bold text-gray-800 truncate">
+            {cv.title}
+          </h3>
+          <span className="text-sm text-gray-500">{cv.template} Template</span>
         </div>
 
         <div className="flex gap-1 ml-2">
@@ -85,7 +80,10 @@ export function CVCard({ cv, openDeletePopOver, openEditPopOver }: CVCardProps) 
         className="flex-1 relative rounded-lg overflow-hidden bg-gray-100 cursor-pointer"
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
-        onClick={() => router.push(`/builder/?cvId=${cv.id}&cvTemplate=${cv.template}`)}
+        onClick={(e) => {
+          e.stopPropagation();
+          router.push(`/builder/?cvId=${cv.id}&cvTemplate=${cv.template}`);
+        }}
       >
         <img 
           src={getTemplateImage(cv.template)}
