@@ -12,7 +12,7 @@ import { CV } from "@/types/CvTypes";
 import { CVGrid } from "./CVGrid";
 
 export default function CVsContent() {
-  const { cvs, loading, createCv, deleteCv } = useCVs();
+  const { cvs, loading, createCv } = useCVs();
 
   const [currentPopOver, setCurrentPopOver] = useState<string>("");
   const [currentCv, setCurrentCv] = useState<CV | null>(null);

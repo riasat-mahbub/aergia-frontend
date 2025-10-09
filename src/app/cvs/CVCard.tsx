@@ -6,6 +6,7 @@ import { Trash2, Edit, Eye } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { CSS } from "@dnd-kit/utilities";
 import { useState } from "react";
+import Image from "next/image";
 
 interface CVCardProps {
   cv: CV;
@@ -85,10 +86,11 @@ export function CVCard({ cv, openDeletePopOver, openEditPopOver }: CVCardProps) 
           router.push(`/builder/?cvId=${cv.id}&cvTemplate=${cv.template}`);
         }}
       >
-        <img 
+        <Image
           src={getTemplateImage(cv.template)}
           alt={`${cv.template} template preview`}
-          className="w-full h-full object-cover transition-transform duration-200 hover:scale-105"
+          fill
+          className="object-cover transition-transform duration-200 hover:scale-105"
         />
         
         {/* Hover Overlay with Eye Icon */}

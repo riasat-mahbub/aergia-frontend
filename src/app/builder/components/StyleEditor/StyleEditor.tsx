@@ -1,12 +1,11 @@
 'use client'
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Styles } from "@react-pdf/renderer";
 import { Style } from "@react-pdf/types";
 import { FormHolder } from "@/types/FormHolderTypes";
 import { updateFormHolder } from "@/store/formSlice";
 import { useFormHolders } from "@/hooks/useFormHolders";
-import { RootState } from "@/store/store";
 
 interface StyleEditorProps {
   formHolder: FormHolder;

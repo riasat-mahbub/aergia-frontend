@@ -6,10 +6,11 @@ import { X } from "lucide-react";
 import { TEMPLATES, DEFAULT_TEMPLATE } from "@/constants/templates";
 import { RootState } from "@/store/store";
 import { setSelectedCvTemplate } from "@/store/cvsSlice";
+import { CV } from "@/types/CvTypes";
 
 interface PopOverProps {
   closePopOver: () => void;
-  createCv: (title: string, template: string) => Promise<any>;
+  createCv: (title: string, template: string) => Promise<CV>;
 }
 
 export default function CreatePopOver({ closePopOver, createCv }: PopOverProps) {
