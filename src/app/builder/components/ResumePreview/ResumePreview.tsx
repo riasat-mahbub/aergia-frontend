@@ -1,6 +1,6 @@
 import { Styles, StyleSheet, View } from "@react-pdf/renderer";
 import { ResumeForm } from "@/types/ResumeFormTypes";
-import { templateRegistry } from "./TemplateRegistry";
+import { templateRegistry } from "../Templates/TemplateRegistry";
 import { ComponentType } from "react";
 
 interface ResumePreviewProps{

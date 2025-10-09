@@ -1,27 +1,30 @@
 "use client";
 
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { X } from "lucide-react";
 import { CV } from "@/types/CvTypes";
 import { useCVs } from "@/hooks/useCVs";
+import { TEMPLATES } from "@/constants/templates";
+import { RootState } from "@/store/store";
+import { setSelectedCvTemplate } from "@/store/cvsSlice";
 
 interface EditPopOverProps {
   cv: CV;
   closePopOver: () => void;
 }
 
-const templates = [
-  { value: "MIT", label: "MIT Template" },
-  { value: "Harvard", label: "Harvard Template" },
-  { value: "Stanford", label: "Stanford Template" },
-];
-
 export default function EditPopOver({ cv, closePopOver }: EditPopOverProps) {
+  const dispatch = useDispatch();
   const [title, setTitle] = useState(cv.title);
-  const [template, setTemplate] = useState(cv.template);
   const [saving, setSaving] = useState(false);
 
   const { updateCv } = useCVs();
+  const selectedTemplate = useSelector((state: RootState) => state.cv.selectedCvTemplate) || cv.template;
+  
+  const handleTemplateChange = (template: string) => {
+    dispatch(setSelectedCvTemplate(template));
+  };
 
   const handleSave = async () => {
     if (!title.trim()) return;
@@ -30,7 +33,7 @@ export default function EditPopOver({ cv, closePopOver }: EditPopOverProps) {
     try {
       await updateCv(cv.id, {
         title: title.trim(),
-        template,
+        template: selectedTemplate,
         order: cv.order,
       });
 
@@ -78,12 +81,12 @@ export default function EditPopOver({ cv, closePopOver }: EditPopOverProps) {
               Template
             </label>
             <select
-              value={template}
-              onChange={(e) => setTemplate(e.target.value)}
+              value={selectedTemplate}
+              onChange={(e) => handleTemplateChange(e.target.value)}
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
               disabled={saving}
             >
-              {templates.map((tmpl) => (
+              {TEMPLATES.map((tmpl) => (
                 <option key={tmpl.value} value={tmpl.value}>
                   {tmpl.label}
                 </option>

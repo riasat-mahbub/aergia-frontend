@@ -1,7 +1,11 @@
 "use client";
 
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { X } from "lucide-react";
+import { TEMPLATES, DEFAULT_TEMPLATE } from "@/constants/templates";
+import { RootState } from "@/store/store";
+import { setSelectedCvTemplate } from "@/store/cvsSlice";
 
 interface PopOverProps {
   closePopOver: () => void;
@@ -9,16 +13,22 @@ interface PopOverProps {
 }
 
 export default function CreatePopOver({ closePopOver, createCv }: PopOverProps) {
+  const dispatch = useDispatch();
   const [title, setTitle] = useState('');
   const [loading, setLoading] = useState(false);
-  const template = 'MIT';
+  
+  const selectedTemplate = useSelector((state: RootState) => state.cv.selectedCvTemplate) || DEFAULT_TEMPLATE;
+  
+  const handleTemplateChange = (template: string) => {
+    dispatch(setSelectedCvTemplate(template));
+  };
 
   const handleCreateCV = async () => {
     if (!title.trim() || loading) return;
 
     setLoading(true);
     try {
-      const newCv = await createCv(title, template);
+      const newCv = await createCv(title, selectedTemplate);
       if (newCv) closePopOver();
     } catch (err) {
       console.error("Error creating CV:", err);
@@ -38,15 +48,33 @@ export default function CreatePopOver({ closePopOver, createCv }: PopOverProps) 
           />
         </div>
 
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Title</label>
-          <input
-            type="text"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            disabled={loading}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 disabled:opacity-50"
-          />
+        <div className="space-y-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Title</label>
+            <input
+              type="text"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              disabled={loading}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 disabled:opacity-50"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Template</label>
+            <select
+              value={selectedTemplate}
+              onChange={(e) => handleTemplateChange(e.target.value)}
+              disabled={loading}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 disabled:opacity-50"
+            >
+              {TEMPLATES.map((tmpl) => (
+                <option key={tmpl.value} value={tmpl.value}>
+                  {tmpl.label}
+                </option>
+              ))}
+            </select>
+          </div>
 
           <div className="flex flex-row justify-between mt-10">
             <button

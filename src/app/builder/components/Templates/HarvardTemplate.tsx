@@ -1,14 +1,14 @@
 import { memo } from "react";
-import CustomForm from "./CustomForm";
-import EducationForm from "./EducationForm";
-import ExperienceForm from "./ExperienceForm";
-import ProjectForm from "./ProjectForm";
-import SkillsForm from "./SkillsForm";
-import ProfileForm from "./ProfileForm";
+import CustomForm from "../ResumePreview/CustomForm";
+import EducationForm from "../ResumePreview/EducationForm";
+import ExperienceForm from "../ResumePreview/ExperienceForm";
+import ProjectForm from "../ResumePreview/ProjectForm";
+import SkillsForm from "../ResumePreview/SkillsForm";
+import ProfileForm from "../ResumePreview/ProfileForm";
 import { ResumeCustom, ResumeEducation, ResumeExperience, ResumeProfile, ResumeProject, ResumeSkills } from "@/types/ResumeFormTypes";
 import { Template } from "./TemplateRegistry";
 
-export type MITFormMap = {
+export type HarvardFormMap = {
   custom: ResumeCustom;
   education: ResumeEducation;
   experience: ResumeExperience;
@@ -17,7 +17,7 @@ export type MITFormMap = {
   skills: ResumeSkills;
 };
 
-export const MITTemplate: Template<MITFormMap>= {
+export const HarvardTemplate: Template<HarvardFormMap>= {
   custom: memo(CustomForm),
   education: memo(EducationForm),
   experience: memo(ExperienceForm),
