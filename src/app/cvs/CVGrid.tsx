@@ -10,7 +10,7 @@ interface CVGridProps {
 }
 
 export function CVGrid({ cvs, openPopOver }: CVGridProps) {
-  const { reorderCvs, deleteCv } = useCVs();
+  const { reorderCvs } = useCVs();
 
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 8 } }),

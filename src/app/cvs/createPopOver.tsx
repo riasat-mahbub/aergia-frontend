@@ -22,7 +22,6 @@ export default function CreatePopOver({ closePopOver, createCv }: PopOverProps) 
       if (newCv) closePopOver();
     } catch (err) {
       console.error("Error creating CV:", err);
-      // Optionally handle errors (e.g., navigate to /error)
     } finally {
       setLoading(false);
     }

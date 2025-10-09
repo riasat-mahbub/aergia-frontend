@@ -55,7 +55,7 @@ export default function CVsContent() {
       )}
 
       {currentPopOver === "delete" && (
-        <DeletePopOver id={currentId} closePopOver={closePopOver} removeCv={deleteCv} />
+        <DeletePopOver id={currentId} closePopOver={closePopOver} />
       )}
     </div>
   );

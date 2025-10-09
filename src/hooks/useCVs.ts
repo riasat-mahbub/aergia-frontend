@@ -45,10 +45,16 @@ export function useCVs() {
     }, [dispatch, execute, api.cvs]);
 
     const createCv = async (title: string, template: string) => {
-        const newCv = await execute(() => api.cvs.create({ title, template }));
-        if (newCv) dispatch(addCv(newCv));
+        const response = await execute(() => api.cvs.create({ title, template }));
+        const newCv = response?.data ?? response;
+        if (newCv && newCv.id) {
+            dispatch(addCv(newCv));
+        } else {
+            console.error("Invalid CV data returned:", response);
+        }
         return newCv;
     };
+
 
     const updateCv = async (id: string, data: { title: string; template: string; order: number }) => {
         const updatedCv = await execute(() => api.cvs.update(id, data));
