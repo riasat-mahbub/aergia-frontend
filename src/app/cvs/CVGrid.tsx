@@ -31,7 +31,6 @@ export function CVGrid({ cvs, openPopOver }: CVGridProps) {
     const [movedItem] = newCvs.splice(oldIndex, 1);
     newCvs.splice(newIndex, 0, movedItem);
 
-    // Call the API properly
     const updateOrder = async () => {
       try {
         await reorderCvs(active.id.toString(), over.id.toString());
