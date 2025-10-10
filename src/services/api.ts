@@ -76,7 +76,7 @@ class ApiService {
   formGroups = {
     getAll: (cvId: string) => this.request(`/formGroup/${cvId}`),
     
-    create: (cvId: string, data: { title: string; type: string; data: string }) =>
+    create: (cvId: string, data: { title: string; type: string; data: string; style:string }) =>
       this.request(`/formGroup/${cvId}`, {
         method: 'POST',
         body: JSON.stringify(data),
