@@ -2,8 +2,9 @@ export const HarvardStyle: Record<string, object> = {
   profile: {
     container: { marginBottom: 18 },
     name: { fontSize: 20, fontWeight: 'bold', textAlign: 'center', color: 'black', letterSpacing: 0.5 },
-    contactRow: { flexDirection: 'row', justifyContent: 'center', flexWrap: 'wrap', marginTop: 6 },
+    contactRow: { flexDirection: 'row', justifyContent: 'center', flexWrap: 'wrap', marginTop: 6, alignItems:"center" },
     contactItem: { fontSize: 10, marginRight: 10, color: 'black' },
+    contactIcon: {fontSize: 10, marginRight: 5, color: 'black'},
     summary: { fontSize: 11, marginTop: 10, textAlign: 'justify', color: 'black', lineHeight: 1.4 },
   },
   education: {

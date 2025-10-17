@@ -15,11 +15,16 @@ export type ResumeForm =
 
 export interface ResumeProfile extends ResumeFormBase {
   name: string;
+  nameIcon?: string;
   email: string;
+  emailIcon?: string;
   phone: string;
+  phoneIcon?: string;
   url: string;
+  urlIcon?: string;
   summary: string;
   location: string;
+  locationIcon?: string;
 }
 
 export interface ResumeExperience extends ResumeFormBase {
