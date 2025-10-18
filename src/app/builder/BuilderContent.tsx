@@ -8,7 +8,6 @@ import LeftSide from "./LeftSide";
 import { useFormHolders } from "@/hooks/useFormHolders";
 import { setSelectedCvId, setSelectedCvTemplate } from "@/store/cvsSlice";
 import { RootState } from "@/store/store";
-import Spinner from "@/components/Spinner";
 
 export default function BuilderContent(){
     const searchParams = useSearchParams();
@@ -40,7 +39,25 @@ export default function BuilderContent(){
     }, [cvTemplateFromParams, dispatch, cvTemplate]);
     
     if (loading || !mounted) {
-        return <div className="flex items-center justify-center h-screen"><Spinner/></div>;
+        return(
+            <div className="flex lg:flex-row flex-col">
+                {
+                    <div>
+                        <div className="h-10 w-11/12 rounded-3xl animate-pulse bg-gray-50">
+                        </div>
+                        
+                        <div className="h-10 w-11/12 rounded-3xl animate-pulse bg-gray-50">
+                        </div>
+                        
+                        <div className="h-10 w-11/12 rounded-3xl animate-pulse bg-gray-50">
+                        </div>
+                    </div>
+
+                }
+                <div className="lg:w-7/12 w-full hidden lg:flex lg:flex-col items-center p-6 animate-pulse bg-gray-50">
+                </div>
+            </div>
+        )
     }
 
     if (error) {
@@ -50,7 +67,7 @@ export default function BuilderContent(){
     return(
         <div className="flex lg:flex-row flex-col">
             <LeftSide />
-            <div className="lg:w-7/12 w-full flex flex-col items-center p-6">
+            <div className="lg:w-7/12 w-full hidden lg:flex lg:flex-col items-center p-6">
                 <FormToPDF/>
             </div>
         </div>

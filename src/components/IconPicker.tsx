@@ -31,49 +31,60 @@ export default function IconPicker({ selectedIcon="XSquare", onIconChange}: Icon
   }, [selectedIcon])
   
   return (
-    <div className="relative">
+    <div className="relative inline-block w-full sm:w-auto">
+      {/* Toggle Button */}
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-1 p-3 border border-gray-300 rounded-md hover:bg-gray-50 transition-colors "
+        className="flex items-center justify-between gap-1 p-3 w-full sm:w-auto border border-gray-300 rounded-md hover:bg-gray-50 transition-colors"
       >
         {selectedIconData?.icon ? (
           <selectedIconData.icon size={18} />
         ) : (
           <div className="w-4 h-4 border border-dashed border-gray-400 rounded" />
         )}
-        <ChevronDown size={12} />
+        <ChevronDown size={14} />
       </button>
 
+      {/* Dropdown */}
       {isOpen && (
-        <>
-          <div className="absolute top-full left-0 mt-1 w-48 bg-white border rounded-lg shadow-lg z-20 p-4">
-            <div className="grid grid-cols-4 gap-1">
-              <button type="button" onClick={() => {setIsOpen(false); onIconChange("");}}
-                  className={`p-2 hover:bg-gray-100 rounded flex items-center justify-center ${selectedIcon === "" ? 'bg-blue-100' : ''}`}
-                  title={""}
-                >
-                  <X size={16} />
-                </button>
-              {IconMap.map(({ name, icon: IconComponent }) => (
-                <button
-                  key={name}
-                  type="button"
-                  onClick={() => {
-                    setIsOpen(false)
-                    onIconChange(name)
-                  }}
-                  className={`p-2 hover:bg-gray-100 rounded flex items-center justify-center ${
-                    selectedIcon === name ? 'bg-blue-100' : ''
-                  }`}
-                  title={name}
-                >
-                  <IconComponent size={16} />
-                </button>
-              ))}
-            </div>
-          </div>
-        </>
+        <div
+          className="absolute top-full left-0 mt-1 w-56 sm:w-64 bg-white border rounded-lg shadow-lg z-20 p-3 max-h-[50vh] overflow-y-auto 
+          grid grid-cols-5 sm:grid-cols-6 gap-2 transition-all duration-200"
+        >
+          {/* Clear Icon Button */}
+          <button
+            type="button"
+            onClick={() => {
+              setIsOpen(false);
+              onIconChange('');
+            }}
+            className={`p-2 sm:p-3 hover:bg-gray-100 rounded flex items-center justify-center ${
+              selectedIcon === '' ? 'bg-blue-100' : ''
+            }`}
+            title="Clear"
+          >
+            <X size={18} />
+          </button>
+
+          {/* Icon Options */}
+          {IconMap.map(({ name, icon: IconComponent }) => (
+            <button
+              key={name}
+              type="button"
+              onClick={() => {
+                setIsOpen(false);
+                onIconChange(name);
+              }}
+              className={`p-2 sm:p-3 hover:bg-gray-100 rounded flex items-center justify-center ${
+                selectedIcon === name ? 'bg-blue-100' : ''
+              }`}
+              title={name}
+            >
+              <IconComponent size={18} />
+            </button>
+          ))}
+        </div>
       )}
     </div>
   );

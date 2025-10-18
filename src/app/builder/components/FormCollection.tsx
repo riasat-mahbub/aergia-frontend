@@ -28,6 +28,7 @@ interface FormCollectionProps {
 export default function FormCollection({ onDeleteFormHolder }: FormCollectionProps) {
   const dispatch = useDispatch();
   const { reorderFormHolder } = useFormHolders();
+  const {loading} = useFormHolders();
   
   const formHolders = useSelector((state: RootState) => state.forms.formHolders);
   
@@ -42,27 +43,33 @@ export default function FormCollection({ onDeleteFormHolder }: FormCollectionPro
     })
   );
   
-const handleDragEnd = (event: DragEndEvent) => {
-    const { active, over } = event;
-    
-    if (over && active.id !== over.id) {
-      const prevFormHolders = [...formHolders];
+  const handleDragEnd = (event: DragEndEvent) => {
+      const { active, over } = event;
+      
+      if (over && active.id !== over.id) {
+        const prevFormHolders = [...formHolders];
 
-      dispatch(
-        reorderFormHolders({
-          activeId: active.id.toString(),
-          overId: over.id.toString(),
-        })
-      );
+        dispatch(
+          reorderFormHolders({
+            activeId: active.id.toString(),
+            overId: over.id.toString(),
+          })
+        );
 
-      reorderFormHolder(active.id.toString(), over.id.toString())
-        .catch((error) => {
-          console.error("Failed to reorder form holders:", error);
+        reorderFormHolder(active.id.toString(), over.id.toString())
+          .catch((error) => {
+            console.error("Failed to reorder form holders:", error);
 
           dispatch(setFormHolders(prevFormHolders));
         });
     }
   };
+
+  if(loading){
+    <div className="w-11/12 my-6 flex flex-col gap-4 animate-pulse bg-gray-50">
+
+    </div>
+  }
   
   return (
     <DndContext
