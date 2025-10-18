@@ -16,7 +16,7 @@ export const emptyProfile: ResumeProfile = {
   name: "",
   email: "",
   phone: "",
-  url: "",
+  urls: [{title:"", url:"", urlIcon:""}],
   summary: "",
   location: "",
   visible: true

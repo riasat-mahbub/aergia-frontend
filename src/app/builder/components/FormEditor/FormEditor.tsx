@@ -1,11 +1,12 @@
 'use client'
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { ResumeForm } from "@/types/ResumeFormTypes";
+import { ResumeForm, ResumeProfile, ResumeURL } from "@/types/ResumeFormTypes";
 import { getFormHolderById, setSelectedForm, updateForm } from "@/store/formSlice";
 import { useFormHolders } from "@/hooks/useFormHolders";
 import { RootState } from "@/store/store";
 import { FORM_COMPONENTS } from "./FormEditorRegistry";
+import ProfileFormEditor from "./ProfileFormEditor";
 
 interface FormEditorProps {
   form: ResumeForm;
@@ -32,6 +33,19 @@ export default function FormEditor({ form, formHolderId }: FormEditorProps) {
   const handleChange = (field: string, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
+
+  const handleUrl = (url: ResumeURL, operation:"add"|"remove"|"change", index?: number) =>{
+    const profileUrls:ResumeURL[] = [...(formData as ResumeProfile).urls];
+
+    if(operation==="add"){
+      profileUrls.push(url)
+    }else if(operation==='remove' && index !== undefined){
+      profileUrls.splice(index, 1)
+    }else if(operation=="change" && index !== undefined){
+      profileUrls[index] = url;
+    }
+    setFormData(prev => ({ ...prev, ['urls']: profileUrls }));
+  }
 
   const handleSave = async () => {
     if (!formHolder) return;
@@ -69,15 +83,28 @@ export default function FormEditor({ form, formHolderId }: FormEditorProps) {
     }
 
     const Component = FormComponent as React.ComponentType<BaseEditorProps<ResumeForm>>;
+
+    if(formType === "profile"){
+      return (
+        <ProfileFormEditor 
+          formData={formData as ResumeProfile}
+          onSave={handleSave}
+          onCancel={handleCancel}
+          handleChange={handleChange}
+          handleUrl={handleUrl}
+        />
+      );
+    }else{
+      return (
+        <Component 
+          formData={formData}
+          onSave={handleSave}
+          onCancel={handleCancel}
+          handleChange={handleChange}
+        />
+      );
+    }
     
-    return (
-      <Component 
-        formData={formData}
-        onSave={handleSave}
-        onCancel={handleCancel}
-        handleChange={handleChange}
-      />
-    );
   };
 
   return (

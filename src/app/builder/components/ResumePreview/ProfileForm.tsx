@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text } from "@react-pdf/renderer";
+import { View, Text, Link } from "@react-pdf/renderer";
 import { ResumeProfile } from "@/types/ResumeFormTypes";
 import Html from "react-pdf-html";
 import SafeHTML from "@/components/SafeHTML";
@@ -9,7 +9,17 @@ import { LucidePdfIcon } from "./LucidePdfIcon";
 
 export default React.memo(function ProfileForm({form, styles}: BaseFormProps<ResumeProfile>) {
   if(!form.visible) return <View />;
-  console.log(form)
+
+  const normalizeUrl = (url: string) => {
+    if (!url) return "";
+    
+    if (!/^https?:\/\//i.test(url)) {
+      return `https://${url}`;
+    }
+
+    return url;
+  };
+
   return (
     <View style={styles.container}>
       <Text style={styles.name}>{form.name}</Text>
@@ -28,11 +38,18 @@ export default React.memo(function ProfileForm({form, styles}: BaseFormProps<Res
           {form.emailIcon && <LucidePdfIcon name={form.emailIcon} style={styles.contactIcon}/>}
           {form.email && <Text style={styles.contactItem}>{form.email}</Text>}
         </View>
+
+        {form.urls.map( (url, idx) => {
+          return(
+            <View style={styles.contactRow} key={idx}>
+              {url.urlIcon && <LucidePdfIcon name={url.urlIcon} style={styles.contactIcon}/>}
+              {url.url && 
+                <Link style={styles.contactItem} src={normalizeUrl(url.url)}>{(url.title && url.title!=="") ? url.title : url.url}</Link>}
+            </View>
+          )
+        })}
         
-        <View style={styles.contactRow}>
-          {form.urlIcon && <LucidePdfIcon name={form.urlIcon} style={styles.contactIcon}/>}
-          {form.url && <Text style={styles.contactItem}>{form.url}</Text>}
-        </View>
+        
       </View>
       <Html style={styles.summary}>{SafeHTML(form.summary)}</Html>
     </View>
