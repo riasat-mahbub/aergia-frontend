@@ -3,7 +3,7 @@ import { ResumeProfile, ResumeURL } from "@/types/ResumeFormTypes";
 import RichTextEditor from "@/components/RichTextEditor";
 import { BaseEditorProps } from "./FormEditor";
 import IconPicker from "@/components/IconPicker";
-import { Plus, Trash, Trash2, X } from "lucide-react";
+import { Plus, Trash2} from "lucide-react";
 
 
 interface ProfileFormEditorProps extends BaseEditorProps<ResumeProfile>{

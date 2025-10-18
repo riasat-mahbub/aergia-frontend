@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { RootState } from "@/store/store";
 import { useEffect, useState } from "react";
 import * as motion from "motion/react-client"
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 
 export default function Home() {
   const { isLoggedIn } = useSelector((state: RootState) => state.auth);

@@ -7,6 +7,7 @@ interface LucidePdfIconProps {
   name: string;
   size?: number;
   color?: string;
+  // eslint-disable-next-line  @typescript-eslint/no-explicit-any
   style?: Record<string, any> | Record<string, any>[];
 }
 
