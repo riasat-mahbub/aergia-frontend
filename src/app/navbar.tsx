@@ -6,6 +6,8 @@ import { useSelector } from 'react-redux';
 import { Menu, X } from 'lucide-react';
 import { usePathname, useRouter } from 'next/navigation';
 import { RootState } from '@/store/store';
+import * as motion from "motion/react-client"
+import { AnimatePresence } from "motion/react"
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
@@ -14,7 +16,10 @@ export default function Navbar() {
   const pathname = usePathname();
   const pdfUrl = useSelector((state: RootState) => state.pdf.pdfUrl);
 
-  const toggleMenu = () => setOpen(!open);
+  const toggleMenu = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setOpen((prev) => !prev);
+  };
 
 
   const handleLogout = () => {
@@ -48,7 +53,7 @@ export default function Navbar() {
           {/* Desktop Menu */}
           <div className="hidden md:flex space-x-6">
             <Link href="/home" className="hover:text-emerald-600">Home</Link>
-            {isLoggedIn && pathname!="/builder" && <Link href="/builder" className="hover:text-emerald-600">Builder</Link> }
+            {isLoggedIn && pathname!="/cvs" && <Link href="/cvs" className="hover:text-emerald-600">CVs</Link> }
             {/* {pathname!="/parser" && <Link href="/parser" className="hover:text-emerald-600">Parser</Link>} */}
             {pathname==="/builder" && pdfUrl && <div onClick={handleDownload} className="hover:text-emerald-600 cursor-pointer">Download</div>}
             {!isLoggedIn &&  <Link href="/register" className="hover:text-emerald-600">Register</Link> }
@@ -67,15 +72,23 @@ export default function Navbar() {
 
       {/* Mobile Menu */}
       {open && (
-        <div className="md:hidden flex flex-row gap-4 px-4 pt-2 pb-4 space-y-2 bg-white">
-            <Link href="/home" className="hover:text-emerald-600">Home</Link>
-            {isLoggedIn && pathname!="/builder" && <Link href="/builder" className="hover:text-emerald-600">Builder</Link> }
-            {/* {pathname!="/parser" && <Link href="/parser" className="hover:text-emerald-600">Parser</Link>} */}
-            {pathname==="/builder" && pdfUrl && <div onClick={handleDownload} className="hover:text-emerald-600 cursor-pointer">Download</div>}
-            {!isLoggedIn &&  <Link href="/register" className="hover:text-emerald-600">Register</Link> }
-            {!isLoggedIn &&  <Link href="/login" className="hover:text-emerald-600">Login</Link> }
-            {isLoggedIn &&   <div onClick={handleLogout} className="hover:text-emerald-600 cursor-pointer">Logout</div>}
-        </div>
+        <AnimatePresence>
+          <motion.div 
+          initial={{x: 1000}}
+          animate={{x:0 }}
+          transition={{ type: "tween" }}
+          onClick={(e) => toggleMenu(e)}
+          className="md:hidden fixed inset-0 top-16 flex flex-col text-center gap-4 px-4 pt-2 pb-4 space-y-2 bg-white">
+              <Link href="/home" className="hover:text-emerald-600 border-b-2 border-gray-300 py-2">Home</Link>
+              {isLoggedIn && pathname!="/cvs" && <Link href="/cvs" className="hover:text-emerald-600 border-b-2 border-gray-300 py-2">CVs</Link> }
+              {/* {pathname!="/parser" && <Link href="/parser" className="hover:text-emerald-600">Parser</Link>} */}
+              {pathname==="/builder" && pdfUrl && <div onClick={handleDownload} className="hover:text-emerald-600 cursor-pointer border-b-2 border-gray-300 py-2">Download</div>}
+              {!isLoggedIn &&  <Link href="/register" className="hover:text-emerald-600 border-b-2 border-gray-300 py-2">Register</Link> }
+              {!isLoggedIn &&  <Link href="/login" className="hover:text-emerald-600 border-b-2 border-gray-300 py-2">Login</Link> }
+              {isLoggedIn &&   <div onClick={handleLogout} className="hover:text-emerald-600 cursor-pointer border-b-2 border-gray-300 py-2">Logout</div>}
+          </motion.div>
+        </AnimatePresence>
+
       )}
     </nav>
   );
