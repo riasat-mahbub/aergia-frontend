@@ -2,23 +2,14 @@
 import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 import { RootState } from "@/store/store";
-import { useEffect, useState } from "react";
 import * as motion from "motion/react-client"
 import { ChevronRight } from "lucide-react";
 
 export default function Home() {
   const { isLoggedIn } = useSelector((state: RootState) => state.auth);
   const router = useRouter();
-  const [isInitialized, setIsInitialized] = useState(false);
-
-  useEffect(() => {
-    const timer = setTimeout(() => setIsInitialized(true), 100);
-    return () => clearTimeout(timer);
-  }, []);
 
   const handleBuilder = () => {
-    if(!isInitialized) return;
-    
     if(isLoggedIn){
       router.push('/cvs')
     }else{
@@ -44,7 +35,7 @@ export default function Home() {
         <motion.div  whileHover={{ scale: 1.2 }} whileTap={{ scale: 0.8 }}
           onClick={handleBuilder} 
           className={`self-center lg:self-auto bg-emerald-500 hover:bg-emerald-700 text-white
-            font-bold p-4 rounded-full w-44 lg:w-52 lg:text-xl cursor-pointer flex flex-row ${!isInitialized ? 'opacity-50' : ''}`}>
+            font-bold p-4 rounded-full w-44 lg:w-52 lg:text-xl cursor-pointer flex flex-row`}>
           
           Create Resume <span aria-hidden="true"> <ChevronRight/> </span>
         </motion.div>
