@@ -43,7 +43,7 @@ export function CVCard({ cv, openDeletePopOver, openEditPopOver }: CVCardProps) 
       style={style}
       {...attributes}
       {...listeners}
-      className={`rounded-xl border border-gray-200 bg-white shadow-md hover:shadow-xl transition-transform duration-200 w-64 h-64 flex flex-col justify-start p-4 ${isDragging ? 'cursor-grabbing' : 'cursor-grab'}`}
+      className={`rounded-xl mx-auto md:mx-0 border border-gray-200 bg-white shadow-md hover:shadow-xl transition-transform duration-200 w-64 h-64 flex flex-col justify-start p-4 ${isDragging ? 'cursor-grabbing' : 'cursor-grab'}`}
     >
       {/* Title + Actions */}
       <div className="flex justify-between items-start mb-4">

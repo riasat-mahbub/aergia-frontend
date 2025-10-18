@@ -45,7 +45,7 @@ export function CVGrid({ cvs, openPopOver }: CVGridProps) {
   return (
     <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
       <SortableContext items={cvs.map(cv => cv.id)} strategy={rectSortingStrategy}>
-        <div  className="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
+        <div  className="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
           {cvs.map((cv) => (
             <CVCard
               key={cv.id}
