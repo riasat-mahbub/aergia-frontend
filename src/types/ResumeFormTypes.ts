@@ -13,23 +13,23 @@ export type ResumeForm =
   | ResumeSkills
   | ResumeCustom;
 
-export interface ResumeURL{
+export interface ProfileItem{
+  title: string;
+  order: number;
+  icon: string;
+  type: string;
+}
+export interface ResumeURL extends ProfileItem{
   url: string;
-  title?: string;
-  urlIcon?: string;
 }
 
 export interface ResumeProfile extends ResumeFormBase {
   name: string;
-  nameIcon?: string;
-  email: string;
-  emailIcon?: string;
-  phone: string;
-  phoneIcon?: string;
+  email: ProfileItem;
+  phone: ProfileItem;
+  location: ProfileItem;
   urls: ResumeURL[];
   summary: string;
-  location: string;
-  locationIcon?: string;
 }
 
 export interface ResumeExperience extends ResumeFormBase {

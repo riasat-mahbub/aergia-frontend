@@ -1,7 +1,7 @@
 'use client'
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { ResumeForm, ResumeProfile, ResumeURL } from "@/types/ResumeFormTypes";
+import { ProfileItem, ResumeForm, ResumeProfile, ResumeURL } from "@/types/ResumeFormTypes";
 import { getFormHolderById, setSelectedForm, updateForm } from "@/store/formSlice";
 import { useFormHolders } from "@/hooks/useFormHolders";
 import { RootState } from "@/store/store";
@@ -44,7 +44,11 @@ export default function FormEditor({ form, formHolderId }: FormEditorProps) {
     }else if(operation=="change" && index !== undefined){
       profileUrls[index] = url;
     }
-    setFormData(prev => ({ ...prev, ['urls']: profileUrls }));
+    setFormData(prev => ({ ...prev, 'urls': profileUrls }));
+  }
+
+  const handleProfileItem = (item: ProfileItem) =>{
+    setFormData(prev => ({ ...prev, [item.type]: item }));
   }
 
   const handleSave = async () => {
@@ -92,6 +96,7 @@ export default function FormEditor({ form, formHolderId }: FormEditorProps) {
           onCancel={handleCancel}
           handleChange={handleChange}
           handleUrl={handleUrl}
+          handleProfileItem={handleProfileItem}
         />
       );
     }else{
