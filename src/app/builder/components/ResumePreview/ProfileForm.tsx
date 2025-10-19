@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, Link } from "@react-pdf/renderer";
-import { ResumeProfile } from "@/types/ResumeFormTypes";
+import { ProfileItem, ResumeProfile } from "@/types/ResumeFormTypes";
 import Html from "react-pdf-html";
 import SafeHTML from "@/components/SafeHTML";
 import { BaseFormProps } from "./ResumePreview";
@@ -20,11 +20,20 @@ export default React.memo(function ProfileForm({form, styles}: BaseFormProps<Res
     return url;
   };
 
-  const [infoArray, setInfoArray] = useState([form.email, form.phone, form.location])
+  const makeInitial = () => {
+    const arr = [
+      { ...form.email },
+      { ...form.phone },
+      { ...form.location }
+    ];
+    return arr.sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+  };
 
-  useEffect( () =>{
-    setInfoArray(infoArray.toSorted( (a,b) => a.order-b.order))
-  }, [form.email, form.phone, form.location])
+  const [infoArray, setInfoArray] = useState<ProfileItem[]>(makeInitial);
+
+  useEffect(() => {
+    setInfoArray(makeInitial());
+  }, [form.email, form.phone, form.location]);
   
   return (
     <View style={styles.container}>
