@@ -3,8 +3,8 @@ import { ProfileItem, ResumeProfile, ResumeURL } from "@/types/ResumeFormTypes";
 import RichTextEditor from "@/components/RichTextEditor";
 import { BaseEditorProps } from "./FormEditor";
 import IconPicker from "@/components/IconPicker";
-import { ArrowDownIcon, ArrowUpIcon, GripVertical, Plus, Trash2 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { Plus, Trash2 } from "lucide-react";
+import { useCallback, useEffect, useState } from "react";
 import {
   closestCenter,
   DndContext,
@@ -29,20 +29,20 @@ interface ProfileFormEditorProps extends BaseEditorProps<ResumeProfile> {
 
 export default function ProfileFormEditor({ formData, handleChange, handleUrl, handleProfileItem }: ProfileFormEditorProps) {
 
-  const makeInitial = () => {
+  const makeInitial = useCallback(() => {
     const arr = [
       { ...formData.email },
       { ...formData.phone },
       { ...formData.location }
     ];
     return arr.sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
-  };
+  }, [formData.email, formData.phone, formData.location]) 
 
   const [infoArray, setInfoArray] = useState<ProfileItem[]>(makeInitial);
 
   useEffect(() => {
     setInfoArray(makeInitial());
-  }, [formData.email, formData.phone, formData.location]);
+  }, [formData.email, formData.phone, formData.location, makeInitial]);
 
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 8 } }),

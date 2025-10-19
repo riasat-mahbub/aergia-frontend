@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { View, Text, Link } from "@react-pdf/renderer";
 import { ProfileItem, ResumeProfile } from "@/types/ResumeFormTypes";
 import Html from "react-pdf-html";
@@ -8,7 +8,6 @@ import { LucidePdfIcon } from "./LucidePdfIcon";
 
 
 export default React.memo(function ProfileForm({form, styles}: BaseFormProps<ResumeProfile>) {
-  if(!form.visible) return <View />;
 
   const normalizeUrl = (url: string) => {
     if (!url) return "";
@@ -20,21 +19,24 @@ export default React.memo(function ProfileForm({form, styles}: BaseFormProps<Res
     return url;
   };
 
-  const makeInitial = () => {
+  const makeInitial = useCallback(() => {
     const arr = [
       { ...form.email },
       { ...form.phone },
       { ...form.location }
     ];
     return arr.sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
-  };
+  }, [form.email, form.phone, form.location]) 
 
   const [infoArray, setInfoArray] = useState<ProfileItem[]>(makeInitial);
 
   useEffect(() => {
     setInfoArray(makeInitial());
-  }, [form.email, form.phone, form.location]);
+  }, [form.email, form.phone, form.location, makeInitial]);
 
+  
+  if(!form.visible) return <View />;
+  
   return (
     <View style={styles.container}>
       <Text style={styles.name}>{form.name}</Text>

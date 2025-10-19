@@ -6,7 +6,6 @@ import { Style } from "@react-pdf/types";
 import { FormHolder } from "@/types/FormHolderTypes";
 import { updateFormHolder } from "@/store/formSlice";
 import { useFormHolders } from "@/hooks/useFormHolders";
-import { label } from "motion/react-client";
 
 interface StyleEditorProps {
   formHolder: FormHolder;
