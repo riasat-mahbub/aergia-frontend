@@ -24,6 +24,15 @@ interface RichTextEditorProps {
   onChange?: (html: string) => void;
 }
 
+function escapeHtml(s: string) {
+  return s
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#39;");
+}
+
 export default function RichTextEditor({
   content = "",
   onChange,
@@ -37,9 +46,13 @@ export default function RichTextEditor({
         placeholder: "Start typing here...",
       }),
       Link.configure({
+        // keep links editable in the editor
         openOnClick: false,
         HTMLAttributes: {
+          // for styling inside the editor (optional)
           class: "text-blue-600 underline cursor-pointer",
+          target: "_blank",
+          rel: "noopener noreferrer",
         },
       }),
     ],
@@ -54,7 +67,6 @@ export default function RichTextEditor({
           "text-sm leading-relaxed focus:outline-none min-h-24 p-3 max-w-none",
       },
     },
-
   });
 
   // Handle SSR-safe mount
@@ -69,27 +81,74 @@ export default function RichTextEditor({
     }
   }, [content, editor]);
 
-  if (!isMounted) return null;
+  // --- Link modal state ---
+  const [showLinkModal, setShowLinkModal] = useState(false);
+  const [linkText, setLinkText] = useState("");
+  const [linkUrl, setLinkUrl] = useState("https://");
 
-  // 🔗 Insert / Edit Link Handler
-  const handleSetLink = () => {
-    const previousUrl = editor?.getAttributes("link").href;
-    const url = window.prompt("Enter a URL", previousUrl || "https://");
-    if (url === null) return; // cancel
+  // Open modal and prefill values (selected text and existing link href if any)
+  const openLinkModal = () => {
+    if (!editor) return;
 
-    if (url === "") {
-      editor?.chain().focus().extendMarkRange("link").unsetLink().run();
+    // get selection text if any
+    const sel = editor.state.selection;
+    let selectedText = "";
+    try {
+      selectedText = editor.state.doc.textBetween(sel.from, sel.to, " ");
+    } catch {
+      selectedText = "";
+    }
+
+    // if the current selection/cursor has a link mark, try to read its href
+    const attrs = editor.getAttributes("link");
+    const existingHref = (attrs && (attrs as any).href) || "";
+
+    setLinkText(selectedText || "");
+    setLinkUrl(existingHref || "https://");
+    setShowLinkModal(true);
+  };
+
+  const closeLinkModal = () => {
+    setShowLinkModal(false);
+  };
+
+  // Save link: insert or replace selection with <a href="...">text</a>
+  const saveLink = (e?: React.FormEvent) => {
+    e?.preventDefault();
+    if (!editor) return;
+
+    // normalize url and text
+    const url = linkUrl?.trim();
+    const text = (linkText?.trim() || linkUrl?.trim() || "").trim();
+    if (!url) {
+      // nothing to do
+      setShowLinkModal(false);
       return;
     }
 
-    editor
-      ?.chain()
-      .focus()
-      .extendMarkRange("link")
-      .setLink({ href: url })
-      .run();
+    // escape to avoid injecting HTML accidentally
+    const escapedText = escapeHtml(text);
+    const escapedUrl = escapeHtml(url);
+
+    // Insert an anchor HTML snippet — insertContent replaces selection
+    // Tiptap supports inserting raw HTML fragments here.
+    const html = `<a href="${escapedUrl}" target="_blank" rel="noopener noreferrer">${escapedText}</a>`;
+
+    editor.chain().focus().insertContent(html).run();
+
+    setShowLinkModal(false);
   };
 
+  // Remove link mark from selection (if any)
+  const removeLink = () => {
+    if (!editor) return;
+    editor.chain().focus().extendMarkRange("link").unsetLink().run();
+    setShowLinkModal(false);
+  };
+
+  if (!isMounted) return null;
+
+  // ---------------- UI ----------------
   return (
     <div className="flex flex-col border rounded-md overflow-hidden focus:outline-none bg-white">
       {/* Toolbar */}
@@ -190,9 +249,9 @@ export default function RichTextEditor({
             <Code size={16} />
           </button>
 
-          {/* Insert Link */}
+          {/* Insert Link (opens modal) */}
           <button
-            onClick={handleSetLink}
+            onClick={openLinkModal}
             aria-label="Insert Link"
             aria-pressed={editor?.isActive("link")}
             className={`p-1 rounded hover:bg-gray-200 ${
@@ -237,9 +296,81 @@ export default function RichTextEditor({
         </div>
       </div>
 
-      <EditorContent editor={editor} className="focus:outline-none [&_ul]:list-disc [&_ul]:ml-5 [&_ol]:list-decimal [&_ol]:ml-5 [&_ul]:my-0 [&_ol]:my-0 [&_li]:my-0 [&_p]:my-0"/>
+      {/* Editor */}
+      <EditorContent
+        editor={editor}
+        className="focus:outline-none [&_ul]:list-disc [&_ul]:ml-5 [&_ol]:list-decimal [&_ol]:ml-5 [&_ul]:my-0 [&_ol]:my-0 [&_li]:my-0 [&_p]:my-0"
+      />
 
+      {/* Link modal (simple inline modal) */}
+      {showLinkModal && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          className="fixed inset-0 z-50 flex items-center justify-center"
+        >
+          {/* backdrop */}
+          <div
+            className="absolute inset-0 bg-black/40"
+            onClick={closeLinkModal}
+            aria-hidden
+          />
 
+          <form
+            onSubmit={saveLink}
+            className="relative z-10 w-full max-w-md bg-white rounded shadow p-4"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h3 className="text-sm font-medium mb-2">Insert link</h3>
+
+            <label className="block text-xs mb-1">
+              Display text
+              <input
+                value={linkText}
+                onChange={(e) => setLinkText(e.target.value)}
+                className="mt-1 block w-full border rounded px-2 py-1 text-sm"
+                placeholder="visible text (optional)"
+              />
+            </label>
+
+            <label className="block text-xs mb-2">
+              URL
+              <input
+                value={linkUrl}
+                onChange={(e) => setLinkUrl(e.target.value)}
+                className="mt-1 block w-full border rounded px-2 py-1 text-sm"
+                placeholder="https://example.com"
+                required
+              />
+            </label>
+
+            <div className="flex gap-2 justify-end mt-3">
+              <button
+                type="button"
+                onClick={removeLink}
+                className="px-3 py-1 text-sm rounded border text-red-600"
+              >
+                Remove link
+              </button>
+
+              <button
+                type="button"
+                onClick={closeLinkModal}
+                className="px-3 py-1 text-sm rounded border"
+              >
+                Cancel
+              </button>
+
+              <button
+                type="submit"
+                className="px-3 py-1 text-sm rounded bg-blue-600 text-white"
+              >
+                Save
+              </button>
+            </div>
+          </form>
+        </div>
+      )}
     </div>
   );
 }
