@@ -237,7 +237,7 @@ export default function RichTextEditor({
         </div>
       </div>
 
-      <EditorContent editor={editor} className="focus:outline-none [&_ul]:list-disc [&_ul]:ml-0 [&_ol]:list-decimal [&_ol]:ml-0 [&_ul]:my-0 [&_ol]:my-0 [&_li]:my-0 [&_p]:my-0"/>
+      <EditorContent editor={editor} className="focus:outline-none [&_ul]:list-disc [&_ul]:ml-5 [&_ol]:list-decimal [&_ol]:ml-5 [&_ul]:my-0 [&_ol]:my-0 [&_li]:my-0 [&_p]:my-0"/>
 
 
     </div>

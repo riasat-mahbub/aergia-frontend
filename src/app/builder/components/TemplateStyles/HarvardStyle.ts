@@ -1,4 +1,7 @@
 export const HarvardStyle: Record<string, object> = {
+  formholder:{
+    title: {fontSize: 10, marginRight: 10, color: 'black' }
+  },
   profile: {
     container: { marginBottom: 18 },
     name: { fontSize: 20, fontWeight: 'bold', textAlign: 'center', color: 'black', letterSpacing: 0.5 },

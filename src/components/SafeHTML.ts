@@ -1,37 +1,49 @@
 import DOMPurify from 'dompurify';
 
 export function SafeHTML(html: string) {
+  const forbiddenTags = ['p', 'h3', 'h4', 'h5', 'h6'];
 
-  const forbiddenTags = ['p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6']
   DOMPurify.addHook('uponSanitizeElement', (node) => {
-    const nodeName = node.nodeName.toLowerCase();
-
-    const doc = node.ownerDocument;
+    const el = node as HTMLElement; // Cast to HTMLElement
+    const nodeName = el.nodeName.toLowerCase();
+    const doc = el.ownerDocument;
     if (!doc) return;
-    
-    if (forbiddenTags.includes(nodeName)) {
-      const parent = node.parentNode;
-      if (parent) {
-        while (node.firstChild) {
-          parent.insertBefore(node.firstChild, node);
-        }
-        const br = node.ownerDocument.createElement('br');
-        parent.insertBefore(br, node);
 
-        if ('remove' in node && typeof node.remove === 'function') {
-          node.remove(); 
-        } else {
-          parent.removeChild(node);
+    // Flatten forbidden block tags globally
+    if (forbiddenTags.includes(nodeName)) {
+      const parent = el.parentNode;
+      if (parent) {
+        while (el.firstChild) {
+          parent.insertBefore(el.firstChild, el);
         }
+        const br = doc.createElement('br');
+        parent.insertBefore(br, el);
+        el.remove();
       }
     }
 
+    // Remove <p> inside <li> by flattening
     if (nodeName === 'li') {
-      const text = node.textContent || '';
-      while (node.firstChild) {
-        node.removeChild(node.firstChild);
-      }
-      node.textContent = text;
+      const childNodes = Array.from(el.childNodes);
+      childNodes.forEach((child) => {
+        if ((child as HTMLElement).nodeName.toLowerCase() === 'p') {
+          const childEl = child as HTMLElement;
+          while (childEl.firstChild) {
+            el.insertBefore(childEl.firstChild, childEl);
+          }
+          childEl.remove();
+        }
+      });
+      // Inline styles to remove spacing
+      el.style.margin = '0';
+      el.style.padding = '0';
+    }
+
+    // Remove spacing from <ul> and <ol>
+    if (nodeName === 'ul' || nodeName === 'ol') {
+      el.style.margin = '0';
+      el.style.padding = '0 0 0 1.2em'; // left indent for bullets/numbers
+      el.style.listStylePosition = 'inside';
     }
   });
 
@@ -42,8 +54,7 @@ export function SafeHTML(html: string) {
       'ul', 'ol', 'li',
       'a', 'span', 'div'
     ],
-    ALLOWED_ATTR: ['href', 'target', 'rel', 'class'],
-    FORBID_ATTR: ['style'],
+    ALLOWED_ATTR: ['href', 'target', 'rel', 'class', 'style'],
   });
 
   return sanitizedHTML;
