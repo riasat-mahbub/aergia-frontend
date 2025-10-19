@@ -24,9 +24,6 @@ export function ProtectedRoute({ children }: ProtectedRouteProps) {
     return (
       <div>
         <Spinner/>
-        <div className="flex items-center justify-center h-screen">
-          Loading...
-        </div>
       </div>
     );
   }

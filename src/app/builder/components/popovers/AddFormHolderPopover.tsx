@@ -71,7 +71,6 @@ export default function AddFormHolderPopover({ onClose }: AddFormHolderPopoverPr
       <div className="fixed inset-0 backdrop-blur-sm flex items-center justify-center z-[9999]">
         <div className="bg-white rounded-lg p-6 w-80 shadow-xl">
           <Spinner/>
-          <p>Loading...</p>
         </div>
       </div>
     )
