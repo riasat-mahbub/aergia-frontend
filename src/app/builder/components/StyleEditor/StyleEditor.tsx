@@ -6,6 +6,7 @@ import { Style } from "@react-pdf/types";
 import { FormHolder } from "@/types/FormHolderTypes";
 import { updateFormHolder } from "@/store/formSlice";
 import { useFormHolders } from "@/hooks/useFormHolders";
+import { label } from "motion/react-client";
 
 interface StyleEditorProps {
   formHolder: FormHolder;
@@ -48,6 +49,13 @@ const TEXT_ALIGNMENTS = [
   { value: 'right', label: 'Right' },
   { value: 'justify', label: 'Justify' },
 ] as const;
+
+const TEXT_DECORATIONS = [
+  {value: '', label:'Select Decoration'},
+  {value: 'none', label: 'No Decoration'},
+  {value: 'underline', label: 'Underline'},
+
+]
 
 export default function StyleEditor({ formHolder, onClose }: StyleEditorProps) {
   const dispatch = useDispatch();
@@ -96,6 +104,18 @@ export default function StyleEditor({ formHolder, onClose }: StyleEditorProps) {
       ))}
     </select>
   );
+  
+    const renderTextDecorationInput = (componentKey: string, property: string, value: StyleValue) => (
+    <select
+      value={String(value || '')}
+      onChange={(e) => handleStyleChange(componentKey, property, e.target.value)}
+      className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+    >
+      {TEXT_DECORATIONS.map(({ value: optValue, label }) => (
+        <option key={optValue} value={optValue}>{label}</option>
+      ))}
+    </select>
+  );
 
   const renderColorInput = (componentKey: string, property: string, value: StyleValue) => (
     <div className="flex-1 flex items-center gap-2">
@@ -133,6 +153,8 @@ export default function StyleEditor({ formHolder, onClose }: StyleEditorProps) {
         return renderTextAlignInput(componentKey, property, value);
       case 'color':
         return renderColorInput(componentKey, property, value);
+      case 'textDecoration':
+        return renderTextDecorationInput(componentKey, property, value)
       default:
         return renderTextInput(componentKey, property, value);
     }
