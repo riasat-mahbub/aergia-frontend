@@ -4,6 +4,7 @@ export const HarvardStyle: Record<string, object> = {
     name: { fontSize: 20, fontWeight: 'bold', textAlign: 'center', color: 'black', letterSpacing: 0.5 },
     contactRow: { flexDirection: 'row', justifyContent: 'center', flexWrap: 'wrap', marginTop: 6, alignItems:"center" },
     contactItem: { fontSize: 10, marginRight: 10, color: 'black' },
+    contactUrl: { fontSize: 10, marginRight: 8, color: 'black', textDecoration: 'none' },
     contactIcon: {fontSize: 10, marginRight: 5, color: 'black'},
     summary: { fontSize: 11, marginTop: 10, textAlign: 'justify', color: 'black', lineHeight: 1.4 },
   },

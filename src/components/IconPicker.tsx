@@ -59,7 +59,7 @@ export default function IconPicker({ selectedIcon="XSquare", onIconChange}: Icon
               setIsOpen(false);
               onIconChange('');
             }}
-            className={`p-2 sm:p-3 hover:bg-gray-100 rounded flex items-center justify-center ${
+            className={` hover:bg-gray-100 rounded flex items-center justify-center ${
               selectedIcon === '' ? 'bg-blue-100' : ''
             }`}
             title="Clear"
@@ -76,7 +76,7 @@ export default function IconPicker({ selectedIcon="XSquare", onIconChange}: Icon
                 setIsOpen(false);
                 onIconChange(name);
               }}
-              className={`p-2 sm:p-3 hover:bg-gray-100 rounded flex items-center justify-center ${
+              className={` hover:bg-gray-100 rounded flex items-center justify-center ${
                 selectedIcon === name ? 'bg-blue-100' : ''
               }`}
               title={name}

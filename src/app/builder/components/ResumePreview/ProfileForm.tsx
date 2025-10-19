@@ -34,7 +34,7 @@ export default React.memo(function ProfileForm({form, styles}: BaseFormProps<Res
   useEffect(() => {
     setInfoArray(makeInitial());
   }, [form.email, form.phone, form.location]);
-  
+
   return (
     <View style={styles.container}>
       <Text style={styles.name}>{form.name}</Text>
@@ -55,7 +55,7 @@ export default React.memo(function ProfileForm({form, styles}: BaseFormProps<Res
             <View style={styles.contactRow} key={idx}>
               {url.icon && <LucidePdfIcon name={url.icon} style={styles.contactIcon}/>}
               {url.url && 
-                <Link style={styles.contactItem} src={normalizeUrl(url.url)}>{(url.title && url.title!=="") ? url.title : url.url}</Link>}
+                <Link style={styles.contactUrl} src={normalizeUrl(url.url)}>{(url.title && url.title!=="") ? url.title : url.url}</Link>}
             </View>
           )
         })}

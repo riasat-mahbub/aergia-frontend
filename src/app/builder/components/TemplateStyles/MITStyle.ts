@@ -4,6 +4,7 @@ export const MITStyle: Record<string, object> = {
     name: { fontSize: 18, fontWeight: 'bold', textAlign: 'center', color: 'black' },
     contactRow: { flexDirection: 'row', justifyContent: 'center', flexWrap: 'wrap', marginTop: 4, alignItems:"center"},
     contactItem: { fontSize: 10, marginRight: 8, color: 'black' },
+    contactUrl: { fontSize: 10, marginRight: 8, color: 'black', textDecoration: 'none' },
     contactIcon: {fontSize: 10, marginRight: 2, color: 'black'},
     summary: { fontSize: 10, marginTop: 8, textAlign: 'justify', color: 'black' },
   },
