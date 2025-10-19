@@ -25,7 +25,7 @@ export default React.memo(function EducationForm({form, styles}: BaseFormProps<R
         <Text style={styles.subtitle}>{form.degree}</Text>
         <Text style={styles.location}>{form.location}</Text>
       </View>
-      <Text style={styles.gpa}>GPA: {form.gpa}</Text>
+      <Text style={styles.gpa}>{form.gpa}</Text>
       <Html style={styles.description}>{SafeHTML(form.description)}</Html>
     </View>
   );
