@@ -39,12 +39,6 @@ export function SafeHTML(html: string) {
       el.style.padding = '0';
     }
 
-    // Remove spacing from <ul> and <ol>
-    if (nodeName === 'ul' || nodeName === 'ol') {
-      el.style.margin = '0';
-      el.style.padding = '0 0 0 1.2em'; // left indent for bullets/numbers
-      el.style.listStylePosition = 'inside';
-    }
   });
 
   const sanitizedHTML = DOMPurify.sanitize(html, {
