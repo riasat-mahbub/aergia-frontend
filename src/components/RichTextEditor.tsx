@@ -100,8 +100,8 @@ export default function RichTextEditor({
     }
 
     // if the current selection/cursor has a link mark, try to read its href
-    const attrs = editor.getAttributes("link");
-    const existingHref = (attrs && (attrs as any).href) || "";
+    const attrs = editor?.getAttributes("link");
+    const existingHref = typeof attrs?.href === "string" ? attrs.href : "";
 
     setLinkText(selectedText || "");
     setLinkUrl(existingHref || "https://");
