@@ -152,6 +152,8 @@ export default function StyleEditor({ formHolder, onClose }: StyleEditorProps) {
         return renderTextAlignInput(componentKey, property, value);
       case 'color':
         return renderColorInput(componentKey, property, value);
+      case 'borderColor':
+        return renderColorInput(componentKey, property, value);
       case 'textDecoration':
         return renderTextDecorationInput(componentKey, property, value)
       default:

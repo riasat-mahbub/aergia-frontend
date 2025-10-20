@@ -1,8 +1,6 @@
 export const HarvardStyle: Record<string, object> = {
-  formholder:{
-    title: {fontSize: 14, marginRight: 10, color: 'black',  marginBottom: 8, borderBottom: 1 }
-  },
   profile: {
+    sectionTitle: {display: 'none'},
     container: { marginBottom: 18 },
     name: { fontSize: 20, fontWeight: 'bold', textAlign: 'center', color: 'black', letterSpacing: 0.5 },
     contactRow: { flexDirection: 'row', justifyContent: 'center', flexWrap: 'wrap', marginTop: 6, alignItems:"center" },
@@ -12,6 +10,7 @@ export const HarvardStyle: Record<string, object> = {
     summary: { fontSize: 11, marginTop: 10, textAlign: 'justify', color: 'black', lineHeight: 1.4 },
   },
   education: {
+    sectionTitle: {fontSize: 14, marginRight: 10, color: 'black',  marginBottom: 8, borderBottom: 1, borderColor: 'black' },
     container: { marginBottom: 14 },
     titleRow: { display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'baseline' },
     title: { fontSize: 13, fontWeight: 'bold', color: 'black' },
@@ -25,6 +24,7 @@ export const HarvardStyle: Record<string, object> = {
     gpa: { fontSize: 10, color: 'black' },
   },
   experience: {
+    sectionTitle: {fontSize: 14, marginRight: 10, color: 'black',  marginBottom: 8, borderBottom: 1, borderColor: 'black' },
     container: { marginBottom: 14 },
     titleRow: { display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'baseline' },
     title: { fontSize: 13, fontWeight: 'bold', color: 'black' },
@@ -37,6 +37,7 @@ export const HarvardStyle: Record<string, object> = {
     description: { fontSize: 10, marginTop: 2, lineHeight: 1.3, color: 'black' },
   },
   project: {
+    sectionTitle: {fontSize: 14, marginRight: 10, color: 'black',  marginBottom: 8, borderBottom: 1, borderColor: 'black' },
     container: { marginBottom: 14 },
     titleRow: { display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'baseline' },
     title: { fontSize: 13, fontWeight: 'bold', color: 'black' },
@@ -47,6 +48,7 @@ export const HarvardStyle: Record<string, object> = {
     description: { fontSize: 10, marginTop: 2, lineHeight: 1.3, color: 'black' },
   },
   skills: {
+    sectionTitle: {fontSize: 14, marginRight: 10, color: 'black',  marginBottom: 8, borderBottom: 1, borderColor: 'black' },
     container: { marginBottom: 10 },
     row: { display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
     name: { fontSize: 11, marginRight: 8, color: 'black' },
@@ -54,6 +56,7 @@ export const HarvardStyle: Record<string, object> = {
     description: { fontSize: 10, marginTop: 2, color: 'black' },
   },
   custom: {
+    sectionTitle: {fontSize: 14, marginRight: 10, color: 'black',  marginBottom: 8, borderBottom: 1, borderColor: 'black' },
     container: { marginBottom: 14 },
     title: { fontSize: 13, fontWeight: 'bold', color: 'black' },
     subtitle: { fontSize: 11, fontStyle: 'italic', color: 'black' },

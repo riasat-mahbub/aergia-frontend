@@ -1,7 +1,6 @@
 import { View, Text, Styles, StyleSheet } from "@react-pdf/renderer";
 import { FormHolder } from "@/types/FormHolderTypes"
 import ResumePreview from "./ResumePreview";
-import { templateStyleRegistry } from "../TemplateStyles/TemplateStyleRegistry";
 
 interface FormHolderPreviewProps{
     formHolder: FormHolder,
@@ -11,13 +10,11 @@ interface FormHolderPreviewProps{
 export default function FormHolderPreview({formHolder, cvTemplate}: FormHolderPreviewProps){
     
     const formStyles = StyleSheet.create(formHolder.style as Styles);
-    const formHolderStyle = StyleSheet.create((cvTemplate && templateStyleRegistry[cvTemplate]?.['formholder'] || {}) as Styles);
     
-    console.log(formHolderStyle)
     return (
         <View>
             {formHolder.type !== 'profile' && (
-                <Text style={formHolderStyle.title}>
+                <Text style={formStyles.sectionTitle}>
                     {formHolder.title}
                 </Text>
             )}

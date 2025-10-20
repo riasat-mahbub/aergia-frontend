@@ -1,8 +1,6 @@
 export const MITStyle: Record<string, object> = {
-  formholder:{
-    title: {fontSize: 14, marginRight: 10, color: 'black',  fontWeight: 'bold', marginBottom: 8, borderBottom: 1}
-  },
   profile: {
+    sectionTitle: {fontSize: 14, marginRight: 10, color: 'black',  marginBottom: 8, borderBottom: 1 },
     container: { marginBottom: 16 },
     name: { fontSize: 18, fontWeight: 'bold', textAlign: 'center', color: 'black' },
     contactRow: { flexDirection: 'row', justifyContent: 'center', flexWrap: 'wrap', marginTop: 4, alignItems:"center"},
@@ -12,6 +10,7 @@ export const MITStyle: Record<string, object> = {
     summary: { fontSize: 10, marginTop: 8, textAlign: 'justify', color: 'black' },
   },
   education: {
+    sectionTitle: {fontSize: 14, marginRight: 10, color: 'black',  marginBottom: 8, borderBottom: 1 },
     container: { marginBottom: 12 },
     titleRow: { display: 'flex', flexDirection: 'row', justifyContent: 'space-between' },
     title: { fontSize: 12, fontWeight: 'bold', color: 'black' },
@@ -25,6 +24,7 @@ export const MITStyle: Record<string, object> = {
     gpa: { fontSize: 10, color: 'black' },
   },
   experience: {
+    sectionTitle: {fontSize: 14, marginRight: 10, color: 'black',  marginBottom: 8, borderBottom: 1 },
     container: { marginBottom: 12 },
     titleRow: { display: 'flex', flexDirection: 'row', justifyContent: 'space-between' },
     title: { fontSize: 12, fontWeight: 'bold', color: 'black' },
@@ -37,6 +37,7 @@ export const MITStyle: Record<string, object> = {
     description: { fontSize: 10, margin: 0, padding: 0, lineHeight: 1, color: 'black' },
   },
   project: {
+    sectionTitle: {fontSize: 14, marginRight: 10, color: 'black',  marginBottom: 8, borderBottom: 1 },
     container: { marginBottom: 12 },
     titleRow: { display: 'flex', flexDirection: 'row', justifyContent: 'space-between' },
     title: { fontSize: 12, fontWeight: 'bold', color: 'black' },
@@ -47,6 +48,7 @@ export const MITStyle: Record<string, object> = {
     description: { fontSize: 10, margin: 0, padding: 0, lineHeight: 1, color: 'black' },
   },
   skills: {
+    sectionTitle: {fontSize: 14, marginRight: 10, color: 'black',  marginBottom: 8, borderBottom: 1 },
     container: { marginBottom: 8 },
     row: { display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
     name: { fontSize: 11, marginRight: 8, color: 'black' },
@@ -54,6 +56,7 @@ export const MITStyle: Record<string, object> = {
     description: { fontSize: 10, marginTop: 2, color: 'black' },
   },
   custom: {
+    sectionTitle: {fontSize: 14, marginRight: 10, color: 'black',  marginBottom: 8, borderBottom: 1 },
     container: { marginBottom: 12 },
     title: { fontSize: 12, fontWeight: 'bold', color: 'black' },
     description: { fontSize: 10, margin: 0, padding: 0, lineHeight: 1, color: 'black' },
