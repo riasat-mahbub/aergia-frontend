@@ -27,7 +27,6 @@ export default function IconPicker({ selectedIcon="XSquare", onIconChange}: Icon
 
   useEffect( () =>{
     setSelectedIconData(IconMap.find(icon => icon.name === selectedIcon) || { name: 'X', icon: X })
-    console.log(selectedIcon)
   }, [selectedIcon])
   
   return (

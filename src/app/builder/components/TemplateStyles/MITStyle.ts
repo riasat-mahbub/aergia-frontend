@@ -1,6 +1,6 @@
 export const MITStyle: Record<string, object> = {
   formholder:{
-    title: {fontSize: 10, marginRight: 10, color: 'black' }
+    title: {fontSize: 14, marginRight: 10, color: 'black',  fontWeight: 'bold', marginBottom: 8, borderBottom: 1}
   },
   profile: {
     container: { marginBottom: 16 },
