@@ -10,7 +10,6 @@ import {
   deleteCv as deleteCvSlice,
   reorderCvs as reorderSliceCvs,
 } from '@/store/cvsSlice';
-import { templateStyleRegistry } from '@/app/builder/components/TemplateStyles/TemplateStyleRegistry';
 
 export function useCVs() {
     const { execute, loading: apiLoading, error, api } = useApi();
@@ -51,12 +50,10 @@ export function useCVs() {
         if (newCv && newCv.id) {
             dispatch(addCv(newCv));
             
-            const TemplateStyle = templateStyleRegistry[template]?.profile || {};
             await execute(() => api.formGroups.create(newCv.id, {
                 title: "Profile",
                 type: "profile",
                 data: JSON.stringify([]),
-                style: JSON.stringify(TemplateStyle),
             }));
         } else {
             console.error("Invalid CV data returned:", response);

@@ -1,26 +1,53 @@
-import { View, Text, Styles, StyleSheet } from "@react-pdf/renderer";
 import { FormHolder } from "@/types/FormHolderTypes"
 import ResumePreview from "./ResumePreview";
+import { useEffect, useMemo } from "react";
+import { ResumeStructure } from "@/types/ResumeStructureTypes";
 
 interface FormHolderPreviewProps{
-    formHolder: FormHolder,
-    cvTemplate: string | null
+    formHolder: FormHolder
 }
 
-export default function FormHolderPreview({formHolder, cvTemplate}: FormHolderPreviewProps){
+export default function FormHolderPreview({formHolder}: FormHolderPreviewProps){
     
-    const formStyles = StyleSheet.create(formHolder.style as Styles);
+    const generateScopedCSS = (scope: string, styleJson: Record<string, any>) => {
+        return Object.entries(styleJson)
+            .map(([selector, rules]) => {
+                const cssRules = Object.entries(rules).map(([prop, val]) => `${prop}: ${val};`).join(" ");
+                return `${scope} ${selector} { ${cssRules} }`;
+            })
+            .join("\n");
+    }
+
+    const formId = formHolder.id
+
+    const scopedCSS = useMemo(
+        () => generateScopedCSS(`.${formId}`, formHolder.style),
+        [formId, formHolder.style]
+    );
+
+    useEffect(() => {
+        if (!formId || !formHolder.style) return;
+        const styleElement = document.createElement("style");
+        styleElement.id = `style-${formId}`;
+        styleElement.textContent = scopedCSS;
+        document.head.appendChild(styleElement);
+        return () => styleElement.remove();
+    }, [scopedCSS, formId]);
+
     
+    
+    console.log(formHolder)
     return (
-        <View>
+        <div className={`${formId}`}>
             {formHolder.type !== 'profile' && (
-                <Text style={formStyles.sectionTitle}>
+                <p className={`sectionTitle`}>
                     {formHolder.title}
-                </Text>
+                </p>
             )}
+            
             {formHolder.data.map((form) => (
-                <ResumePreview key={form.id} form={form} cvTemplate={cvTemplate} styles={formStyles}/>
+                <ResumePreview key={form.id} formData={form} structure={formHolder.structure as ResumeStructure}/>
             ))}
-        </View>
+        </div>
     );
 }

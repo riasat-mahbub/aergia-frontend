@@ -32,6 +32,7 @@ export function useFormHolders() {
           type: formGroup.type,
           data: formGroup.data,
           style: formGroup.style,
+          structure: formGroup.structure,
           visible: formGroup.visible,
           order: formGroup.order
         }));
@@ -53,7 +54,6 @@ export function useFormHolders() {
       title: formHolder.title,
       type: formHolder.type,
       data: JSON.stringify(formHolder.data),
-      style: JSON.stringify(formHolder.style),
     };
 
     return execute(() => api.formGroups.create(cvId, data));

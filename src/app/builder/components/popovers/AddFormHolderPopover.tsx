@@ -7,7 +7,6 @@ import { useFormHolders } from "@/hooks/useFormHolders";
 import { RootState } from "@/store/store";
 import { useState } from "react";
 import Spinner from "@/components/Spinner";
-import { templateStyleRegistry } from "../TemplateStyles/TemplateStyleRegistry";
 
 export const formHolderTypes = [
   { type: "profile", name: "Profile", icon: "Person" },
@@ -37,14 +36,12 @@ export default function AddFormHolderPopover({ onClose }: AddFormHolderPopoverPr
     
     setLoading(true);
     
-    const TemplateStyle = cvTemplate && templateStyleRegistry[cvTemplate]?.[type.toLowerCase()] || {};
     try {
       dispatch(addFormHolder({
         formHolderTitle: selectedType.name,
         formHolderIcon: selectedType.icon,
         formHolderType: selectedType.type,
         formHolderData: [],
-        formHolderStyle: TemplateStyle,
       }));
       
       await saveFormHolder({
@@ -53,7 +50,8 @@ export default function AddFormHolderPopover({ onClose }: AddFormHolderPopoverPr
         icon: selectedType.icon,
         type: selectedType.type,
         data: [],
-        style: TemplateStyle,
+        style: {},
+        structure: {type:"Div"},
         visible: true,
         order: 0
       });

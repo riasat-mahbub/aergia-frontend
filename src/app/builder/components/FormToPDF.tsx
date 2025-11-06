@@ -1,16 +1,13 @@
 "use client";
-import { Document, Page, pdf } from "@react-pdf/renderer";
 import FormHolderPreview from "./ResumePreview/FormHolderPreview";
 import { shallowEqual, useSelector, useDispatch } from "react-redux";
 import { RootState } from "@/store/store";
 import Spinner from "@/components/Spinner";
-import { useMemo, useEffect, useRef } from "react";
-import { setPdfUrl } from "@/store/pdfSlice";
+
 import { useFormHolders } from "@/hooks/useFormHolders";
 
 export default function FormToPDF() {
   const dispatch = useDispatch();
-  const prevPdfUrlRef = useRef<string | null>(null);
 
   const {loading} = useFormHolders()
   
@@ -19,70 +16,21 @@ export default function FormToPDF() {
       state.forms.formHolders.filter((holder) => holder.visible !== false),
     shallowEqual
   );
-  const cvTemplate = useSelector((state: RootState) => state.cv.selectedCvTemplate);
-  const pdfUrl = useSelector((state: RootState) => state.pdf.pdfUrl);
 
-  const documentContent = useMemo(() => {
-    return formHolders.map((formHolder) => (
-      <FormHolderPreview
-        key={formHolder.id}
-        formHolder={formHolder}
-        cvTemplate={cvTemplate}
-      />
-    ));
-  }, [formHolders, cvTemplate]);
 
-  useEffect(() => {
-
-    const generatePdf = async () => {
-      if (prevPdfUrlRef.current) {
-        URL.revokeObjectURL(prevPdfUrlRef.current);
-      }
-
-      const doc = (
-        <Document>
-          <Page size="A4" style={{ padding: 30 }}>
-            {documentContent}
-          </Page>
-        </Document>
-      );
-     
-      const blob = await pdf(doc).toBlob();
-      const url = URL.createObjectURL(blob);
-      
-      prevPdfUrlRef.current = url;
-      dispatch(setPdfUrl(url));
-    };
-
-    generatePdf();
-  }, [formHolders, cvTemplate, documentContent, dispatch, loading]);
-
-  useEffect(() => {
-    return () => {
-      if (prevPdfUrlRef.current) {
-        URL.revokeObjectURL(prevPdfUrlRef.current);
-        dispatch(setPdfUrl(null));
-      }
-    };
-  }, [dispatch]);
-
-  if (!pdfUrl || loading) {
+  if ( loading) {
     return <Spinner />;
   }
 
   return (
-    <div style={{ width: "100%", height: "100vh" }}>
-      <object
-        data={pdfUrl}
-        type="application/pdf"
-        style={{
-          width: "100%",
-          height: "100%",
-          border: "none",
-        }}
-      >
-        <p>PDF cannot be displayed</p>
-      </object>
+    <div style={{ width: "100%", height: "100vh"}} className="bg-white p-4">
+      {formHolders.map((formHolder) => (
+        <FormHolderPreview
+          key={formHolder.id}
+          formHolder={formHolder}
+        />
+        ))
+      }
     </div>
   );
 }

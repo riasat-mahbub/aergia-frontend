@@ -70,13 +70,15 @@ class ApiService {
     get: (id: string) => this.request(`/cv/${id}`),
     
     delete: (id: string) => this.request(`/cv/${id}`, { method: 'DELETE' }),
+    
+    generatePdf: (id: string) => this.request(`/cv/${id}/pdf`),
   };
 
   // FormGroup endpoints
   formGroups = {
     getAll: (cvId: string) => this.request(`/formGroup/${cvId}`),
     
-    create: (cvId: string, data: { title: string; type: string; data: string; style:string }) =>
+    create: (cvId: string, data: { title: string; type: string; data: string; }) =>
       this.request(`/formGroup/${cvId}`, {
         method: 'POST',
         body: JSON.stringify(data),

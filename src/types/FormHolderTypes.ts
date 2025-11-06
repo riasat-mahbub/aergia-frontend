@@ -1,4 +1,5 @@
 import { ResumeCustom, ResumeEducation, ResumeForm, ResumeProfile, ResumeProject, ResumeSkills, ResumeExperience } from "./ResumeFormTypes";
+import { ResumeStructure } from "./ResumeStructureTypes";
 
 interface FormHolderBase{
     title: string;
@@ -7,23 +8,12 @@ interface FormHolderBase{
     order: number;
 }
 
-export type FormHolderStructure = {
-  type: string;
-  style?: string;
-  bind?: string;
-  text?: string;
-  if?: string | boolean;
-  children?: Array<FormHolderStructure | string>;
-  [key: string]: any;
-};
-
-
 export interface FormHolder extends FormHolderBase{
     id: string;
     icon: string;
     data: ResumeForm[];
     style: Record<string, Record<string, string>>;
-    structure: FormHolderStructure;
+    structure: ResumeStructure;
 }
 
 // separate type for API to handel stringified JSON
