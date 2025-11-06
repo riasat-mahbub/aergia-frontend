@@ -12,7 +12,7 @@ export interface FormHolder extends FormHolderBase{
     id: string;
     icon: string;
     data: ResumeForm[];
-    style: Record<string, Record<string, string>>;
+    style: Record<string, Record<string, string | number>>;
     structure: ResumeStructure;
 }
 

@@ -1,8 +1,6 @@
 'use client'
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { Styles } from "@react-pdf/renderer";
-import { Style } from "@react-pdf/types";
 import { FormHolder } from "@/types/FormHolderTypes";
 import { updateFormHolder } from "@/store/formSlice";
 import { useFormHolders } from "@/hooks/useFormHolders";
@@ -13,6 +11,8 @@ interface StyleEditorProps {
 }
 
 type StyleValue = string | number;
+type CSSProperties = Record<string, string | number>;
+type StyleData = Record<string, CSSProperties>;
 
 const FLEXBOX_PROPERTIES = [
   'display', 
@@ -60,10 +60,17 @@ export default function StyleEditor({ formHolder, onClose }: StyleEditorProps) {
   const dispatch = useDispatch();
   const { updateFormHolder: updateFormHolderAPI } = useFormHolders();
   
-  const [styleData, setStyleData] = useState<Styles>(
-    (formHolder.style as Styles) || {}
+  const [styleData, setStyleData] = useState<StyleData>(
+    (formHolder.style as StyleData) || {}
   );
   const [loading, setLoading] = useState(false);
+
+  // Extract class name from scoped selector (e.g., ".th-xxx .name" -> "name")
+  const extractClassName = (selector: string): string => {
+    const parts = selector.trim().split(/\s+/);
+    const lastPart = parts[parts.length - 1];
+    return lastPart.startsWith('.') ? lastPart.slice(1) : lastPart;
+  };
 
   const handleStyleChange = (componentKey: string, property: string, value: string) => {
     setStyleData(prev => ({
@@ -71,13 +78,26 @@ export default function StyleEditor({ formHolder, onClose }: StyleEditorProps) {
       [componentKey]: {
         ...(prev[componentKey] || {}),
         [property]: value
-      } as Style
+      }
     }));
   };
 
-  const isFlexboxOnlyObject = (styleObj: Style): boolean => {
+  const isFlexboxOnlyObject = (styleObj: CSSProperties): boolean => {
     const keys = Object.keys(styleObj).filter(key => !key.startsWith('@media'));
     return keys.length > 0 && keys.every(key => FLEXBOX_PROPERTIES.includes(key as typeof FLEXBOX_PROPERTIES[number]));
+  };
+
+  // Parse border shorthand to extract color and width
+  const parseBorder = (borderValue: string): { color?: string; width?: string } => {
+    const parts = borderValue.trim().split(/\s+/);
+    const result: { color?: string; width?: string } = {};
+    
+    parts.forEach(part => {
+      if (part.match(/^\d+px$/)) result.width = part;
+      else if (part.match(/^#[0-9a-fA-F]{3,6}$/) || part.match(/^[a-z]+$/i)) result.color = part;
+    });
+    
+    return result;
   };
 
   const renderFontWeightInput = (componentKey: string, property: string, value: StyleValue) => (
@@ -146,14 +166,18 @@ export default function StyleEditor({ formHolder, onClose }: StyleEditorProps) {
 
   const getInputType = (componentKey: string, property: string, value: StyleValue) => {
     switch (property) {
+      case 'font-weight':
       case 'fontWeight':
         return renderFontWeightInput(componentKey, property, value);
+      case 'text-align':
       case 'textAlign':
         return renderTextAlignInput(componentKey, property, value);
       case 'color':
         return renderColorInput(componentKey, property, value);
+      case 'border-color':
       case 'borderColor':
         return renderColorInput(componentKey, property, value);
+      case 'text-decoration':
       case 'textDecoration':
         return renderTextDecorationInput(componentKey, property, value)
       default:
@@ -177,7 +201,23 @@ export default function StyleEditor({ formHolder, onClose }: StyleEditorProps) {
     }
   };
 
-  const filteredStyleEntries = Object.entries(styleData)
+  // Process style entries and handle border shorthand
+  const processedStyleEntries = Object.entries(styleData).map(([selector, styles]) => {
+    const processed = { ...styles };
+    
+    // If border exists, extract border-color and border-width
+    if (processed['border'] || processed['border-bottom']) {
+      const borderProp = processed['border'] || processed['border-bottom'];
+      const { color, width } = parseBorder(String(borderProp));
+      
+      if (color && !processed['border-color']) processed['border-color'] = color;
+      if (width && !processed['border-width']) processed['border-width'] = width;
+    }
+    
+    return [selector, processed] as [string, CSSProperties];
+  });
+
+  const filteredStyleEntries = processedStyleEntries
     .filter(([, componentStyle]) => {
       return componentStyle && !isFlexboxOnlyObject(componentStyle);
     });
@@ -189,7 +229,7 @@ export default function StyleEditor({ formHolder, onClose }: StyleEditorProps) {
           <div className="space-y-6">
             {filteredStyleEntries.map(([componentKey, componentStyle]) => (
               <div key={componentKey} className="border border-gray-200 rounded-lg p-4">
-                <h3 className="text-lg font-semibold mb-3 capitalize">{componentKey}</h3>
+                <h3 className="text-lg font-semibold mb-3 capitalize">{extractClassName(componentKey)}</h3>
                 <div className="space-y-2">
                   {Object.entries(componentStyle)
                     .filter(([property]) => 
