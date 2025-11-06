@@ -1,3 +1,4 @@
+import SafeHTML from "@/components/SafeHTML";
 import React from "react";
 
 /* --------------------------
@@ -134,9 +135,13 @@ export const ResumePreview: React.FC<ResumePreviewProps> = ({ structure, formDat
         return <p className={cls}>{val ?? ""}</p>;
       }
 
+      case "Raw": {
+        return <span className={cls}>{node.bind ?? ""}</span>;
+      }
+
       case "Html": {
         const html = resolveBind(node.bind, formData, locals) ?? "";
-        return <div className={cls} dangerouslySetInnerHTML={{ __html: String(html) }} />;
+        return <div className={cls} dangerouslySetInnerHTML={{ __html: SafeHTML(String(html)) }} />;
       }
 
       case "Icon": {
