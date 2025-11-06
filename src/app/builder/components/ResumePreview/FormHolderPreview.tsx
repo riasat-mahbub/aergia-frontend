@@ -36,7 +36,6 @@ export default function FormHolderPreview({formHolder}: FormHolderPreviewProps){
 
     
     
-    console.log(formHolder)
     return (
         <div className={`${formId}`}>
             {formHolder.type !== 'profile' && (
