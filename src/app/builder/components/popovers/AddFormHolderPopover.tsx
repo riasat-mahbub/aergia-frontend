@@ -37,14 +37,8 @@ export default function AddFormHolderPopover({ onClose }: AddFormHolderPopoverPr
     setLoading(true);
     
     try {
-      dispatch(addFormHolder({
-        formHolderTitle: selectedType.name,
-        formHolderIcon: selectedType.icon,
-        formHolderType: selectedType.type,
-        formHolderData: [],
-      }));
-      
-      await saveFormHolder({
+      // First save to backend to get the ID
+      const result = await saveFormHolder({
         id: '',
         title: selectedType.name,
         icon: selectedType.icon,
@@ -56,9 +50,23 @@ export default function AddFormHolderPopover({ onClose }: AddFormHolderPopoverPr
         order: 0
       });
       
+      // Then dispatch to Redux with the actual ID from backend
+      if (result) {
+        dispatch(addFormHolder({
+          formHolderTitle: selectedType.name,
+          formHolderIcon: selectedType.icon,
+          formHolderType: selectedType.type,
+          formHolderData: [],
+        }));
+      }
+      
+      // Add small delay to prevent rapid successive calls
+      await new Promise(resolve => setTimeout(resolve, 100));
+      
       onClose();
     } catch (error) {
       console.error('Failed to save FormHolder to backend:', error);
+      // Don't close on error
     } finally {
       setLoading(false);
     }

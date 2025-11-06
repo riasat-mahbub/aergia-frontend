@@ -12,32 +12,69 @@ export default function FormHolderPreview({formHolder}: FormHolderPreviewProps){
     const generateScopedCSS = (scope: string, styleJson: Record<string, any>) => {
         return Object.entries(styleJson)
             .map(([selector, rules]) => {
-                const cssRules = Object.entries(rules).map(([prop, val]) => `${prop}: ${val};`).join(" ");
+                const cssRules = Object.entries(rules)
+                    .map(([prop, val]) => {
+                        if (val === null || val === undefined || val === '') return '';
+                        return `${prop}: ${val};`;
+                    })
+                    .filter(rule => rule.length > 0)
+                    .join(" ");
+                
+                if (!cssRules) return '';
                 return `${scope} ${selector} { ${cssRules} }`;
             })
+            .filter(rule => rule.length > 0)
             .join("\n");
     }
 
     const formId = formHolder.id
+    const cssId = `fh-${formId}` // Prefix to ensure valid CSS selector
 
     const scopedCSS = useMemo(
-        () => generateScopedCSS(`.${formId}`, formHolder.style),
-        [formId, formHolder.style]
+        () => generateScopedCSS(`.${cssId}`, formHolder.style),
+        [cssId, formHolder.style]
     );
-
+    
+    // Create/update styles when CSS changes
     useEffect(() => {
-        if (!formId || !formHolder.style) return;
+        if (!formId || !scopedCSS.trim()) return;
+        
+        const styleId = `style-${cssId}`;
+        
+        // Only update if CSS content has actually changed
+        const existingStyle = document.getElementById(styleId);
+        if (existingStyle && existingStyle.textContent === scopedCSS) {
+            return; // No change needed
+        }
+        
+        // Remove existing style element if it exists
+        if (existingStyle) {
+            existingStyle.remove();
+        }
+        
+        // Create new style element
         const styleElement = document.createElement("style");
-        styleElement.id = `style-${formId}`;
+        styleElement.id = styleId;
         styleElement.textContent = scopedCSS;
         document.head.appendChild(styleElement);
-        return () => styleElement.remove();
-    }, [scopedCSS, formId]);
+    }, [formId, scopedCSS]);
+    
+    // Cleanup only on component unmount
+    useEffect(() => {
+        const styleId = `style-${cssId}`;
+        
+        return () => {
+            const elementToRemove = document.getElementById(styleId);
+            if (elementToRemove) {
+                elementToRemove.remove();
+            }
+        };
+    }, [cssId, formHolder.title]);
 
     
     
     return (
-        <div className={`${formId}`}>
+        <div className={`${cssId}`}>
             {formHolder.type !== 'profile' && (
                 <p className={`sectionTitle`}>
                     {formHolder.title}
