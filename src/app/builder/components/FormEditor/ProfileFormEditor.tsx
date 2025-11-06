@@ -4,7 +4,7 @@ import RichTextEditor from "@/components/RichTextEditor";
 import { BaseEditorProps } from "./FormEditor";
 import IconPicker from "@/components/IconPicker";
 import { Plus, Trash2 } from "lucide-react";
-import { useCallback, useEffect, useState } from "react";
+import { useState } from "react";
 import {
   closestCenter,
   DndContext,
@@ -24,58 +24,63 @@ import InfoItemEditor from "./InfoItemEditor";
 
 interface ProfileFormEditorProps extends BaseEditorProps<ResumeProfile> {
   handleUrl: (url: ResumeURL, operation: "add" | "remove" | "change", index?: number) => void;
-  handleProfileItem: (item: ProfileItem) => void;
+  handleInfos: (infos: ProfileItem[]) => void;
 }
 
-export default function ProfileFormEditor({ formData, handleChange, handleUrl, handleProfileItem }: ProfileFormEditorProps) {
-
-  const makeInitial = useCallback(() => {
-    const arr = [
-      { ...formData.email },
-      { ...formData.phone },
-      { ...formData.location }
-    ];
-    return arr.sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
-  }, [formData.email, formData.phone, formData.location]) 
-
-  const [infoArray, setInfoArray] = useState<ProfileItem[]>(makeInitial);
-
-  useEffect(() => {
-    setInfoArray(makeInitial());
-  }, [formData.email, formData.phone, formData.location, makeInitial]);
+export default function ProfileFormEditor({ formData, handleChange, handleUrl, handleInfos }: ProfileFormEditorProps) {
+  const [infos, setInfos] = useState<ProfileItem[]>(() => 
+    (formData.infos || []).map(item => ({ ...item }))
+  );
 
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 8 } }),
     useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates })
   );
 
-  const syncAllToParent = (arr: ProfileItem[]) => {
-    arr.forEach(item => {
-      handleProfileItem({ ...item });
-    });
-  };
-
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
     if (!over || active.id === over.id) return;
 
-    const activeType = String(active.id);
-    const overType = String(over.id);
+    const activeIndex = parseInt(String(active.id).replace('item-', ''));
+    const overIndex = parseInt(String(over.id).replace('item-', ''));
 
-    const updated = [...infoArray];
-    const fromIndex = updated.findIndex(i => i.type === activeType);
-    const toIndex = updated.findIndex(i => i.type === overType);
+    if (activeIndex === overIndex) return;
 
-    if (fromIndex === -1 || toIndex === -1 || fromIndex === toIndex) return;
+    const sortedInfos = [...infos].sort((a, b) => (a.order || 0) - (b.order || 0)).map(item => ({ ...item }));
+    const [moved] = sortedInfos.splice(activeIndex, 1);
+    sortedInfos.splice(overIndex, 0, moved);
 
-    const [moved] = updated.splice(fromIndex, 1);
-    updated.splice(toIndex, 0, moved);
+    const reorderedInfos = sortedInfos.map((item, index) => ({ ...item, order: index }));
+    setInfos(reorderedInfos);
+    handleInfos(reorderedInfos);
+  };
 
-    const withOrders = updated.map((item, idx) => ({ ...item, order: idx }));
+  const handleInfoChange = (index: number, updatedItem: ProfileItem) => {
+    const sortedInfos = [...infos].sort((a, b) => (a.order || 0) - (b.order || 0));
+    const newInfos = sortedInfos.map((item, i) => i === index ? { ...updatedItem } : { ...item });
+    setInfos(newInfos);
+    handleInfos(newInfos);
+  };
 
-    setInfoArray(withOrders);
-    syncAllToParent(withOrders);
+  const addInfo = () => {
+    const newInfo: ProfileItem = {
+      title: '',
+      type: '',
+      icon: '',
+      order: infos.length
+    };
+    const newInfos = [...infos.map(item => ({ ...item })), newInfo];
+    setInfos(newInfos);
+    handleInfos(newInfos);
+  };
 
+  const removeInfo = (index: number) => {
+    const sortedInfos = [...infos].sort((a, b) => (a.order || 0) - (b.order || 0));
+    const newInfos = sortedInfos
+      .filter((_, i) => i !== index)
+      .map((item, i) => ({ ...item, order: i }));
+    setInfos(newInfos);
+    handleInfos(newInfos);
   };
 
 
@@ -92,14 +97,40 @@ export default function ProfileFormEditor({ formData, handleChange, handleUrl, h
         />
       </div>
 
-      <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd} modifiers={[restrictToVerticalAxis]}>
-     
-        <SortableContext items={infoArray.map(item => item.type)} strategy={verticalListSortingStrategy}>
-          {infoArray.map((item, idx) => (
-            <InfoItemEditor key={item.type} idx={idx} id={item.type} item={item} handleProfileItem={handleProfileItem}/>
-          ))}
-        </SortableContext>
-      </DndContext>
+      {/* Contact Info Section */}
+      <div className="space-y-4">
+        <div className="flex justify-between items-center">
+          <label className="block text-sm font-medium text-gray-700">Contact Information</label>
+        </div>
+
+        <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd} modifiers={[restrictToVerticalAxis]}>
+          <SortableContext items={infos.map((_, idx) => `item-${idx}`)} strategy={verticalListSortingStrategy}>
+            {infos
+              .sort((a, b) => (a.order || 0) - (b.order || 0))
+              .map((item, idx) => (
+                <InfoItemEditor 
+                  key={`item-${idx}`} 
+                  idx={idx} 
+                  id={`item-${idx}`} 
+                  item={item} 
+                  handleProfileItem={(updatedItem) => handleInfoChange(idx, updatedItem)}
+                  onRemove={removeInfo}
+                />
+              ))}
+          </SortableContext>
+        </DndContext>
+
+        <div className="flex justify-end items-center">
+          <button
+            type="button"
+            onClick={addInfo}
+            className="flex items-center gap-2 px-4 py-2 rounded-lg bg-emerald-500 text-white hover:bg-emerald-600 hover:shadow-md transition-all duration-300"
+          >
+            <Plus size={14} />
+            Add Info
+          </button>
+        </div>
+      </div>
 
       {/* URLs Section */}
       <div className="space-y-6">

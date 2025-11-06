@@ -47,9 +47,9 @@ export default function FormEditor({ form, formHolderId }: FormEditorProps) {
     setFormData(prev => ({ ...prev, 'urls': profileUrls }));
   }
 
-  const handleProfileItem = (item: ProfileItem) =>{
-    setFormData(prev => ({ ...prev, [item.type]: item }));
-  }
+  const handleInfos = (infos: ProfileItem[]) => {
+    setFormData(prev => ({ ...prev, infos }));
+  };
 
   const handleSave = async () => {
     if (!formHolder) return;
@@ -96,7 +96,7 @@ export default function FormEditor({ form, formHolderId }: FormEditorProps) {
           onCancel={handleCancel}
           handleChange={handleChange}
           handleUrl={handleUrl}
-          handleProfileItem={handleProfileItem}
+          handleInfos={handleInfos}
         />
       );
     }else{

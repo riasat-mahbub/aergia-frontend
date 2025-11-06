@@ -25,9 +25,7 @@ export interface ResumeURL extends ProfileItem{
 
 export interface ResumeProfile extends ResumeFormBase {
   name: string;
-  email: ProfileItem;
-  phone: ProfileItem;
-  location: ProfileItem;
+  infos: ProfileItem[];
   urls: ResumeURL[];
   summary: string;
 }
