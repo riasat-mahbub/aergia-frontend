@@ -9,8 +9,10 @@ interface FormHolderPreviewProps{
 
 export default function FormHolderPreview({formHolder}: FormHolderPreviewProps){
     
-    const generateScopedCSS = (scope: string, styleJson: Record<string, any>) => {
-        return Object.entries(styleJson)
+    const formId = formHolder.id
+
+    const scopedCSS = useMemo(() => {
+        return Object.entries(formHolder.style)
             .map(([selector, rules]) => {
                 const cssRules = Object.entries(rules)
                     .map(([prop, val]) => {
@@ -21,25 +23,17 @@ export default function FormHolderPreview({formHolder}: FormHolderPreviewProps){
                     .join(" ");
                 
                 if (!cssRules) return '';
-                return `${scope} ${selector} { ${cssRules} }`;
+                return `${selector} { ${cssRules} }`;
             })
             .filter(rule => rule.length > 0)
             .join("\n");
-    }
-
-    const formId = formHolder.id
-    const cssId = `fh-${formId}` // Prefix to ensure valid CSS selector
-
-    const scopedCSS = useMemo(
-        () => generateScopedCSS(`.${cssId}`, formHolder.style),
-        [cssId, formHolder.style]
-    );
+    }, [formHolder.style]);
     
     // Create/update styles when CSS changes
     useEffect(() => {
         if (!formId || !scopedCSS.trim()) return;
         
-        const styleId = `style-${cssId}`;
+        const styleId = `style-fh-${formId}`;
         
         // Only update if CSS content has actually changed
         const existingStyle = document.getElementById(styleId);
@@ -61,7 +55,7 @@ export default function FormHolderPreview({formHolder}: FormHolderPreviewProps){
     
     // Cleanup only on component unmount
     useEffect(() => {
-        const styleId = `style-${cssId}`;
+        const styleId = `style-fh-${formId}`;
         
         return () => {
             const elementToRemove = document.getElementById(styleId);
@@ -69,12 +63,12 @@ export default function FormHolderPreview({formHolder}: FormHolderPreviewProps){
                 elementToRemove.remove();
             }
         };
-    }, [cssId, formHolder.title]);
+    }, [formId, formHolder.title]);
 
     
     
     return (
-        <div className={`${cssId}`}>
+        <div className={`th-${formHolder.id}`}>
             {formHolder.type !== 'profile' && (
                 <p className={`sectionTitle`}>
                     {formHolder.title}
