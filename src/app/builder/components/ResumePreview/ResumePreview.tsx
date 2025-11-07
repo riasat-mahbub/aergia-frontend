@@ -13,6 +13,7 @@ export interface BaseNode {
   bind?: string;       // e.g. "data.name" or "info.icon"
   textbind?: string;   // e.g. "url.title"
   visible?: boolean;
+  if?: string;         // e.g. "data.startDate && data.endDate"
 }
 
 export interface ElementNode extends BaseNode {
@@ -43,6 +44,29 @@ function getPath(obj: unknown, path: string): unknown {
     cur = (cur as Record<string | number, unknown>)[idx];
   }
   return cur;
+}
+
+/**
+ * evaluateCondition:
+ * - evaluates a condition string like "data.startDate && data.endDate"
+ * - supports &&, ||, and ! operators
+ */
+function evaluateCondition(condition: string, formData: unknown, locals: unknown = {}): boolean {
+  if (!condition) return true;
+  
+  // Replace data paths with their actual values
+  const tokens = condition.split(/\s+/);
+  const evaluated = tokens.map(token => {
+    if (token === '&&' || token === '||' || token === '!') return token;
+    const value = resolveBind(token, formData, locals);
+    return value ? 'true' : 'false';
+  }).join(' ');
+  
+  try {
+    return eval(evaluated) as boolean;
+  } catch {
+    return false;
+  }
 }
 
 /**
@@ -106,6 +130,9 @@ export const ResumePreview: React.FC<ResumePreviewProps> = ({ structure, formDat
   function renderNode(node: StructureNode | undefined, locals: unknown = {}): React.ReactNode {
     if (!node) return null;
     if (formData.visible === false) return null;
+    
+    // Check if condition
+    if (node.if && !evaluateCondition(node.if, formData, locals)) return null;
 
     const nodeType = node.type || "Div";
     const cls = classNameFromStyle(node.style);
