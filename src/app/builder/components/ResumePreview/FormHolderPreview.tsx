@@ -2,6 +2,7 @@ import { FormHolder } from "@/types/FormHolderTypes"
 import ResumePreview from "./ResumePreview";
 import { useEffect, useMemo } from "react";
 import { ResumeStructure } from "@/types/ResumeStructureTypes";
+import { ResumeForm } from "@/types/ResumeFormTypes";
 
 interface FormHolderPreviewProps{
     formHolder: FormHolder
@@ -75,7 +76,7 @@ export default function FormHolderPreview({formHolder}: FormHolderPreviewProps){
                 </p>
             )}
             
-            {formHolder.data.map((form) => (
+            {formHolder.data.map((form:ResumeForm) => (
                 <ResumePreview key={form.id} formData={form} structure={formHolder.structure as ResumeStructure}/>
             ))}
         </div>

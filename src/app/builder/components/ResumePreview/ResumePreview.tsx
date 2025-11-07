@@ -1,4 +1,5 @@
 import SafeHTML from "@/components/SafeHTML";
+import { ResumeForm } from "@/types/ResumeFormTypes";
 import React from "react";
 
 /* --------------------------
@@ -96,7 +97,7 @@ interface CustomComponentProps {
 
 export interface ResumePreviewProps {
   structure: ElementNode;
-  formData: unknown;
+  formData: ResumeForm;
   components?: Record<string, React.ComponentType<CustomComponentProps> | ((props: CustomComponentProps) => React.ReactNode)>;
 }
 
@@ -104,7 +105,7 @@ export const ResumePreview: React.FC<ResumePreviewProps> = ({ structure, formDat
   // Recursive renderer
   function renderNode(node: StructureNode | undefined, locals: unknown = {}): React.ReactNode {
     if (!node) return null;
-    if (node.visible === false) return null;
+    if (formData.visible === false) return null;
 
     const nodeType = node.type || "Div";
     const cls = classNameFromStyle(node.style);
