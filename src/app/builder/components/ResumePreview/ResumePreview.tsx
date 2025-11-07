@@ -27,7 +27,6 @@ export interface MapNode extends BaseNode {
 
 export type StructureNode = ElementNode | MapNode;
 
-export interface StructureRoot extends ElementNode {}
 
 /* --------------------------
    Helpers: path resolving
@@ -86,7 +85,7 @@ const classNameFromStyle = (style?: string) => {
    Main renderer component
    -------------------------- */
 export interface ResumePreviewProps {
-  structure: StructureRoot;
+  structure: ElementNode;
   formData: any; // data object (accessible via "data.*")
   // optional map of custom renderers (e.g. { Icon: MyIconComponent })
   components?: Record<string, React.ComponentType<any> | ((props: any) => React.ReactNode)>;

@@ -25,8 +25,6 @@ export default function AddFormHolderPopover({ onClose }: AddFormHolderPopoverPr
   const dispatch = useDispatch();
   const { saveFormHolder } = useFormHolders();
   const [loading, setLoading] = useState(false);
-
-  const cvTemplate = useSelector((state: RootState) => state.cv.selectedCvTemplate)
   
   const handleAddFormHolder = async (type: string) => {
     if (loading) return;

@@ -7,8 +7,6 @@ import Spinner from "@/components/Spinner";
 import { useFormHolders } from "@/hooks/useFormHolders";
 
 export default function FormToPDF() {
-  const dispatch = useDispatch();
-
   const {loading} = useFormHolders()
   
   const formHolders = useSelector(

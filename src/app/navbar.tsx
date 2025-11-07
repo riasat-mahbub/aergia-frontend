@@ -8,7 +8,6 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { RootState } from '@/store/store';
 import * as motion from "motion/react-client"
 import { AnimatePresence } from "motion/react"
-import { apiService } from '@/services/api';
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
