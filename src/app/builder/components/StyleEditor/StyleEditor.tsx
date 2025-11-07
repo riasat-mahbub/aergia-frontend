@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { FormHolder } from "@/types/FormHolderTypes";
 import { updateFormHolder } from "@/store/formSlice";
 import { useFormHolders } from "@/hooks/useFormHolders";
+import { GOOGLE_FONTS } from "@/constants/googleFonts";
 
 interface StyleEditorProps {
   formHolder: FormHolder;
@@ -53,8 +54,12 @@ const TEXT_DECORATIONS = [
   {value: '', label:'Select Decoration'},
   {value: 'none', label: 'No Decoration'},
   {value: 'underline', label: 'Underline'},
+] as const;
 
-]
+const FONT_FAMILIES = [
+  { value: '', label: 'Select font' },
+  ...GOOGLE_FONTS.map(font => ({ value: `'${font}', Arial, sans-serif`, label: font }))
+] as const;
 
 export default function StyleEditor({ formHolder, onClose }: StyleEditorProps) {
   const dispatch = useDispatch();
@@ -136,6 +141,18 @@ export default function StyleEditor({ formHolder, onClose }: StyleEditorProps) {
     </select>
   );
 
+  const renderFontFamilyInput = (componentKey: string, property: string, value: StyleValue) => (
+    <select
+      value={String(value || '')}
+      onChange={(e) => handleStyleChange(componentKey, property, e.target.value)}
+      className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+    >
+      {FONT_FAMILIES.map(({ value: optValue, label }) => (
+        <option key={optValue} value={optValue}>{label}</option>
+      ))}
+    </select>
+  );
+
   const renderColorInput = (componentKey: string, property: string, value: StyleValue) => (
     <div className="flex-1 flex items-center gap-2">
       <input
@@ -169,6 +186,9 @@ export default function StyleEditor({ formHolder, onClose }: StyleEditorProps) {
       case 'font-weight':
       case 'fontWeight':
         return renderFontWeightInput(componentKey, property, value);
+      case 'font-family':
+      case 'fontFamily':
+        return renderFontFamilyInput(componentKey, property, value);
       case 'text-align':
       case 'textAlign':
         return renderTextAlignInput(componentKey, property, value);
