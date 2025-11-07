@@ -132,15 +132,22 @@ export const ResumePreview: React.FC<ResumePreviewProps> = ({ structure, formDat
 
       case "Div": {
         const el = node as ElementNode;
+        const children = Array.isArray(el.children) 
+          ? el.children.map((c, i) => renderNode(c, locals)).filter(Boolean)
+          : [];
+        
+        if (children.length === 0) return null; // Skip empty divs
+        
         return (
           <div className={cls} key={Math.random()}>
-            {Array.isArray(el.children) ? el.children.map((c, i) => <React.Fragment key={i}>{renderNode(c, locals)}</React.Fragment>) : null}
+            {children.map((child, i) => <React.Fragment key={i}>{child}</React.Fragment>)}
           </div>
         );
       }
 
       case "Text": {
         const val = resolveBind(node.bind, formData, locals);
+        if(!val) return null;
         return <p className={cls}>{String(val ?? "")}</p>;
       }
 
@@ -150,19 +157,22 @@ export const ResumePreview: React.FC<ResumePreviewProps> = ({ structure, formDat
 
       case "Html": {
         const html = resolveBind(node.bind, formData, locals) ?? "";
+        if (!String(html).trim()) return null; // Skip empty
         return <div className={cls} dangerouslySetInnerHTML={{ __html: SafeHTML(String(html)) }} />;
       }
 
       case "Icon": {
         const iconVal = resolveBind(node.bind, formData, locals);
+        if (!iconVal) return null; // Skip empty
         const Custom = components["Icon"];
         if (Custom) return <Custom value={iconVal} className={cls} />;
-        return <span className={cls}>{String(iconVal ?? "🔹")}</span>;
+        return <span className={cls}>{String(iconVal)}</span>;
       }
 
       case "Link": {
         const href = String(resolveBind(node.bind, formData, locals) ?? "#");
-        const text = node.textbind ? resolveBind(node.textbind, formData, locals) : resolveBind(node.bind, formData, locals);
+        if (!href || href === "#") return null; // Skip empty links
+        const text = node.textbind ? resolveBind(node.textbind, formData, locals) : href;
         return (
           <a className={cls} href={href}>
             {String(text ?? href)}
