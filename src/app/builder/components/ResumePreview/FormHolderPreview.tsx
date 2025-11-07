@@ -12,7 +12,7 @@ export default function FormHolderPreview({formHolder}: FormHolderPreviewProps){
     const formId = formHolder.id
 
     const scopedCSS = useMemo(() => {
-        return Object.entries(formHolder.style)
+        return Object.entries(formHolder.style || {})
             .map(([selector, rules]) => {
                 const cssRules = Object.entries(rules)
                     .map(([prop, val]) => {

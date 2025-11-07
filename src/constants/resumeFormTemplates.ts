@@ -14,9 +14,7 @@ export const emptyProfile: ResumeProfile = {
   id: uuidv4(),
   type: "profile",
   name: "",
-  email: {title:"", order:0, icon:"", type:"email"},
-  phone: {title:"", order:1, icon:"", type:"phone"},
-  location: {title:"", order:2, icon:"", type:"location"},
+  infos: [],
   urls: [{title:"", order: 0, icon:"", type: "url", url:""}],
   summary: "",
   visible: true

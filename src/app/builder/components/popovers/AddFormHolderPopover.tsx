@@ -1,10 +1,9 @@
 "use client";
 
 import { X } from "lucide-react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { addFormHolder } from "@/store/formSlice";
 import { useFormHolders } from "@/hooks/useFormHolders";
-import { RootState } from "@/store/store";
 import { useState } from "react";
 import Spinner from "@/components/Spinner";
 

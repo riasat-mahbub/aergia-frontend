@@ -31,15 +31,15 @@ export type StructureNode = ElementNode | MapNode;
 /* --------------------------
    Helpers: path resolving
    -------------------------- */
-function getPath(obj: any, path: string): any {
+function getPath(obj: unknown, path: string): unknown {
   if (obj == null || !path) return undefined;
   const parts = path.split(".");
-  let cur: any = obj;
+  let cur: unknown = obj;
   for (const p of parts) {
     if (cur == null) return undefined;
     // numeric index support
     const idx = Number.isInteger(Number(p)) ? Number(p) : p;
-    cur = cur[idx];
+    cur = (cur as Record<string | number, unknown>)[idx];
   }
   return cur;
 }
@@ -50,7 +50,7 @@ function getPath(obj: any, path: string): any {
  * - else if first segment exists in locals -> resolve from locals[firstSegment].rest
  * - else try resolving from formData directly (allow both "name" and "data.name")
  */
-function resolveBind(bind: string | undefined, formData: any, locals: Record<string, any> = {}) {
+function resolveBind(bind: string | undefined, formData: unknown, locals: unknown = {}): unknown {
   if (!bind) return undefined;
   const trimmed = bind.trim();
   if (trimmed.startsWith("data.")) {
@@ -59,13 +59,15 @@ function resolveBind(bind: string | undefined, formData: any, locals: Record<str
   // attempt local resolution (e.g., "info.icon")
   const firstDot = trimmed.indexOf(".");
   if (firstDot === -1) {
-    if (locals.hasOwnProperty(trimmed)) return locals[trimmed];
+    if (typeof locals === 'object' && locals !== null && !Array.isArray(locals) && trimmed in locals) {
+      return (locals as Record<string, unknown>)[trimmed];
+    }
     return getPath(formData, trimmed);
   } else {
     const first = trimmed.slice(0, firstDot);
     const rest = trimmed.slice(firstDot + 1);
-    if (locals.hasOwnProperty(first)) {
-      return getPath(locals[first], rest);
+    if (typeof locals === 'object' && locals !== null && !Array.isArray(locals) && first in locals) {
+      return getPath((locals as Record<string, unknown>)[first], rest);
     }
     // fallback to formData.first.rest
     return getPath(formData, `${first}.${rest}`);
@@ -84,18 +86,25 @@ const classNameFromStyle = (style?: string) => {
 /* --------------------------
    Main renderer component
    -------------------------- */
+interface CustomComponentProps {
+  value?: unknown;
+  node?: StructureNode;
+  formData?: unknown;
+  locals?: unknown;
+  className?: string;
+}
+
 export interface ResumePreviewProps {
   structure: ElementNode;
-  formData: any; // data object (accessible via "data.*")
-  // optional map of custom renderers (e.g. { Icon: MyIconComponent })
-  components?: Record<string, React.ComponentType<any> | ((props: any) => React.ReactNode)>;
+  formData: unknown;
+  components?: Record<string, React.ComponentType<CustomComponentProps> | ((props: CustomComponentProps) => React.ReactNode)>;
 }
 
 export const ResumePreview: React.FC<ResumePreviewProps> = ({ structure, formData, components = {} }) => {
   // Recursive renderer
-  function renderNode(node: StructureNode | undefined, locals: Record<string, any> = {}): React.ReactNode {
+  function renderNode(node: StructureNode | undefined, locals: unknown = {}): React.ReactNode {
     if (!node) return null;
-    if ((node as any).visible === false) return null;
+    if (node.visible === false) return null;
 
     const nodeType = node.type || "Div";
     const cls = classNameFromStyle(node.style);
@@ -110,8 +119,9 @@ export const ResumePreview: React.FC<ResumePreviewProps> = ({ structure, formDat
         const itemName = mapNode.bind || "item"; // use provided local name or default
         return (
           <React.Fragment>
-            {arr.map((it: any, idx: number) => {
-              const newLocals = { ...locals, [itemName]: it };
+            {arr.map((it: unknown, idx: number) => {
+              const localsObj = typeof locals === 'object' && locals !== null && !Array.isArray(locals) ? locals as Record<string, unknown> : {};
+              const newLocals = { ...localsObj, [itemName]: it };
               const tpl = mapNode.template;
               // if template is a root element and has a style meaning class to apply, it will be used inside renderNode
               return <React.Fragment key={idx}>{renderNode(tpl as StructureNode, newLocals)}</React.Fragment>;
@@ -131,7 +141,7 @@ export const ResumePreview: React.FC<ResumePreviewProps> = ({ structure, formDat
 
       case "Text": {
         const val = resolveBind(node.bind, formData, locals);
-        return <p className={cls}>{val ?? ""}</p>;
+        return <p className={cls}>{String(val ?? "")}</p>;
       }
 
       case "Raw": {
@@ -147,15 +157,15 @@ export const ResumePreview: React.FC<ResumePreviewProps> = ({ structure, formDat
         const iconVal = resolveBind(node.bind, formData, locals);
         const Custom = components["Icon"];
         if (Custom) return <Custom value={iconVal} className={cls} />;
-        return <span className={cls}>{iconVal ?? "🔹"}</span>;
+        return <span className={cls}>{String(iconVal ?? "🔹")}</span>;
       }
 
       case "Link": {
-        const href = resolveBind(node.bind, formData, locals) ?? "#";
+        const href = String(resolveBind(node.bind, formData, locals) ?? "#");
         const text = node.textbind ? resolveBind(node.textbind, formData, locals) : resolveBind(node.bind, formData, locals);
         return (
           <a className={cls} href={href}>
-            {text ?? href}
+            {String(text ?? href)}
           </a>
         );
       }
@@ -164,9 +174,8 @@ export const ResumePreview: React.FC<ResumePreviewProps> = ({ structure, formDat
         // custom component support
         const Custom = components[nodeType];
         if (Custom) {
-          const El = Custom as any;
           const value = resolveBind(node.bind, formData, locals);
-          return <El value={value} node={node} formData={formData} locals={locals} className={cls} />;
+          return <Custom value={value} node={node} formData={formData} locals={locals} className={cls} />;
         }
 
         // fallback: if children exist render them in a div, otherwise render bound value
@@ -181,7 +190,7 @@ export const ResumePreview: React.FC<ResumePreviewProps> = ({ structure, formDat
           );
         }
         const value = resolveBind(node.bind, formData, locals);
-        return <span className={cls}>{value ?? null}</span>;
+        return <span className={cls}>{value != null ? String(value) : null}</span>;
       }
     }
   }

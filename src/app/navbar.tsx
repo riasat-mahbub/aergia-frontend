@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useState } from 'react';
+import { useState, Suspense } from 'react';
 import { useSelector } from 'react-redux';
 import { Menu, X, Download } from 'lucide-react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
@@ -9,7 +9,7 @@ import { RootState } from '@/store/store';
 import * as motion from "motion/react-client"
 import { AnimatePresence } from "motion/react"
 
-export default function Navbar() {
+function NavbarContent() {
   const [open, setOpen] = useState(false);
   const [downloading, setDownloading] = useState(false);
   const { isLoggedIn } = useSelector((state: RootState) => state.auth || { isLoggedIn: false, loading: true });
@@ -137,5 +137,13 @@ export default function Navbar() {
         </div>
       )}
     </nav>
+  );
+}
+
+export default function Navbar() {
+  return (
+    <Suspense fallback={<nav className="bg-gray-300 shadow-md sticky top-0 z-50"><div className="mx-auto px-4 sm:px-6 lg:px-8"><div className="flex justify-between items-center h-16"><div className="flex-shrink-0"><Link href="/" className="text-2xl font-bold text-emerald-600">Aergia</Link></div></div></div></nav>}>
+      <NavbarContent />
+    </Suspense>
   );
 }
