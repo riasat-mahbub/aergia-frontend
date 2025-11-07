@@ -3,18 +3,21 @@
 import Link from 'next/link';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Menu, X } from 'lucide-react';
-import { usePathname, useRouter } from 'next/navigation';
+import { Menu, X, Download } from 'lucide-react';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { RootState } from '@/store/store';
 import * as motion from "motion/react-client"
 import { AnimatePresence } from "motion/react"
+import { apiService } from '@/services/api';
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
+  const [downloading, setDownloading] = useState(false);
   const { isLoggedIn } = useSelector((state: RootState) => state.auth || { isLoggedIn: false, loading: true });
   const router = useRouter();
   const pathname = usePathname();
-  const pdfUrl = useSelector((state: RootState) => state.pdf.pdfUrl);
+  const searchParams = useSearchParams();
+  const cvId = searchParams.get('cvId');
 
   const toggleMenu = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -28,14 +31,30 @@ export default function Navbar() {
     }
   }
 
-  const handleDownload = () => {
-    if (pdfUrl) {
-      const link = document.createElement('a');
-      link.href = pdfUrl;
-      link.download = 'resume.pdf';
-      link.click();
+  const handleDownloadPdf = async () => {
+    if (!cvId) return;
+    
+    setDownloading(true);
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3333'}/cv/${cvId}/pdf`, {
+        credentials: 'include'
+      });
+      
+      if (response.ok) {
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'resume.pdf';
+        link.click();
+        window.URL.revokeObjectURL(url);
+      }
+    } catch (error) {
+      console.error('Download failed:', error);
+    } finally {
+      setDownloading(false);
     }
-  }
+  };
 
 
 
@@ -55,7 +74,16 @@ export default function Navbar() {
             <Link href="/home" className="hover:text-emerald-600">Home</Link>
             {isLoggedIn && pathname!="/cvs" && <Link href="/cvs" className="hover:text-emerald-600">CVs</Link> }
             {/* {pathname!="/parser" && <Link href="/parser" className="hover:text-emerald-600">Parser</Link>} */}
-            {pathname==="/builder" && pdfUrl && <div onClick={handleDownload} className="hover:text-emerald-600 cursor-pointer">Download</div>}
+            {pathname==="/builder" && cvId && (
+              <button 
+                onClick={handleDownloadPdf} 
+                disabled={downloading}
+                className="flex items-center gap-2 hover:text-emerald-600 cursor-pointer disabled:opacity-50"
+              >
+                <Download size={16} />
+                {downloading ? 'Generating...' : 'Download PDF'}
+              </button>
+            )}
             {!isLoggedIn &&  <Link href="/register" className="hover:text-emerald-600">Register</Link> }
             {!isLoggedIn &&  <Link href="/login" className="hover:text-emerald-600">Login</Link> }
             {isLoggedIn &&   <div onClick={handleLogout} className="hover:text-emerald-600 cursor-pointer">Logout</div>}
@@ -82,13 +110,32 @@ export default function Navbar() {
               <Link href="/home" className="hover:text-emerald-600 border-b-2 border-gray-300 py-2">Home</Link>
               {isLoggedIn && pathname!="/cvs" && <Link href="/cvs" className="hover:text-emerald-600 border-b-2 border-gray-300 py-2">CVs</Link> }
               {/* {pathname!="/parser" && <Link href="/parser" className="hover:text-emerald-600">Parser</Link>} */}
-              {pathname==="/builder" && pdfUrl && <div onClick={handleDownload} className="hover:text-emerald-600 cursor-pointer border-b-2 border-gray-300 py-2">Download</div>}
+              {pathname==="/builder" && cvId && (
+                <button 
+                  onClick={handleDownloadPdf} 
+                  disabled={downloading}
+                  className="flex items-center justify-center gap-2 hover:text-emerald-600 cursor-pointer border-b-2 border-gray-300 py-2 disabled:opacity-50"
+                >
+                  <Download size={16} />
+                  {downloading ? 'Generating...' : 'Download PDF'}
+                </button>
+              )}
               {!isLoggedIn &&  <Link href="/register" className="hover:text-emerald-600 border-b-2 border-gray-300 py-2">Register</Link> }
               {!isLoggedIn &&  <Link href="/login" className="hover:text-emerald-600 border-b-2 border-gray-300 py-2">Login</Link> }
               {isLoggedIn &&   <div onClick={handleLogout} className="hover:text-emerald-600 cursor-pointer border-b-2 border-gray-300 py-2">Logout</div>}
           </motion.div>
         </AnimatePresence>
 
+      )}
+      
+      {/* Download Loading Popup */}
+      {downloading && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg flex flex-col items-center gap-4">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-emerald-600"></div>
+            <p className="text-gray-700">Generating PDF, please wait...</p>
+          </div>
+        </div>
       )}
     </nav>
   );
