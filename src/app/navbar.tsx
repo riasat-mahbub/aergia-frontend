@@ -35,21 +35,30 @@ function NavbarContent() {
     
     setDownloading(true);
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3333'}/cv/${cvId}/pdf`, {
-        credentials: 'include'
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/cv/${cvId}/pdf`, {
+        method: 'GET',
+        credentials: 'include',
+        headers: {
+          'Accept': 'application/pdf'
+        }
       });
       
-      if (response.ok) {
-        const blob = await response.blob();
-        const url = window.URL.createObjectURL(blob);
-        const link = document.createElement('a');
-        link.href = url;
-        link.download = 'resume.pdf';
-        link.click();
-        window.URL.revokeObjectURL(url);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
+      
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'resume.pdf';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
     } catch (error) {
       console.error('Download failed:', error);
+      alert('Failed to download PDF. Please try again.');
     } finally {
       setDownloading(false);
     }
