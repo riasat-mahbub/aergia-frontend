@@ -1,4 +1,17 @@
-import { ResumeCustom, ResumeEducation, ResumeForm, ResumeProfile, ResumeProject, ResumeSkills, ResumeExperience } from "./ResumeFormTypes";
+import { 
+  ResumeCustom, 
+  ResumeEducation, 
+  ResumeForm, 
+  ResumeProfile, 
+  ResumeProject, 
+  ResumeSkills, 
+  ResumeExperience,
+  ResumeCertification,
+  ResumeLanguage,
+  ResumeAward,
+  ResumeVolunteer,
+  ResumePublication
+} from "./ResumeFormTypes";
 import { ResumeStructure } from "./ResumeStructureTypes";
 
 interface FormHolderBase{
@@ -29,6 +42,11 @@ export type FormTypeMap = {
     'project': ResumeProject;
     'skills': ResumeSkills;
     'profile': ResumeProfile;
+    'certification': ResumeCertification;
+    'language': ResumeLanguage;
+    'award': ResumeAward;
+    'volunteer': ResumeVolunteer;
+    'publication': ResumePublication;
 };
 
 export interface CustomFormHolder extends FormHolder {
@@ -50,6 +68,27 @@ export interface ProjectFormHolder extends FormHolder {
 export interface SkillsFormHolder extends FormHolder {
     data: ResumeSkills[];
 }
+
 export interface ProfileFormHolder extends FormHolder {
     data: ResumeProfile[];
+}
+
+export interface CertificationFormHolder extends FormHolder {
+    data: ResumeCertification[];
+}
+
+export interface LanguageFormHolder extends FormHolder {
+    data: ResumeLanguage[];
+}
+
+export interface AwardFormHolder extends FormHolder {
+    data: ResumeAward[];
+}
+
+export interface VolunteerFormHolder extends FormHolder {
+    data: ResumeVolunteer[];
+}
+
+export interface PublicationFormHolder extends FormHolder {
+    data: ResumePublication[];
 }

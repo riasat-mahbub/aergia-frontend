@@ -5,7 +5,12 @@ import {
   emptyExperience, 
   emptyEducation, 
   emptyProject, 
-  emptySkills 
+  emptySkills,
+  emptyCertification,
+  emptyLanguage,
+  emptyAward,
+  emptyVolunteer,
+  emptyPublication
 } from "@/constants/resumeFormTemplates";
 import { ResumeForm } from "@/types/ResumeFormTypes";
 
@@ -20,6 +25,11 @@ const FORM_TEMPLATES: Record<string, FormTemplate> = {
   education: { template: emptyEducation, titlePrefix: 'Education' },
   project: { template: emptyProject, titlePrefix: 'Project' },
   skills: { template: emptySkills, titlePrefix: 'Skills' },
+  certification: { template: emptyCertification, titlePrefix: 'Certification' },
+  language: { template: emptyLanguage, titlePrefix: 'Language' },
+  award: { template: emptyAward, titlePrefix: 'Award' },
+  volunteer: { template: emptyVolunteer, titlePrefix: 'Volunteer Work' },
+  publication: { template: emptyPublication, titlePrefix: 'Publication' },
 };
 
 export function createFormByType(type: string, count: number) {

@@ -5,7 +5,12 @@ import {
   ResumeEducation,
   ResumeProject,
   ResumeCustom,
-  ResumeSkills
+  ResumeSkills,
+  ResumeCertification,
+  ResumeLanguage,
+  ResumeAward,
+  ResumeVolunteer,
+  ResumePublication
 } from '@/types/ResumeFormTypes';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -26,10 +31,14 @@ export const emptyExperience: ResumeExperience = {
   type: "experience",
   company: "",
   jobTitle: "",
+  employmentType: "",
+  isCurrentRole: false,
   startDate: "",
   endDate: "",
-  description: "",
   location: "",
+  description: "",
+  technologies: [],
+  achievements: [],
   visible: true
 };
 
@@ -39,13 +48,15 @@ export const emptyEducation: ResumeEducation = {
   type: "education",
   school: "",
   degree: "",
+  fieldOfStudy: "",
+  isCurrentlyStudying: false,
   startDate: "",
   endDate: "",
   gpa: "",
   location: "",
+  honors: [],
   description: "",
   visible: true
-
 };
 
 export const emptyProject: ResumeProject = {
@@ -54,23 +65,26 @@ export const emptyProject: ResumeProject = {
   id: uuidv4(),
   type: "project",
   project: "",
+  projectUrl: "",
+  isOngoing: false,
   startDate: "",
   endDate: "",
+  location: "",
+  role: "",
+  technologies: [],
   description: "",
   visible: true
-
 };
 
 export const emptySkills: ResumeSkills = {
-  title: "Skill",
+  title: "Skills",
   id: uuidv4(),
   type: "skills",
-  skill: "",
-  rating: 0,
+  category: "",
+  skills: [],
   description: "",
   visible: true
 };
-
 
 export const emptyCustom: ResumeCustom = {
   title: "Custom",
@@ -82,10 +96,68 @@ export const emptyCustom: ResumeCustom = {
   type: "custom",
   description: "",
   visible: true
-
 };
 
+export const emptyCertification: ResumeCertification = {
+  title: "Certification",
+  id: uuidv4(),
+  type: "certification",
+  name: "",
+  issuingOrganization: "",
+  credentialUrl: "",
+  issueDate: "",
+  expirationDate: "",
+  doesNotExpire: false,
+  credentialId: "",
+  visible: true
+};
 
+export const emptyLanguage: ResumeLanguage = {
+  title: "Language",
+  id: uuidv4(),
+  type: "language",
+  language: "",
+  proficiency: "Basic",
+  visible: true
+};
+
+export const emptyAward: ResumeAward = {
+  title: "Award",
+  id: uuidv4(),
+  type: "award",
+  issuer: "",
+  dateReceived: "",
+  description: "",
+  url: "",
+  visible: true
+};
+
+export const emptyVolunteer: ResumeVolunteer = {
+  title: "Volunteer Work",
+  id: uuidv4(),
+  type: "volunteer",
+  organization: "",
+  role: "",
+  isCurrentRole: false,
+  startDate: "",
+  endDate: "",
+  location: "",
+  description: "",
+  cause: "",
+  visible: true
+};
+
+export const emptyPublication: ResumePublication = {
+  title: "Publication",
+  id: uuidv4(),
+  type: "publication",
+  publisher: "",
+  publicationDate: "",
+  publicationUrl: "",
+  description: "",
+  authors: [],
+  visible: true
+};
 
 // Helper function to create a new form with a unique ID
 export const createForm = <T extends ResumeFormBase>(
