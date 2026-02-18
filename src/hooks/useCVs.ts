@@ -44,20 +44,13 @@ export function useCVs() {
         loadCvs();
     }, [dispatch, execute, api.cvs]);
 
-    const createCv = async (title: string, template: string) => {
+    const createCv = async (title: string, template: string): Promise<CV> => {
         const response = await execute(() => api.cvs.create({ title, template }));
-        const newCv = response?.data ?? response;
-        if (newCv && newCv.id) {
-            dispatch(addCv(newCv));
-            
-            await execute(() => api.formGroups.create(newCv.id, {
-                title: "Profile",
-                type: "profile",
-                data: JSON.stringify([]),
-            }));
-        } else {
-            console.error("Invalid CV data returned:", response);
+        const newCv = response?.data;
+        if (!newCv || !newCv.id) {
+            throw new Error("Failed to create CV");
         }
+        dispatch(addCv(newCv));
         return newCv;
     };
 

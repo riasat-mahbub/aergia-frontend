@@ -4,7 +4,9 @@ import { useApi } from './useApi';
 import { setFormHolders } from '@/store/formSlice';
 import { FormHolder } from '@/types/FormHolderTypes';
 import { ResumeForm } from '@/types/ResumeFormTypes';
+import { ResumeStructure } from '@/types/ResumeStructureTypes';
 import { RootState } from '@/store/store';
+import type { FormGroup } from '@/vite-env';
 
 
 export function useFormHolders() {
@@ -25,14 +27,14 @@ export function useFormHolders() {
       
       const result = await execute(() => api.formGroups.getAll(cvId));
       if (result) {
-        const formHolders: FormHolder[] = result.formHolders.map((formGroup: FormHolder) => ({
+        const formHolders: FormHolder[] = result.formHolders.map((formGroup: FormGroup) => ({
           id: formGroup.id,
           title: formGroup.title,
           icon: 'default',
           type: formGroup.type,
-          data: formGroup.data,
-          style: formGroup.style,
-          structure: formGroup.structure,
+          data: formGroup.data as ResumeForm[],
+          style: formGroup.style ?? undefined,
+          structure: formGroup.structure as ResumeStructure | undefined,
           visible: formGroup.visible,
           order: formGroup.order
         }));

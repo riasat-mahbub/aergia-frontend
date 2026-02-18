@@ -3,6 +3,7 @@ import { Link, useLocation, useSearchParams } from 'react-router-dom';
 import { Menu, X, Download } from 'lucide-react';
 import * as motion from "motion/react-client";
 import { AnimatePresence } from "motion/react";
+import { apiService } from '@/services/electronApi';
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
@@ -21,27 +22,18 @@ export default function Navbar() {
 
     setDownloading(true);
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/cv/${cvId}/pdf`, {
-        method: 'GET',
-        credentials: 'include',
-        headers: {
-          'Accept': 'application/pdf'
-        }
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+      const buffer = await apiService.pdf.generate(cvId);
+      
+      if (!buffer) {
+        throw new Error('Failed to generate PDF');
       }
 
-      const blob = await response.blob();
-      const url = window.URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = 'resume.pdf';
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      window.URL.revokeObjectURL(url);
+      const uint8Array = new Uint8Array(buffer as unknown as ArrayBufferLike);
+      const result = await window.electronAPI.savePdf(uint8Array.buffer as ArrayBuffer, 'resume.pdf');
+      
+      if (!result.success) {
+        console.log('PDF save cancelled');
+      }
     } catch (error) {
       console.error('Download failed:', error);
       alert('Failed to download PDF. Please try again.');
