@@ -49,5 +49,5 @@ export const FormEditorRegistry: FormEditorRegistryType = {
 };
 
 export function getFormEditor<T extends ResumeForm>(type: string): FormEditorComponent<T> | null {
-  return (FormEditorRegistry as Record<string, FormEditorComponent<T>>)[type] || null;
+  return (FormEditorRegistry as unknown as Record<string, FormEditorComponent<T>>)[type] || null;
 }
