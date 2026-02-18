@@ -1,9 +1,9 @@
 import { ipcMain } from 'electron';
 import { v4 as uuidv4 } from 'uuid';
-import { cvStore, formGroupStore } from '../store';
-import { TemplateService, initTemplatesPath } from '../services/template';
-import { CssJsonService } from '../services/cssJson';
-import { CV, CreateCVData, UpdateCVData, ReorderData, FormGroup } from '../types';
+import { cvStore, formGroupStore } from '../store.js';
+import { TemplateService, initTemplatesPath } from '../services/template.js';
+import { CssJsonService } from '../services/cssJson.js';
+import { CV, CreateCVData, UpdateCVData, ReorderData, FormGroup } from '../types.js';
 
 export function registerCvHandlers(): void {
   initTemplatesPath();

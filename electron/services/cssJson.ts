@@ -1,4 +1,4 @@
-import { TemplateStyle } from '../types';
+import { TemplateStyle } from '../types.js';
 
 export class CssJsonService {
   static cssToJson(cssString: string): TemplateStyle {

@@ -1,8 +1,8 @@
 import { BrowserWindow } from 'electron';
-import { formGroupStore, cvStore } from '../store';
-import { TemplateService } from './template';
-import { CssJsonService } from './cssJson';
-import { FormGroup, TemplateStructure, TemplateStyle } from '../types';
+import { formGroupStore, cvStore } from '../store.js';
+import { TemplateService } from './template.js';
+import { CssJsonService } from './cssJson.js';
+import { FormGroup, TemplateStructure, TemplateStyle } from '../types.js';
 
 export class PdfService {
   static async generatePdf(cvId: string): Promise<Buffer | null> {

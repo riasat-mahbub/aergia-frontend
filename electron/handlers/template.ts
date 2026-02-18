@@ -1,6 +1,6 @@
 import { ipcMain } from 'electron';
-import { TemplateService } from '../services/template';
-import { FormGroupType, CustomTemplate, TemplateStructure, TemplateStyle } from '../types';
+import { TemplateService } from '../services/template.js';
+import { FormGroupType, CustomTemplate, TemplateStructure, TemplateStyle } from '../types.js';
 
 export function registerTemplateHandlers(): void {
   ipcMain.handle(

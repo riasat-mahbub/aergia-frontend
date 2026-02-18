@@ -1,9 +1,9 @@
 import { app } from 'electron';
 import { promises as fs } from 'fs';
 import * as path from 'path';
-import { CssJsonService } from './cssJson';
-import { settingsStore } from '../store';
-import { FormGroupType, TemplateStructure, TemplateStyle, CustomTemplate } from '../types';
+import { CssJsonService } from './cssJson.js';
+import { settingsStore } from '../store.js';
+import { FormGroupType, TemplateStructure, TemplateStyle, CustomTemplate } from '../types.js';
 
 let templatesPath: string;
 

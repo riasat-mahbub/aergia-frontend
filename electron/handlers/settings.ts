@@ -1,6 +1,6 @@
 import { ipcMain } from 'electron';
-import { settingsStore } from '../store';
-import { UserSettings, FormGroupType, CustomTemplate } from '../types';
+import { settingsStore } from '../store.js';
+import { UserSettings, FormGroupType, CustomTemplate } from '../types.js';
 
 export function registerSettingsHandlers(): void {
   ipcMain.handle('settings:get', async () => {

@@ -1,5 +1,4 @@
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const DOMPurify = require('dompurify');
+import DOMPurify from 'dompurify';
 
 export class SanitizationService {
   private static allowedTags = ['b', 'i', 'u', 'strong', 'em', 'p', 'br', 'ul', 'ol', 'li', 'a', 'span'];

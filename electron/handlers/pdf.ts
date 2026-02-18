@@ -1,5 +1,5 @@
 import { ipcMain } from 'electron';
-import { PdfService } from '../services/pdf';
+import { PdfService } from '../services/pdf.js';
 
 export function registerPdfHandlers(): void {
   ipcMain.handle('pdf:generate', async (_event, cvId: string): Promise<Buffer | null> => {

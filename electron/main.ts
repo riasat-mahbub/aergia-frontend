@@ -1,11 +1,15 @@
 import { app, BrowserWindow, ipcMain, dialog } from 'electron';
 import * as path from 'path';
 import * as fs from 'fs';
-import { registerCvHandlers } from './handlers/cv';
-import { registerFormGroupHandlers } from './handlers/formGroup';
-import { registerSettingsHandlers } from './handlers/settings';
-import { registerTemplateHandlers } from './handlers/template';
-import { registerPdfHandlers } from './handlers/pdf';
+import { fileURLToPath } from 'url';
+import { registerCvHandlers } from './handlers/cv.js';
+import { registerFormGroupHandlers } from './handlers/formGroup.js';
+import { registerSettingsHandlers } from './handlers/settings.js';
+import { registerTemplateHandlers } from './handlers/template.js';
+import { registerPdfHandlers } from './handlers/pdf.js';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 let mainWindow: BrowserWindow | null = null;
 

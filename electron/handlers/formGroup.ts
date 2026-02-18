@@ -1,10 +1,10 @@
 import { ipcMain } from 'electron';
 import { v4 as uuidv4 } from 'uuid';
-import { formGroupStore, cvStore } from '../store';
-import { TemplateService } from '../services/template';
-import { CssJsonService } from '../services/cssJson';
-import { SanitizationService } from '../services/sanitization';
-import { FormGroup, CreateFormGroupData, UpdateFormGroupData, ReorderData, FormGroupType } from '../types';
+import { formGroupStore, cvStore } from '../store.js';
+import { TemplateService } from '../services/template.js';
+import { CssJsonService } from '../services/cssJson.js';
+import { SanitizationService } from '../services/sanitization.js';
+import { FormGroup, CreateFormGroupData, UpdateFormGroupData, ReorderData, FormGroupType } from '../types.js';
 
 export function registerFormGroupHandlers(): void {
   ipcMain.handle('formGroup:getAll', async (_event, cvId: string): Promise<{ formHolders: FormGroup[] }> => {

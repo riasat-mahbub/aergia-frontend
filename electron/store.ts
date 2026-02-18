@@ -1,4 +1,5 @@
-import { CV, FormGroup, AppSettings, UserSettings, CustomTemplate, FormGroupType } from './types';
+import Store from 'electron-store';
+import { CV, FormGroup, AppSettings, UserSettings, CustomTemplate, FormGroupType } from './types.js';
 
 interface StoreSchema {
   cvs: CV[];
@@ -15,10 +16,7 @@ const defaultSettings: AppSettings = {
   customTemplates: {},
 };
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const Store = require('electron-store').default;
-
-const store = new Store({
+const store = new Store<StoreSchema>({
   defaults: {
     cvs: [],
     formGroups: {},
