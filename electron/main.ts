@@ -1,6 +1,11 @@
 import { app, BrowserWindow, ipcMain, dialog } from 'electron';
-import path from 'path';
-import fs from 'fs';
+import * as path from 'path';
+import * as fs from 'fs';
+import { registerCvHandlers } from './handlers/cv';
+import { registerFormGroupHandlers } from './handlers/formGroup';
+import { registerSettingsHandlers } from './handlers/settings';
+import { registerTemplateHandlers } from './handlers/template';
+import { registerPdfHandlers } from './handlers/pdf';
 
 let mainWindow: BrowserWindow | null = null;
 
@@ -23,7 +28,14 @@ const createWindow = () => {
   }
 };
 
-app.whenReady().then(createWindow);
+app.whenReady().then(() => {
+  registerCvHandlers();
+  registerFormGroupHandlers();
+  registerSettingsHandlers();
+  registerTemplateHandlers();
+  registerPdfHandlers();
+  createWindow();
+});
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
