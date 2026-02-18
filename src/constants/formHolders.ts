@@ -10,7 +10,6 @@ import { v4 as uuidv4 } from "uuid";
 
 export const createFormHolder = (
   title: string,
-  icon: string,
   type: string,
   data: ResumeForm[] = [],
   visible: boolean = true,
@@ -19,7 +18,6 @@ export const createFormHolder = (
   return {
     id: uuidv4(),
     title,
-    icon,
     type,
     data,
     visible,
