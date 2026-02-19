@@ -5,12 +5,14 @@ interface CvState {
   cvs: CV[];
   selectedCvId: string | null;
   selectedCvTemplate: string | null;
+  selectedCvTitle: string | null;
 }
 
 const initialState: CvState = {
   cvs: [],
   selectedCvId: null,
   selectedCvTemplate: null,
+  selectedCvTitle: null,
 };
 
 export const cvSlice = createSlice({
@@ -47,6 +49,9 @@ export const cvSlice = createSlice({
     setSelectedCvTemplate: (state, action: PayloadAction<string | null>) => {
       state.selectedCvTemplate = action.payload;
     },
+    setSelectedCvTitle: (state, action: PayloadAction<string | null>) => {
+      state.selectedCvTitle = action.payload;
+    },
   },
 });
 
@@ -58,4 +63,5 @@ export const {
   reorderCvs,
   setSelectedCvId,
   setSelectedCvTemplate,
+  setSelectedCvTitle,
 } = cvSlice.actions;

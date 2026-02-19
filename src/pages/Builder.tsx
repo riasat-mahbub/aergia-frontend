@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import FormToPDF from "../components/builder/FormToPDF";
 import LeftSide from "../components/builder/LeftSide";
 import { useFormHolders } from "@/hooks/useFormHolders";
-import { setSelectedCvId, setSelectedCvTemplate } from "@/store/cvsSlice";
+import { setSelectedCvId, setSelectedCvTemplate, setSelectedCvTitle } from "@/store/cvsSlice";
 import { RootState } from "@/store/store";
 import { motion } from "framer-motion";
 
@@ -27,6 +27,16 @@ export default function Builder() {
       dispatch(setSelectedCvId(cvIdFromParams));
     }
   }, [cvIdFromParams, dispatch, cvId]);
+
+
+  const cvTitle = useSelector((state:RootState) => state.cv.selectedCvTitle)
+  const cvTitleFromParams =  useMemo(() => searchParams.get('cvTitle'), [searchParams]);
+
+  useEffect(() => {
+    if (cvTitleFromParams !== cvTitle) {
+      dispatch(setSelectedCvTitle(cvTitleFromParams));
+    }
+  }, [cvTitleFromParams, dispatch, cvTitle]);
 
   const cvTemplate = useSelector((state: RootState) => state.cv.selectedCvTemplate);
   const cvTemplateFromParams = useMemo(() => searchParams.get('cvTemplate'), [searchParams]);

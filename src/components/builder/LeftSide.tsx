@@ -10,6 +10,7 @@ import { getFormHolderById } from "@/store/formSlice";
 import { setSelectedStyleEditor } from "@/store/settingSlice";
 import PopoverDirector from "./popovers/PopoverDirector";
 import { popover } from "@/constants/popovers";
+import FormBackButton from "./FormBackButton";
 
 
 export default function LeftSide(){
@@ -65,6 +66,7 @@ export default function LeftSide(){
     
     return(
         <div className="lg:w-5/12 w-full flex flex-col items-center">
+            <FormBackButton/>
             <FormCollection onDeleteFormHolder={handleDeleteFormHolder} />
             <div 
                 className="rounded-full text-white bg-emerald-500 flex mt-6 max-w-40 p-4 hover:shadow-lg hover:scale-105 transition-all duration-300 cursor-pointer"

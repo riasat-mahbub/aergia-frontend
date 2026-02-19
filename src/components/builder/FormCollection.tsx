@@ -46,7 +46,7 @@ export default function FormCollection({ onDeleteFormHolder }: FormCollectionPro
   return (
     <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
       <SortableContext items={formHolders.map(holder => holder.id)} strategy={rectSortingStrategy}>
-        <div className="grid gap-4 grid-cols-1 w-full max-w-md">
+        <div className="grid gap-4 grid-cols-1 w-full max-w-md pt-8">
           {formHolders.map((formHolder) => (
             <FormHolderCard
               key={formHolder.id}

@@ -78,7 +78,7 @@ export function CVCard({ cv, openDeletePopOver, openEditPopOver }: CVCardProps) 
         onMouseLeave={() => setIsHovered(false)}
         onClick={(e) => {
           e.stopPropagation();
-          navigate(`/builder?cvId=${cv.id}&cvTemplate=${cv.template}`);
+          navigate(`/builder?cvId=${cv.id}&cvTemplate=${cv.template}&cvTitle=${cv.title}`);
         }}
       >
         <img
