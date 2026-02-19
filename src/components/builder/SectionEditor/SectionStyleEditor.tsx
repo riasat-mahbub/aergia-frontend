@@ -42,6 +42,7 @@ export default function SectionStyleEditor({ formHolder }: SectionStyleEditorPro
 
   const currentStyle = formHolder.style || {};
 
+  // Handler for container styles (.th-{id})
   const handleStyleChange = (property: string, value: string) => {
     const selector = `.th-${formHolder.id}`;
     const updatedStyle = {
@@ -59,8 +60,33 @@ export default function SectionStyleEditor({ formHolder }: SectionStyleEditorPro
     );
   };
 
+  // Handler for section title styles (.th-{id} .sectionTitle)
+  const handleTitleStyleChange = (property: string, value: string) => {
+    const selector = `.th-${formHolder.id} .sectionTitle`;
+    const updatedStyle = {
+      ...currentStyle,
+      [selector]: {
+        ...(currentStyle[selector] || {}),
+        [property]: value,
+      },
+    };
+    dispatch(
+      updateFormHolder({
+        ...formHolder,
+        style: updatedStyle,
+      })
+    );
+  };
+
+  // Get container style value
   const getStyleValue = (property: string): string => {
     const selector = `.th-${formHolder.id}`;
+    return (currentStyle[selector]?.[property] as string) || '';
+  };
+
+  // Get section title style value
+  const getTitleStyleValue = (property: string): string => {
+    const selector = `.th-${formHolder.id} .sectionTitle`;
     return (currentStyle[selector]?.[property] as string) || '';
   };
 
@@ -169,14 +195,14 @@ export default function SectionStyleEditor({ formHolder }: SectionStyleEditorPro
             <div className="flex items-center gap-2">
               <input
                 type="color"
-                value={getStyleValue('.sectionTitle color') || settings.themeColor}
-                onChange={(e) => handleStyleChange('color', e.target.value)}
+                value={getTitleStyleValue('color') || settings.themeColor}
+                onChange={(e) => handleTitleStyleChange('color', e.target.value)}
                 className="w-10 h-10 rounded-lg border border-gray-300 cursor-pointer"
               />
               <input
                 type="text"
-                value={getStyleValue('.sectionTitle color') || settings.themeColor}
-                onChange={(e) => handleStyleChange('color', e.target.value)}
+                value={getTitleStyleValue('color') || settings.themeColor}
+                onChange={(e) => handleTitleStyleChange('color', e.target.value)}
                 className="flex-1 p-2.5 border border-gray-300 rounded-lg text-sm"
               />
             </div>
@@ -184,7 +210,7 @@ export default function SectionStyleEditor({ formHolder }: SectionStyleEditorPro
 
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1.5">
-              Preset Colors
+              Preset Colors (Section Title)
             </label>
             <div className="grid grid-cols-6 gap-2">
               {[
@@ -203,9 +229,9 @@ export default function SectionStyleEditor({ formHolder }: SectionStyleEditorPro
               ].map((color) => (
                 <button
                   key={color}
-                  onClick={() => handleStyleChange('color', color)}
+                  onClick={() => handleTitleStyleChange('color', color)}
                   className={`w-8 h-8 rounded-lg border-2 transition-transform hover:scale-110 ${
-                    getStyleValue('color') === color
+                    getTitleStyleValue('color') === color
                       ? 'border-gray-800'
                       : 'border-transparent'
                   }`}
