@@ -82,6 +82,8 @@ export default function SectionEditor() {
   };
 
   const handleEditEntry = (entry: ResumeForm) => {
+    // Clear section selection first, then set form selection
+    dispatch(setSelectedSection(null));
     dispatch(setSelectedForm({ formHolderId: formHolder.id, form: entry }));
   };
 

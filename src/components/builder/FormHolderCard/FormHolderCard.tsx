@@ -27,11 +27,13 @@ export default function FormHolderCard({ formHolder, onDelete }: FormHolderCardP
     willChange: "transform",
   };
 
-  const handleToggleVisibility = () => {
+  const handleToggleVisibility = (e: React.MouseEvent) => {
+    e.stopPropagation();
     dispatch(setFormHolderToShow(formHolder.id));
   };
 
-  const handleEditFirstEntry = () => {
+  const handleEditFirstEntry = (e: React.MouseEvent) => {
+    e.stopPropagation();
     if (formHolder.data.length > 0) {
       dispatch(setSelectedForm({
         formHolderId: formHolder.id,
@@ -40,7 +42,12 @@ export default function FormHolderCard({ formHolder, onDelete }: FormHolderCardP
     }
   };
 
-  const handleTitleClick = () => {
+  const handleDelete = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    onDelete(formHolder.id);
+  };
+
+  const handleCardClick = () => {
     dispatch(setSelectedSection(formHolder.id));
   };
 
@@ -48,7 +55,8 @@ export default function FormHolderCard({ formHolder, onDelete }: FormHolderCardP
     <div
       ref={setNodeRef}
       style={style}
-      className={`rounded-lg border bg-white shadow-sm hover:shadow-md transition-all duration-200 ${
+      onClick={handleCardClick}
+      className={`rounded-lg border bg-white shadow-sm hover:shadow-md transition-all duration-200 cursor-pointer ${
         isSelected ? 'border-emerald-500 ring-2 ring-emerald-200' : 'border-gray-200'
       } ${isDragging ? 'cursor-grabbing' : ''}`}
     >
@@ -57,6 +65,7 @@ export default function FormHolderCard({ formHolder, onDelete }: FormHolderCardP
           {...attributes}
           {...listeners}
           className="p-1 mr-2 cursor-grab active:cursor-grabbing text-gray-400 hover:text-gray-600 rounded"
+          onClick={(e) => e.stopPropagation()}
         >
           <GripVertical size={18} />
         </button>
@@ -65,10 +74,7 @@ export default function FormHolderCard({ formHolder, onDelete }: FormHolderCardP
           <div className="flex justify-between items-start">
             <div className="flex items-center gap-3">
               <div className="flex flex-col">
-                <h3 
-                  className="text-sm font-semibold text-gray-800 hover:text-emerald-600 cursor-pointer transition-colors"
-                  onClick={handleTitleClick}
-                >
+                <h3 className="text-sm font-semibold text-gray-800">
                   {formHolder.title}
                 </h3>
                 <span className="text-xs text-gray-500 capitalize">
@@ -93,7 +99,7 @@ export default function FormHolderCard({ formHolder, onDelete }: FormHolderCardP
                 <Settings size={16} />
               </button>
               <button
-                onClick={() => onDelete(formHolder.id)}
+                onClick={handleDelete}
                 className="p-1 rounded hover:bg-red-100 text-red-600 transition"
                 title="Delete"
               >
