@@ -18,6 +18,44 @@ interface FormHolderPreviewProps {
   themeColor: string;
 }
 
+// Helper to convert CSSJSON to inline styles
+const getContainerStyles = (style: Record<string, Record<string, string | number>> | undefined, formHolderId: string): React.CSSProperties => {
+  if (!style) return {};
+  
+  // Look for the main container selector (.th-{id})
+  const containerSelector = `.th-${formHolderId}`;
+  const containerStyles = style[containerSelector];
+  
+  if (!containerStyles) return {};
+  
+  // Convert kebab-case to camelCase for React
+  const reactStyles: React.CSSProperties = {};
+  for (const [key, value] of Object.entries(containerStyles)) {
+    const camelKey = key.replace(/-([a-z])/g, (g) => g[1].toUpperCase());
+    (reactStyles as any)[camelKey] = value;
+  }
+  
+  return reactStyles;
+};
+
+// Helper to get section title styles
+const getTitleStyles = (style: Record<string, Record<string, string | number>> | undefined, formHolderId: string, defaultColor: string): React.CSSProperties => {
+  if (!style) return { color: defaultColor };
+  
+  // Look for sectionTitle selector
+  const titleSelector = `.th-${formHolderId} .sectionTitle`;
+  const titleStyles = style[titleSelector];
+  
+  if (!titleStyles) return { color: defaultColor };
+  
+  const reactStyles: React.CSSProperties = {};
+  for (const [key, value] of Object.entries(titleStyles)) {
+    const camelKey = key.replace(/-([a-z])/g, (g) => g[1].toUpperCase());
+    (reactStyles as any)[camelKey] = value;
+  }
+  
+  return reactStyles;
+};
 
 const renderProfile = (data: ResumeProfile[], themeColor: string) => {
   const profile = data[0];
@@ -51,9 +89,13 @@ const renderProfile = (data: ResumeProfile[], themeColor: string) => {
 };
 
 const renderExperience = (data: ResumeExperience[], themeColor: string) => {
+  // Filter visible entries
+  const visibleData = data.filter(item => item.visible !== false);
+  if (visibleData.length === 0) return null;
+  
   return (
     <div className="mb-4">
-      {data.map((exp) => (
+      {visibleData.map((exp) => (
         <div key={exp.id} className="mb-4">
           <div className="flex justify-between items-start">
             <div>
@@ -99,9 +141,12 @@ const renderExperience = (data: ResumeExperience[], themeColor: string) => {
 };
 
 const renderEducation = (data: ResumeEducation[], themeColor: string) => {
+  const visibleData = data.filter(item => item.visible !== false);
+  if (visibleData.length === 0) return null;
+  
   return (
     <div className="mb-4">
-      {data.map((edu) => (
+      {visibleData.map((edu) => (
         <div key={edu.id} className="mb-3">
           <div className="flex justify-between items-start">
             <div>
@@ -126,9 +171,12 @@ const renderEducation = (data: ResumeEducation[], themeColor: string) => {
 };
 
 const renderProject = (data: ResumeProject[], themeColor: string) => {
+  const visibleData = data.filter(item => item.visible !== false);
+  if (visibleData.length === 0) return null;
+  
   return (
     <div className="mb-4">
-      {data.map((project) => (
+      {visibleData.map((project) => (
         <div key={project.id} className="mb-3">
           <div className="flex justify-between items-start">
             <div>
@@ -164,9 +212,12 @@ const renderProject = (data: ResumeProject[], themeColor: string) => {
 };
 
 const renderSkills = (data: ResumeSkills[], themeColor: string) => {
+  const visibleData = data.filter(item => item.visible !== false);
+  if (visibleData.length === 0) return null;
+  
   return (
     <div className="mb-4">
-      {data.map((skill) => (
+      {visibleData.map((skill) => (
         <div key={skill.id} className="mb-2">
           <h3 style={{ color: themeColor }} className="font-medium">
             {skill.category}
@@ -188,9 +239,12 @@ const renderSkills = (data: ResumeSkills[], themeColor: string) => {
 };
 
 const renderCertification = (data: ResumeCertification[], themeColor: string) => {
+  const visibleData = data.filter(item => item.visible !== false);
+  if (visibleData.length === 0) return null;
+  
   return (
     <div className="mb-4">
-      {data.map((cert) => (
+      {visibleData.map((cert) => (
         <div key={cert.id} className="mb-2">
           <div className="flex justify-between items-start">
             <div>
@@ -209,10 +263,13 @@ const renderCertification = (data: ResumeCertification[], themeColor: string) =>
 };
 
 const renderLanguage = (data: ResumeLanguage[]) => {
+  const visibleData = data.filter(item => item.visible !== false);
+  if (visibleData.length === 0) return null;
+  
   return (
     <div className="mb-4">
       <div className="flex flex-wrap gap-3">
-        {data.map((lang) => (
+        {visibleData.map((lang) => (
           <div key={lang.id} className="flex items-center gap-2">
             <span className="font-medium text-gray-900">{lang.language}</span>
             <span className="text-sm text-gray-500">({lang.proficiency})</span>
@@ -224,9 +281,12 @@ const renderLanguage = (data: ResumeLanguage[]) => {
 };
 
 const renderAward = (data: ResumeAward[], themeColor: string) => {
+  const visibleData = data.filter(item => item.visible !== false);
+  if (visibleData.length === 0) return null;
+  
   return (
     <div className="mb-4">
-      {data.map((award) => (
+      {visibleData.map((award) => (
         <div key={award.id} className="mb-2">
           <div className="flex justify-between items-start">
             <div>
@@ -245,9 +305,12 @@ const renderAward = (data: ResumeAward[], themeColor: string) => {
 };
 
 const renderVolunteer = (data: ResumeVolunteer[], themeColor: string) => {
+  const visibleData = data.filter(item => item.visible !== false);
+  if (visibleData.length === 0) return null;
+  
   return (
     <div className="mb-4">
-      {data.map((vol) => (
+      {visibleData.map((vol) => (
         <div key={vol.id} className="mb-2">
           <div className="flex justify-between items-start">
             <div>
@@ -268,9 +331,12 @@ const renderVolunteer = (data: ResumeVolunteer[], themeColor: string) => {
 };
 
 const renderPublication = (data: ResumePublication[], themeColor: string) => {
+  const visibleData = data.filter(item => item.visible !== false);
+  if (visibleData.length === 0) return null;
+  
   return (
     <div className="mb-4">
-      {data.map((pub) => (
+      {visibleData.map((pub) => (
         <div key={pub.id} className="mb-2">
           <h3 className="font-semibold text-gray-900">{pub.title}</h3>
           <p style={{ color: themeColor }}>{pub.publisher}</p>
@@ -285,9 +351,12 @@ const renderPublication = (data: ResumePublication[], themeColor: string) => {
 };
 
 const renderCustom = (data: ResumeCustom[]) => {
+  const visibleData = data.filter(item => item.visible !== false);
+  if (visibleData.length === 0) return null;
+  
   return (
     <div className="mb-4">
-      {data.map((item) => (
+      {visibleData.map((item) => (
         <div key={item.id} className="mb-2">
           <div className="flex justify-between items-start">
             <h3 className="font-semibold text-gray-900">{item.title}</h3>
@@ -313,7 +382,7 @@ export default function FormHolderPreview({
   formHolder,
   themeColor,
 }: FormHolderPreviewProps) {
-  const { type, title, data, style } = formHolder;
+  const { type, title, data, style, id } = formHolder;
 
   const renderContent = () => {
     switch (type) {
@@ -345,16 +414,18 @@ export default function FormHolderPreview({
   };
 
   const isProfile = type === "profile";
+  const containerStyles = getContainerStyles(style, id);
+  const titleStyles = getTitleStyles(style, id, themeColor);
 
   return (
     <div
       className={`${isProfile ? "" : "border-b border-gray-200 pb-4 mb-4"}`}
-      style={style?.section as React.CSSProperties}
+      style={containerStyles}
     >
       {!isProfile && (
         <h2
           className="text-lg font-bold mb-3 flex items-center gap-2"
-          style={{ color: themeColor }}
+          style={titleStyles}
         >
           {title}
         </h2>
