@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { X, ChevronLeft, Save, Trash2 } from 'lucide-react';
+import { X, ChevronLeft, Trash2 } from 'lucide-react';
 import { ResumeForm } from '@/types/ResumeFormTypes';
-import { updateForm, deleteForm, setSelectedForm } from '@/store/formSlice';
+import { updateForm, deleteForm, setSelectedForm, setSelectedSection } from '@/store/formSlice';
 import { useFormHolders } from '@/hooks/useFormHolders';
 import { getFormEditor } from './FormEditorRegistry';
 import { useState, useCallback, useEffect } from 'react';
@@ -16,7 +16,6 @@ export default function FormEditor({ form, formHolderId }: FormEditorProps) {
   const dispatch = useDispatch();
   const { updateFormHolderData } = useFormHolders();
   const [localForm, setLocalForm] = useState<ResumeForm>(form);
-  const [isSaving, setIsSaving] = useState(false);
 
   // Get the actual formHolder from Redux state
   const formHolder = useSelector((state: RootState) =>
@@ -29,19 +28,15 @@ export default function FormEditor({ form, formHolderId }: FormEditorProps) {
 
   const handleChange = useCallback((updatedForm: ResumeForm) => {
     setLocalForm(updatedForm);
-  }, []);
+    dispatch(updateForm({ formHolderId, form: updatedForm }));
+  }, [dispatch, formHolderId]);
 
-  const handleSave = async () => {
+  const handleClose = async () => {
     if (!formHolder) return;
-
-    setIsSaving(true);
-    dispatch(updateForm({ formHolderId, form: localForm }));
     await updateFormHolderData(formHolder, localForm);
-    setIsSaving(false);
-  };
-
-  const handleClose = () => {
     dispatch(setSelectedForm(null));
+    // Restore the section view
+    dispatch(setSelectedSection(formHolderId));
   };
 
   const handleDelete = async () => {
@@ -81,14 +76,6 @@ export default function FormEditor({ form, formHolderId }: FormEditorProps) {
             title="Delete"
           >
             <Trash2 size={18} />
-          </button>
-          <button
-            onClick={handleSave}
-            disabled={isSaving}
-            className="flex items-center gap-1 px-3 py-1.5 bg-emerald-500 text-white rounded-md hover:bg-emerald-600 disabled:opacity-50 transition-colors"
-          >
-            <Save size={16} />
-            {isSaving ? 'Saving...' : 'Save'}
           </button>
           <button
             onClick={handleClose}

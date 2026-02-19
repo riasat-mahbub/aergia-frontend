@@ -1,0 +1,32 @@
+export default {
+  type: "Div",
+  style: ".container",
+  children: [
+    {
+      type: "Div",
+      style: ".titleRow",
+      children: [
+        {
+          type: "Text",
+          style: ".title",
+          bind: "data.name"
+        },
+        {
+          type: "Text",
+          style: ".date",
+          bind: "data.issueDate"
+        }
+      ]
+    },
+    {
+      type: "Text",
+      style: ".subtitle",
+      bind: "data.issuingOrganization"
+    },
+    {
+      type: "Text",
+      style: ".description",
+      bind: "data.credentialId"
+    }
+  ]
+};

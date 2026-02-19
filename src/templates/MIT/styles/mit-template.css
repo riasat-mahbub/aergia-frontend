@@ -1,0 +1,205 @@
+/* Common Section Title */
+.sectionTitle {
+  font-family: 'Arimo', Arial, sans-serif;
+  color: black;
+  font-size: 14px;
+  font-weight: normal;
+  margin-right: 10px;
+  margin-bottom: 8px;
+  border-bottom: 1px solid black;
+}
+
+/* Common Container */
+.container {
+  font-family: 'Arimo', Arial, sans-serif;
+  font-weight: normal;
+  margin-bottom: 12px;
+}
+
+/* Profile Styles */
+.name {
+  font-family: 'Arimo', Arial, sans-serif;
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+  color: black;
+  margin: 0;
+  padding: 0;
+}
+
+.contactRow {
+  font-family: 'Arimo', Arial, sans-serif;
+  font-weight: normal;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 4px;
+  align-items: center;
+}
+
+.contactItem {
+  font-family: 'Arimo', Arial, sans-serif;
+  font-size: 10px;
+  font-weight: normal;
+  margin-right: 8px;
+  color: black;
+  margin-top: 0;
+  margin-bottom: 0;
+  padding: 0;
+}
+
+.contactUrl {
+  font-family: 'Arimo', Arial, sans-serif;
+  font-size: 10px;
+  font-weight: normal;
+  margin-right: 8px;
+  color: black;
+  text-decoration: none;
+  margin-top: 0;
+  margin-bottom: 0;
+  padding: 0;
+}
+
+.contactIcon {
+  font-family: 'Arimo', Arial, sans-serif;
+  font-size: 10px;
+  font-weight: normal;
+  margin-right: 2px;
+  color: black;
+  margin-top: 0;
+  margin-bottom: 0;
+  padding: 0;
+}
+
+.summary {
+  font-family: 'Arimo', Arial, sans-serif;
+  font-size: 10px;
+  font-weight: normal;
+  margin-top: 8px;
+  text-align: justify;
+  color: black;
+  margin-bottom: 0;
+  padding: 0;
+}
+
+/* Experience/Education/Project Common Styles */
+.titleRow {
+  font-family: 'Arimo', Arial, sans-serif;
+  font-weight: normal;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.title {
+  font-family: 'Arimo', Arial, sans-serif;
+  font-size: 12px;
+  font-weight: bold;
+  color: black;
+  margin: 0;
+  padding: 0;
+}
+
+.dateRow {
+  font-family: 'Arimo', Arial, sans-serif;
+  font-weight: normal;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.date {
+  font-family: 'Arimo', Arial, sans-serif;
+  font-size: 10px;
+  font-weight: normal;
+  color: black;
+  margin: 0;
+  padding: 0;
+}
+
+.separator {
+  font-family: 'Arimo', Arial, sans-serif;
+  font-size: 10px;
+  font-weight: normal;
+  color: black;
+  margin: 0;
+  padding: 0;
+}
+
+.subTitleRow {
+  font-family: 'Arimo', Arial, sans-serif;
+  font-weight: normal;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.subtitle {
+  font-family: 'Arimo', Arial, sans-serif;
+  font-size: 11px;
+  font-weight: normal;
+  color: black;
+  margin: 0;
+  padding: 0;
+}
+
+.location {
+  font-family: 'Arimo', Arial, sans-serif;
+  font-size: 10px;
+  font-weight: normal;
+  color: black;
+  margin: 0;
+  padding: 0;
+}
+
+.description {
+  font-family: 'Arimo', Arial, sans-serif;
+  font-size: 10px;
+  font-weight: normal;
+  margin: 0;
+  padding: 0;
+  line-height: 1.2;
+  color: black;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.gpa {
+  font-family: 'Arimo', Arial, sans-serif;
+  font-size: 10px;
+  font-weight: normal;
+  color: black;
+  margin: 0;
+  padding: 0;
+}
+
+/* Skills Styles */
+.row {
+  font-family: 'Arimo', Arial, sans-serif;
+  font-weight: normal;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.category {
+  font-family: 'Arimo', Arial, sans-serif;
+  font-size: 11px;
+  font-weight: bold;
+  margin-right: 8px;
+  color: black;
+  margin-top: 0;
+  margin-bottom: 0;
+  padding: 0;
+}
+
+.rating {
+  font-family: 'Arimo', Arial, sans-serif;
+  font-size: 16px;
+  font-weight: bold;
+  color: black;
+  margin: 0;
+  padding: 0;
+}
