@@ -45,7 +45,8 @@ export function useFormHolders() {
           style: formGroup.style ?? undefined,
           structure: formGroup.structure as ResumeStructure | undefined,
           visible: formGroup.visible,
-          order: formGroup.order
+          order: formGroup.order,
+          dateFormat: formGroup.dateFormat
         }));
 
         formHolders.sort((a,b) => (a.order > b.order) ? 1 : ((b.order > a.order) ? -1 : 0))
@@ -78,7 +79,8 @@ export function useFormHolders() {
         style: fg.style ?? undefined,
         structure: fg.structure as ResumeStructure | undefined,
         visible: fg.visible,
-        order: fg.order
+        order: fg.order,
+        dateFormat: fg.dateFormat
       };
       dispatch(addFormHolderFromStore(formHolder));
       return formHolder;
@@ -95,7 +97,8 @@ export function useFormHolders() {
       data: JSON.stringify(formHolder.data),
       style: JSON.stringify(formHolder.style),
       visible: formHolder.visible,
-      order: formHolder.order
+      order: formHolder.order,
+      dateFormat: formHolder.dateFormat
     };
 
     const result = await execute(() => api.formGroups.update(cvId, formHolder.id, data));

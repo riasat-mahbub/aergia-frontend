@@ -4,6 +4,7 @@ import { formGroupStore, cvStore } from '../store.js';
 import { TemplateService } from '../services/template.js';
 import { CssJsonService } from '../services/cssJson.js';
 import { SanitizationService } from '../services/sanitization.js';
+import { getDefaultDateFormat } from '../services/dateUtils.js';
 import { FormGroup, CreateFormGroupData, UpdateFormGroupData, ReorderData, FormGroupType } from '../types.js';
 
 export function registerFormGroupHandlers(): void {
@@ -48,6 +49,7 @@ export function registerFormGroupHandlers(): void {
         data: sanitizedData as Record<string, any>[],
         structure,
         style,
+        dateFormat: getDefaultDateFormat(),
         createdAt: now,
         updatedAt: now,
       };
@@ -91,6 +93,9 @@ export function registerFormGroupHandlers(): void {
       }
       if (data.style !== undefined) {
         updateData.style = data.style as Record<string, Record<string, string | number>>;
+      }
+      if (data.dateFormat !== undefined) {
+        updateData.dateFormat = data.dateFormat;
       }
 
       const formGroup = formGroupStore.update(cvId, id, updateData);
