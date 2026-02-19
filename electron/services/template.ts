@@ -18,14 +18,25 @@ export class TemplateService {
       return customTemplate.structure;
     }
 
+    // Try specified template folder
     const structurePath = path.join(templatesPath, templateName, 'structure', `${componentName}.json`);
     try {
       const content = await fs.readFile(structurePath, 'utf-8');
       return JSON.parse(content);
     } catch (error: unknown) {
       const err = error as NodeJS.ErrnoException;
+      if (err.code !== 'ENOENT') throw error;
+    }
+
+    // Fall back to default template
+    const defaultPath = path.join(templatesPath, 'default', 'structure', `${componentName}.json`);
+    try {
+      const content = await fs.readFile(defaultPath, 'utf-8');
+      return JSON.parse(content);
+    } catch (error: unknown) {
+      const err = error as NodeJS.ErrnoException;
       if (err.code === 'ENOENT') {
-        throw new Error(`Component ${componentName} not found in template ${templateName}`);
+        throw new Error(`Component ${componentName} not found in template ${templateName} or default`);
       }
       throw error;
     }
@@ -37,42 +48,75 @@ export class TemplateService {
       return customTemplate.style;
     }
 
+    // Try specified template folder
     const stylePath = path.join(templatesPath, templateName, 'style', `${componentName}.css`);
     try {
       const content = await fs.readFile(stylePath, 'utf-8');
       return CssJsonService.cssToJson(content);
     } catch (error: unknown) {
       const err = error as NodeJS.ErrnoException;
+      if (err.code !== 'ENOENT') throw error;
+    }
+
+    // Fall back to default template
+    const defaultPath = path.join(templatesPath, 'default', 'style', `${componentName}.css`);
+    try {
+      const content = await fs.readFile(defaultPath, 'utf-8');
+      return CssJsonService.cssToJson(content);
+    } catch (error: unknown) {
+      const err = error as NodeJS.ErrnoException;
       if (err.code === 'ENOENT') {
-        throw new Error(`Style for ${componentName} not found in template ${templateName}`);
+        throw new Error(`Style for ${componentName} not found in template ${templateName} or default`);
       }
       throw error;
     }
   }
 
   static async getDefaultStructure(templateName: string, componentName: FormGroupType): Promise<TemplateStructure> {
+    // Try specified template folder
     const structurePath = path.join(templatesPath, templateName, 'structure', `${componentName}.json`);
     try {
       const content = await fs.readFile(structurePath, 'utf-8');
       return JSON.parse(content);
     } catch (error: unknown) {
       const err = error as NodeJS.ErrnoException;
+      if (err.code !== 'ENOENT') throw error;
+    }
+
+    // Fall back to default template
+    const defaultPath = path.join(templatesPath, 'default', 'structure', `${componentName}.json`);
+    try {
+      const content = await fs.readFile(defaultPath, 'utf-8');
+      return JSON.parse(content);
+    } catch (error: unknown) {
+      const err = error as NodeJS.ErrnoException;
       if (err.code === 'ENOENT') {
-        throw new Error(`Component ${componentName} not found in template ${templateName}`);
+        throw new Error(`Component ${componentName} not found in template ${templateName} or default`);
       }
       throw error;
     }
   }
 
   static async getDefaultStyle(templateName: string, componentName: FormGroupType): Promise<TemplateStyle> {
+    // Try specified template folder
     const stylePath = path.join(templatesPath, templateName, 'style', `${componentName}.css`);
     try {
       const content = await fs.readFile(stylePath, 'utf-8');
       return CssJsonService.cssToJson(content);
     } catch (error: unknown) {
       const err = error as NodeJS.ErrnoException;
+      if (err.code !== 'ENOENT') throw error;
+    }
+
+    // Fall back to default template
+    const defaultPath = path.join(templatesPath, 'default', 'style', `${componentName}.css`);
+    try {
+      const content = await fs.readFile(defaultPath, 'utf-8');
+      return CssJsonService.cssToJson(content);
+    } catch (error: unknown) {
+      const err = error as NodeJS.ErrnoException;
       if (err.code === 'ENOENT') {
-        throw new Error(`Style for ${componentName} not found in template ${templateName}`);
+        throw new Error(`Style for ${componentName} not found in template ${templateName} or default`);
       }
       throw error;
     }
