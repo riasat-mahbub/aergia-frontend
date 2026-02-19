@@ -11,11 +11,13 @@ interface selectedForm{
 interface FormState {
   formHolders: FormHolder[];
   selectedForm: selectedForm | null;
+  selectedSectionId: string | null;
 }
 
 export const initialFormState: FormState = {
   formHolders: [],
   selectedForm: null,
+  selectedSectionId: null,
 };
 
 export const formSlice = createSlice({
@@ -119,6 +121,9 @@ export const formSlice = createSlice({
     setSelectedForm(state, action: PayloadAction<{formHolderId: string, form: ResumeForm} | null>){
       state.selectedForm = action.payload;
     },
+    setSelectedSection(state, action: PayloadAction<string | null>){
+      state.selectedSectionId = action.payload;
+    },
   },
 });
 
@@ -136,6 +141,7 @@ export const {
   reorderFormHolders,
   reorderForms,
   setSelectedForm,
+  setSelectedSection,
 } = formSlice.actions;
 
 // Selectors
@@ -148,4 +154,9 @@ export const getFormById = (state: { forms: FormState }, formHolderId: string, f
 
 export const getFormHolderById = (state: { forms: FormState }, formHolderId: string) => {
   return state.forms.formHolders.find((holder) => holder.id === formHolderId);
+};
+
+export const getSelectedSection = (state: { forms: FormState }) => {
+  if (!state.forms.selectedSectionId) return null;
+  return state.forms.formHolders.find((holder) => holder.id === state.forms.selectedSectionId) || null;
 };
