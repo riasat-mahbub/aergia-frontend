@@ -31,7 +31,7 @@ export default function FormHolderCard({ formHolder, onDelete }: FormHolderCardP
     dispatch(setFormHolderToShow(formHolder.id));
   };
 
-  const handleEdit = () => {
+  const handleEditFirstEntry = () => {
     if (formHolder.data.length > 0) {
       dispatch(setSelectedForm({
         formHolderId: formHolder.id,
@@ -40,7 +40,7 @@ export default function FormHolderCard({ formHolder, onDelete }: FormHolderCardP
     }
   };
 
-  const handleCardClick = () => {
+  const handleTitleClick = () => {
     dispatch(setSelectedSection(formHolder.id));
   };
 
@@ -61,14 +61,14 @@ export default function FormHolderCard({ formHolder, onDelete }: FormHolderCardP
           <GripVertical size={18} />
         </button>
 
-        <div
-          className="flex-1 cursor-pointer"
-          onClick={handleCardClick}
-        >
+        <div className="flex-1">
           <div className="flex justify-between items-start">
             <div className="flex items-center gap-3">
               <div className="flex flex-col">
-                <h3 className="text-sm font-semibold text-gray-800">
+                <h3 
+                  className="text-sm font-semibold text-gray-800 hover:text-emerald-600 cursor-pointer transition-colors"
+                  onClick={handleTitleClick}
+                >
                   {formHolder.title}
                 </h3>
                 <span className="text-xs text-gray-500 capitalize">
@@ -77,7 +77,7 @@ export default function FormHolderCard({ formHolder, onDelete }: FormHolderCardP
               </div>
             </div>
 
-            <div className="flex gap-1" onClick={(e) => e.stopPropagation()}>
+            <div className="flex gap-1">
               <button
                 onClick={handleToggleVisibility}
                 className="p-1 rounded hover:bg-gray-100 text-gray-600 transition"
@@ -86,7 +86,7 @@ export default function FormHolderCard({ formHolder, onDelete }: FormHolderCardP
                 {formHolder.visible ? <Eye size={16} /> : <EyeOff size={16} />}
               </button>
               <button
-                onClick={handleEdit}
+                onClick={handleEditFirstEntry}
                 className="p-1 rounded hover:bg-blue-100 text-blue-600 transition"
                 title="Edit first entry"
               >
