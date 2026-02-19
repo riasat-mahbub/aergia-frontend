@@ -2,6 +2,7 @@ import { Plus } from "lucide-react";
 import FormCollection from "./FormCollection";
 import FormEditor from "./FormEditor/FormEditor";
 import StyleEditor from "./StyleEditor/StyleEditor";
+import { SectionEditor } from "./SectionEditor";
 import { useState } from "react";
 import { RootState } from "@/store/store";
 import { useSelector, useDispatch } from "react-redux";
@@ -16,6 +17,7 @@ export default function LeftSide(){
     const [deleteFormHolderId, setDeleteFormHolderId] = useState<string | null>(null);
     const dispatch = useDispatch();
     const selectedForm = useSelector((state: RootState) => state.forms.selectedForm);
+    const selectedSectionId = useSelector((state: RootState) => state.forms.selectedSectionId);
     const selectedStyleEditor = useSelector((state: RootState) => state.settings.selectedStyleEditor);
     const styleFormHolder = useSelector((state: RootState) => 
         selectedStyleEditor ? getFormHolderById(state, selectedStyleEditor) : null
@@ -31,32 +33,48 @@ export default function LeftSide(){
         setDeleteFormHolderId(null);
     };
     
-    return(
-        <div className="lg:w-5/12 w-full flex flex-col items-center">
-            {selectedForm ? (
+    if (selectedSectionId) {
+        return (
+            <div className="lg:w-5/12 w-full flex flex-col items-center">
+                <SectionEditor />
+            </div>
+        );
+    }
+    
+    if (selectedForm) {
+        return (
+            <div className="lg:w-5/12 w-full flex flex-col items-center">
                 <FormEditor 
                     form={selectedForm.form} 
                     formHolderId={selectedForm.formHolderId}
                 />
-            ) : styleFormHolder ? (
+            </div>
+        );
+    }
+    
+    if (styleFormHolder) {
+        return (
+            <div className="lg:w-5/12 w-full flex flex-col items-center">
                 <StyleEditor 
                     formHolder={styleFormHolder}
                     onClose={() => dispatch(setSelectedStyleEditor(null))}
                 />
-            ) : (
-                <>
-                    <FormCollection onDeleteFormHolder={handleDeleteFormHolder} />
-                    <div 
-                        className="rounded-full text-white bg-emerald-500 flex mt-6 max-w-40 p-4 hover:shadow-lg hover:scale-105 transition-all duration-300 cursor-pointer"
-                        onClick={() => setActivePopover("AddFormHolder")}
-                    >
-                        <Plus/>
-                        Add Content
-                    </div>
-                    
-                    <PopoverDirector activePopover={activePopover} popoverData={deleteFormHolderId} onClose={closePopover} />
-                </>
-            )}
+            </div>
+        );
+    }
+    
+    return(
+        <div className="lg:w-5/12 w-full flex flex-col items-center">
+            <FormCollection onDeleteFormHolder={handleDeleteFormHolder} />
+            <div 
+                className="rounded-full text-white bg-emerald-500 flex mt-6 max-w-40 p-4 hover:shadow-lg hover:scale-105 transition-all duration-300 cursor-pointer"
+                onClick={() => setActivePopover("AddFormHolder")}
+            >
+                <Plus/>
+                Add Content
+            </div>
+            
+            <PopoverDirector activePopover={activePopover} popoverData={deleteFormHolderId} onClose={closePopover} />
         </div>
     )
 }
