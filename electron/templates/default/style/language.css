@@ -1,0 +1,49 @@
+.sectionTitle {
+  font-family: 'Arimo', Arial, sans-serif;
+  color: black;
+  font-size: 14px;
+  font-weight: normal;
+  margin-right: 10px;
+  margin-bottom: 8px;
+  border-bottom: 1px solid black;
+}
+
+.container {
+  font-family: 'Arimo', Arial, sans-serif;
+  font-weight: normal;
+  margin-bottom: 8px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.languageItem {
+  font-family: 'Arimo', Arial, sans-serif;
+  font-size: 11px;
+  font-weight: normal;
+  color: black;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
+
+.separator {
+  font-family: 'Arimo', Arial, sans-serif;
+  font-size: 11px;
+  font-weight: normal;
+  color: black;
+  margin-left: 4px;
+  margin-right: 4px;
+}
+
+.proficiency {
+  font-family: 'Arimo', Arial, sans-serif;
+  font-size: 10px;
+  font-weight: normal;
+  color: #666;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+}

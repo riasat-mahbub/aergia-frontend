@@ -1,0 +1,21 @@
+{
+  "type": "Div",
+  "style": ".container",
+  "children": [
+    {
+      "type": "Text",
+      "style": ".languageItem",
+      "bind": "data.language"
+    },
+    {
+      "type": "Raw",
+      "style": ".separator",
+      "bind": "-"
+    },
+    {
+      "type": "Text",
+      "style": ".proficiency",
+      "bind": "data.proficiency"
+    }
+  ]
+}
