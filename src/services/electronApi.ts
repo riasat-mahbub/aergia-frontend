@@ -72,7 +72,7 @@ class ElectronApiService {
     update: (
       cvId: string,
       id: string,
-      data: { title?: string; type?: string; data?: string | unknown[]; order?: number; visible?: boolean }
+      data: { title?: string; type?: string; data?: string | unknown[]; style?: string | Record<string, unknown>; order?: number; visible?: boolean }
     ) => {
       const updateData: Record<string, unknown> = { ...data };
       if (typeof data.data === 'string') {
@@ -80,6 +80,13 @@ class ElectronApiService {
           updateData.data = JSON.parse(data.data);
         } catch {
           updateData.data = [];
+        }
+      }
+      if (typeof data.style === 'string') {
+        try {
+          updateData.style = JSON.parse(data.style);
+        } catch {
+          updateData.style = {};
         }
       }
       return this.api.formGroups.update(cvId, id, updateData);

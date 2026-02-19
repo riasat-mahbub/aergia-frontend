@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useApi } from './useApi';
 import { setFormHolders, addFormHolderFromStore, updateFormHolder as updateFormHolderAction, deleteFormHolder as deleteFormHolderAction } from '@/store/formSlice';
@@ -8,18 +8,28 @@ import { ResumeStructure } from '@/types/ResumeStructureTypes';
 import { RootState } from '@/store/store';
 import type { FormGroup } from '@/vite-env';
 
+// Global ref to prevent multiple loads across hook instances
+const hasLoadedRef = { current: null as string | null };
 
 export function useFormHolders() {
   const { execute, loading, error, api } = useApi();
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
-  const hasLoadedRef = useRef<string | null>(null);
 
   const cvId = useSelector((state: RootState) => state.cv.selectedCvId);
+  const existingFormHolders = useSelector((state: RootState) => state.forms.formHolders);
 
   useEffect(() => {
-    if (!cvId || hasLoadedRef.current === cvId) return;
-
+    if (!cvId) return;
+    
+    // Skip if already loaded for this CV
+    if (hasLoadedRef.current === cvId) return;
+    
+    // Skip if we already have formHolders in Redux (prevents overwrite on remount)
+    if (existingFormHolders.length > 0) {
+      hasLoadedRef.current = cvId;
+      return;
+    }
 
     const loadFormHolders = async () => {
       setIsLoading(true);
@@ -46,7 +56,7 @@ export function useFormHolders() {
     };
 
     loadFormHolders();
-  }, [cvId, execute, dispatch, api.formGroups]);
+  }, [cvId, execute, dispatch, api.formGroups, existingFormHolders.length]);
 
   const saveFormHolder = async (title: string, type: string): Promise<FormHolder | null> => {
     if (!cvId) return null;

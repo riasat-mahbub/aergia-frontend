@@ -72,10 +72,25 @@ export function registerFormGroupHandlers(): void {
   ipcMain.handle(
     'formGroup:update',
     async (_event, cvId: string, id: string, data: UpdateFormGroupData): Promise<{ formGroup: FormGroup } | null> => {
-      const updateData: Partial<FormGroup> = { ...data };
+      const updateData: Partial<FormGroup> = {};
 
-      if (data.data) {
+      if (data.title !== undefined) {
+        updateData.title = data.title;
+      }
+      if (data.type !== undefined) {
+        updateData.type = data.type;
+      }
+      if (data.visible !== undefined) {
+        updateData.visible = data.visible;
+      }
+      if (data.order !== undefined) {
+        updateData.order = data.order;
+      }
+      if (data.data !== undefined) {
         updateData.data = SanitizationService.sanitizeData(data.data) as Record<string, any>[];
+      }
+      if (data.style !== undefined) {
+        updateData.style = data.style as Record<string, Record<string, string | number>>;
       }
 
       const formGroup = formGroupStore.update(cvId, id, updateData);
