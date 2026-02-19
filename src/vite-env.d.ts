@@ -109,6 +109,9 @@ interface ElectronAPI {
     generate: (cvId: string) => Promise<Buffer | null>;
   };
   savePdf: (pdfData: ArrayBuffer, defaultName: string) => Promise<{ success: boolean; path: string | null }>;
+  import: {
+    fromPdf: () => Promise<{ success: boolean; cvId?: string; error?: string }>;
+  };
 }
 
 declare global {

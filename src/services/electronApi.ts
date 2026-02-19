@@ -165,6 +165,10 @@ class ElectronApiService {
     save: (pdfData: ArrayBuffer, defaultName: string) => 
       this.safeCall('pdf.save', () => this.api.savePdf(pdfData, defaultName)),
   };
+
+  import = {
+    fromPdf: () => this.safeCall('import.fromPdf', () => this.api.import.fromPdf()),
+  };
 }
 
 export const apiService = new ElectronApiService();
