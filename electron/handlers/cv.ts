@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { cvStore, formGroupStore } from '../store.js';
 import { TemplateService, initTemplatesPath } from '../services/template.js';
 import { CssJsonService } from '../services/cssJson.js';
+import { getDefaultDateFormat } from '../services/dateUtils.js';
 import { CV, CreateCVData, UpdateCVData, ReorderData, FormGroup } from '../types.js';
 
 export function registerCvHandlers(): void {
@@ -52,6 +53,7 @@ export function registerCvHandlers(): void {
       data: [],
       structure,
       style,
+      dateFormat: getDefaultDateFormat(),
       createdAt: now,
       updatedAt: now,
     };
