@@ -11,6 +11,14 @@ export type FormGroupType =
   | 'volunteer'
   | 'publication';
 
+export type DateFormat = 
+  | 'mm-yyyy'
+  | 'dd-mm-yyyy'
+  | 'dd-mm-yy'
+  | 'month_name-yyyy'
+  | 'mon-yyyy'
+  | 'yyyy';
+
 export interface CV {
   id: string;
   title: string;
@@ -30,6 +38,7 @@ export interface FormGroup {
   data: Record<string, any>[];
   structure: Record<string, any> | null;
   style: Record<string, Record<string, string | number>> | null;
+  dateFormat: DateFormat;
   createdAt: string;
   updatedAt: string;
 }
@@ -93,6 +102,7 @@ export interface UpdateFormGroupData {
   order?: number;
   structure?: Record<string, any>;
   style?: Record<string, Record<string, string | number>>;
+  dateFormat?: DateFormat;
 }
 
 export interface ReorderData {

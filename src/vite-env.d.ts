@@ -17,6 +17,14 @@ export interface CV {
   updatedAt: string;
 }
 
+export type DateFormat = 
+  | 'mm-yyyy'
+  | 'dd-mm-yyyy'
+  | 'dd-mm-yy'
+  | 'month_name-yyyy'
+  | 'mon-yyyy'
+  | 'yyyy';
+
 export interface FormGroup {
   id: string;
   title: string;
@@ -27,6 +35,7 @@ export interface FormGroup {
   data: Record<string, any>[];
   structure: Record<string, any> | null;
   style: Record<string, Record<string, string | number>> | null;
+  dateFormat: DateFormat;
   createdAt: string;
   updatedAt: string;
 }

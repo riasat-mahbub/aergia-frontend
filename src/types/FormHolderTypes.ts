@@ -14,6 +14,14 @@ import {
 } from "./ResumeFormTypes";
 import { ResumeStructure } from "./ResumeStructureTypes";
 
+export type DateFormat = 
+  | 'mm-yyyy'
+  | 'dd-mm-yyyy'
+  | 'dd-mm-yy'
+  | 'month_name-yyyy'
+  | 'mon-yyyy'
+  | 'yyyy';
+
 interface FormHolderBase{
     title: string;
     type: string;
@@ -26,6 +34,7 @@ export interface FormHolder extends FormHolderBase{
     data: ResumeForm[];
     style?: Record<string, Record<string, string | number>>;
     structure?: ResumeStructure;
+    dateFormat?: DateFormat;
 }
 
 // separate type for API to handel stringified JSON
