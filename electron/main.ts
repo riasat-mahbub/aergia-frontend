@@ -7,6 +7,7 @@ import { registerFormGroupHandlers } from './handlers/formGroup.js';
 import { registerSettingsHandlers } from './handlers/settings.js';
 import { registerTemplateHandlers } from './handlers/template.js';
 import { registerPdfHandlers } from './handlers/pdf.js';
+import { registerImportHandlers } from './handlers/import.js';
 import { initTemplatesPath } from './services/template.js';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -75,6 +76,7 @@ app.whenReady().then(() => {
   registerSettingsHandlers();
   registerTemplateHandlers();
   registerPdfHandlers();
+  registerImportHandlers();
   
   createWindow();
 });
