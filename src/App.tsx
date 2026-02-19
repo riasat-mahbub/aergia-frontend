@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { HashRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import CVs from './pages/CVs';
@@ -8,7 +8,7 @@ import Error from './pages/Error';
 
 function App() {
   return (
-    <BrowserRouter>
+    <HashRouter>
       <div className="min-h-screen">
         <Navbar />
         <Routes>
@@ -20,7 +20,7 @@ function App() {
           <Route path="/error" element={<Error />} />
         </Routes>
       </div>
-    </BrowserRouter>
+    </HashRouter>
   );
 }
 
