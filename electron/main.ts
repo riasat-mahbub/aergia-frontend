@@ -7,11 +7,39 @@ import { registerFormGroupHandlers } from './handlers/formGroup.js';
 import { registerSettingsHandlers } from './handlers/settings.js';
 import { registerTemplateHandlers } from './handlers/template.js';
 import { registerPdfHandlers } from './handlers/pdf.js';
+import { initTemplatesPath } from './services/template.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 let mainWindow: BrowserWindow | null = null;
+
+// Log errors to file in production for debugging
+function setupErrorLogging() {
+  if (app.isPackaged) {
+    const logPath = path.join(app.getPath('userData'), 'aergia.log');
+    const originalConsoleError = console.error;
+    console.error = (...args) => {
+      const timestamp = new Date().toISOString();
+      const message = `[${timestamp}] ERROR: ${args.join(' ')}\n`;
+      fs.appendFileSync(logPath, message);
+      originalConsoleError(...args);
+    };
+    
+    // Also log uncaught exceptions
+    process.on('uncaughtException', (error) => {
+      const timestamp = new Date().toISOString();
+      const message = `[${timestamp}] UNCAUGHT EXCEPTION: ${error.message}\n${error.stack}\n`;
+      fs.appendFileSync(logPath, message);
+    });
+    
+    process.on('unhandledRejection', (reason, promise) => {
+      const timestamp = new Date().toISOString();
+      const message = `[${timestamp}] UNHANDLED REJECTION: ${reason}\n`;
+      fs.appendFileSync(logPath, message);
+    });
+  }
+}
 
 const createWindow = () => {
   mainWindow = new BrowserWindow({
@@ -25,7 +53,12 @@ const createWindow = () => {
   });
 
   if (app.isPackaged) {
-    mainWindow.loadFile(path.join(__dirname, '../build/index.html'));
+    const indexPath = path.join(__dirname, '../dist/index.html');
+    console.log('Loading from:', indexPath);
+    console.log('File exists:', fs.existsSync(indexPath));
+    mainWindow.loadFile(indexPath).catch(err => {
+      console.error('Failed to load index.html:', err);
+    });
   } else {
     mainWindow.loadURL('http://localhost:5173');
     mainWindow.webContents.openDevTools();
@@ -33,11 +66,15 @@ const createWindow = () => {
 };
 
 app.whenReady().then(() => {
+  setupErrorLogging();
+  initTemplatesPath();
+  
   registerCvHandlers();
   registerFormGroupHandlers();
   registerSettingsHandlers();
   registerTemplateHandlers();
   registerPdfHandlers();
+  
   createWindow();
 });
 

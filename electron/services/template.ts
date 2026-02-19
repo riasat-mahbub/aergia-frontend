@@ -8,7 +8,13 @@ import { FormGroupType, TemplateStructure, TemplateStyle, CustomTemplate } from 
 let templatesPath: string;
 
 export function initTemplatesPath(): void {
-  templatesPath = path.join(app.getAppPath(), 'electron', 'templates');
+  if (app.isPackaged) {
+    // In production, templates are in resources/templates (from extraResources)
+    templatesPath = path.join(process.resourcesPath, 'templates');
+  } else {
+    // In development, templates are in electron/templates
+    templatesPath = path.join(app.getAppPath(), 'electron', 'templates');
+  }
 }
 
 export class TemplateService {
