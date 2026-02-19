@@ -1,10 +1,11 @@
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { X, ChevronLeft, Save, Trash2 } from 'lucide-react';
 import { ResumeForm } from '@/types/ResumeFormTypes';
 import { updateForm, deleteForm, setSelectedForm } from '@/store/formSlice';
 import { useFormHolders } from '@/hooks/useFormHolders';
 import { getFormEditor } from './FormEditorRegistry';
 import { useState, useCallback, useEffect } from 'react';
+import { RootState } from '@/store/store';
 
 interface FormEditorProps {
   form: ResumeForm;
@@ -17,6 +18,11 @@ export default function FormEditor({ form, formHolderId }: FormEditorProps) {
   const [localForm, setLocalForm] = useState<ResumeForm>(form);
   const [isSaving, setIsSaving] = useState(false);
 
+  // Get the actual formHolder from Redux state
+  const formHolder = useSelector((state: RootState) =>
+    state.forms.formHolders.find(h => h.id === formHolderId)
+  );
+
   useEffect(() => {
     setLocalForm(form);
   }, [form]);
@@ -26,14 +32,11 @@ export default function FormEditor({ form, formHolderId }: FormEditorProps) {
   }, []);
 
   const handleSave = async () => {
+    if (!formHolder) return;
+
     setIsSaving(true);
     dispatch(updateForm({ formHolderId, form: localForm }));
-    await updateFormHolderData(
-      {
-        id: formHolderId, title: '', type: '', visible: true, order: 0, data: []
-      },
-      localForm
-    );
+    await updateFormHolderData(formHolder, localForm);
     setIsSaving(false);
   };
 
