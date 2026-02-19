@@ -32,7 +32,9 @@
       }
     ],
     "win": {
-      "target": ["nsis"],
+      "target": [
+        "nsis"
+      ],
       "icon": "build/favicon.ico"
     },
     "nsis": {
@@ -62,6 +64,7 @@
     "isomorphic-dompurify": "^2.36.0",
     "lucide-react": "^0.525.0",
     "motion": "^12.23.24",
+    "pdf-parse": "^2.4.5",
     "react": "^19.1.0",
     "react-collapsed": "^4.2.0",
     "react-dom": "^19.1.0",
@@ -77,6 +80,7 @@
     "@tailwindcss/postcss": "^4.0.0",
     "@types/dompurify": "^3.0.5",
     "@types/node": "^22.0.0",
+    "@types/pdf-parse": "^1.1.5",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
     "@vitejs/plugin-react": "^4.3.4",
