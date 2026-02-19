@@ -1,4 +1,4 @@
-import DOMPurify from 'dompurify';
+import DOMPurify from 'isomorphic-dompurify';
 
 export class SanitizationService {
   private static allowedTags = ['b', 'i', 'u', 'strong', 'em', 'p', 'br', 'ul', 'ol', 'li', 'a', 'span'];

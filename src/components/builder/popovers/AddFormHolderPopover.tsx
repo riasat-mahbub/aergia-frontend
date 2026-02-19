@@ -1,7 +1,5 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
 import { X } from "lucide-react";
-import { addFormHolder } from "@/store/formSlice";
 import { FORM_TEMPLATES } from "../FormHolderCard/FormTemplates";
 import { useFormHolders } from "@/hooks/useFormHolders";
 
@@ -10,7 +8,6 @@ interface AddFormHolderPopoverProps {
 }
 
 export default function AddFormHolderPopover({ onClose }: AddFormHolderPopoverProps) {
-  const dispatch = useDispatch();
   const { saveFormHolder } = useFormHolders();
   const [title, setTitle] = useState("");
   const [selectedType, setSelectedType] = useState(FORM_TEMPLATES[0].type);
@@ -21,28 +18,13 @@ export default function AddFormHolderPopover({ onClose }: AddFormHolderPopoverPr
 
     setLoading(true);
     
-    const formHolderData = {
-      formHolderTitle: title,
-      formHolderType: selectedType,
-      formHolderData: []
-    };
-
-    dispatch(addFormHolder(formHolderData));
-    
     try {
-      await saveFormHolder({
-        id: "",
-        title,
-        type: selectedType,
-        data: [],
-        visible: true,
-        order: 0
-      });
+      await saveFormHolder(title, selectedType);
+      onClose();
     } catch (err) {
       console.error("Failed to save form holder:", err);
     } finally {
       setLoading(false);
-      onClose();
     }
   };
 

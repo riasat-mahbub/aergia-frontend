@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useApi } from './useApi';
-import { setFormHolders } from '@/store/formSlice';
+import { setFormHolders, addFormHolderFromStore, updateFormHolder as updateFormHolderAction, deleteFormHolder as deleteFormHolderAction } from '@/store/formSlice';
 import { FormHolder } from '@/types/FormHolderTypes';
 import { ResumeForm } from '@/types/ResumeFormTypes';
 import { ResumeStructure } from '@/types/ResumeStructureTypes';
@@ -30,7 +30,6 @@ export function useFormHolders() {
         const formHolders: FormHolder[] = result.formHolders.map((formGroup: FormGroup) => ({
           id: formGroup.id,
           title: formGroup.title,
-          icon: 'default',
           type: formGroup.type,
           data: formGroup.data as ResumeForm[],
           style: formGroup.style ?? undefined,
@@ -49,16 +48,32 @@ export function useFormHolders() {
     loadFormHolders();
   }, [cvId, execute, dispatch, api.formGroups]);
 
-  const saveFormHolder = async (formHolder: FormHolder) => {
+  const saveFormHolder = async (title: string, type: string): Promise<FormHolder | null> => {
     if (!cvId) return null;
     
     const data = {
-      title: formHolder.title,
-      type: formHolder.type,
-      data: JSON.stringify(formHolder.data),
+      title,
+      type,
+      data: [],
     };
 
-    return execute(() => api.formGroups.create(cvId, data));
+    const result = await execute(() => api.formGroups.create(cvId, data));
+    if (result && 'formGroup' in result && result.formGroup) {
+      const fg = result.formGroup;
+      const formHolder: FormHolder = {
+        id: fg.id,
+        title: fg.title,
+        type: fg.type,
+        data: fg.data as ResumeForm[],
+        style: fg.style ?? undefined,
+        structure: fg.structure as ResumeStructure | undefined,
+        visible: fg.visible,
+        order: fg.order
+      };
+      dispatch(addFormHolderFromStore(formHolder));
+      return formHolder;
+    }
+    return null;
   };
 
   const updateFormHolder = async (formHolder: FormHolder) => {
@@ -73,7 +88,11 @@ export function useFormHolders() {
       order: formHolder.order
     };
 
-    return execute(() => api.formGroups.update(cvId, formHolder.id, data));
+    const result = await execute(() => api.formGroups.update(cvId, formHolder.id, data));
+    if (result && 'formGroup' in result && result.formGroup) {
+      dispatch(updateFormHolderAction(formHolder));
+    }
+    return result;
   };
 
   const reorderFormHolder = async(activeId:string, overId:string) =>{
@@ -105,7 +124,11 @@ export function useFormHolders() {
 
   const deleteFormHolder = async (formHolderId: string) => {
     if (!cvId) return null;
-    return execute(() => api.formGroups.delete(cvId, formHolderId));
+    const result = await execute(() => api.formGroups.delete(cvId, formHolderId));
+    if (result) {
+      dispatch(deleteFormHolderAction(formHolderId));
+    }
+    return result;
   };
 
   return {

@@ -1,4 +1,4 @@
-import DOMPurify from 'dompurify';
+import DOMPurify from 'isomorphic-dompurify';
 
 export function SafeHTML(html: string) {
   const forbiddenTags = ['p', 'h3', 'h4', 'h5', 'h6'];

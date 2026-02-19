@@ -54,6 +54,9 @@ export const formSlice = createSlice({
       );
       state.formHolders.push(newFormHolder);
     },
+    addFormHolderFromStore: (state, action: PayloadAction<FormHolder>) => {
+      state.formHolders.push(action.payload);
+    },
     updateFormHolder: (state, action: PayloadAction<FormHolder>) => {
       const index = state.formHolders.findIndex((holder) => holder.id === action.payload.id);
       if (index !== -1) {
@@ -132,6 +135,7 @@ export const {
   setFormHolderToShow,
   deleteFormHolder,
   addFormHolder,
+  addFormHolderFromStore,
   updateFormHolder,
   updateFormHolderData,
   addForm,

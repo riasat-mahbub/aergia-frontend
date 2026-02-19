@@ -51,17 +51,23 @@ export default function SectionEditor() {
     })
   );
 
-  if (!formHolder) {
-    return (
-      <div className="w-full p-4">
-        <p className="text-gray-500">Section not found</p>
-      </div>
-    );
-  }
-
   const handleBack = () => {
     dispatch(setSelectedSection(null));
   };
+
+  if (!formHolder) {
+    return (
+      <div className="w-full p-4 flex flex-col items-center justify-center gap-4">
+        <p className="text-gray-500">Section not found</p>
+        <button
+          onClick={handleBack}
+          className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
+        >
+          Go Back
+        </button>
+      </div>
+    );
+  }
 
   const handleTitleChange = (newTitle: string) => {
     setLocalTitle(newTitle);
