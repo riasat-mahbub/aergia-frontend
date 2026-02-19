@@ -1,9 +1,9 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   setSelectedSection,
   setSelectedForm,
-  updateFormHolder,
+  updateFormHolder as updateFormHolderAction,
   deleteForm,
   setFormToShow,
   addForm,
@@ -13,6 +13,7 @@ import { getEmptyFormByType, getFormTypeLabel } from '@/utils/formUtils';
 import { ResumeForm } from '@/types/ResumeFormTypes';
 import EntryCard from './EntryCard';
 import SectionStyleEditor from './SectionStyleEditor';
+import { useFormHolders } from '@/hooks/useFormHolders';
 import {
   DndContext,
   closestCenter,
@@ -33,8 +34,15 @@ import { ChevronLeft, Plus, Edit3, Palette } from 'lucide-react';
 export default function SectionEditor() {
   const dispatch = useDispatch();
   const formHolder = useSelector(getSelectedSection);
+  const { updateFormHolder, updateFormHolderData } = useFormHolders();
   const [activeTab, setActiveTab] = useState<'entries' | 'style'>('entries');
-  const [localTitle, setLocalTitle] = useState(formHolder?.title || '');
+  const [localTitle, setLocalTitle] = useState('');
+
+  useEffect(() => {
+    if (formHolder) {
+      setLocalTitle(formHolder.title);
+    }
+  }, [formHolder]);
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -59,14 +67,11 @@ export default function SectionEditor() {
     setLocalTitle(newTitle);
   };
 
-  const handleTitleSave = () => {
+  const handleTitleSave = async () => {
     if (localTitle !== formHolder.title) {
-      dispatch(
-        updateFormHolder({
-          ...formHolder,
-          title: localTitle,
-        })
-      );
+      const updated = { ...formHolder, title: localTitle };
+      dispatch(updateFormHolderAction(updated));
+      await updateFormHolder(updated);
     }
   };
 
@@ -74,33 +79,37 @@ export default function SectionEditor() {
     dispatch(setSelectedForm({ formHolderId: formHolder.id, form: entry }));
   };
 
-  const handleToggleVisibility = (entry: ResumeForm) => {
+  const handleToggleVisibility = async (entry: ResumeForm) => {
     dispatch(setFormToShow({ formHolderId: formHolder.id, formId: entry.id }));
+    const updatedEntry = formHolder.data.find(e => e.id === entry.id);
+    if (updatedEntry) {
+      await updateFormHolderData(formHolder, { ...updatedEntry, visible: !updatedEntry.visible });
+    }
   };
 
-  const handleDeleteEntry = (entry: ResumeForm) => {
+  const handleDeleteEntry = async (entry: ResumeForm) => {
     dispatch(deleteForm({ formHolderId: formHolder.id, formId: entry.id }));
+    const newData = formHolder.data.filter(e => e.id !== entry.id);
+    await updateFormHolder({ ...formHolder, data: newData });
   };
 
-  const handleAddEntry = () => {
+  const handleAddEntry = async () => {
     const newForm = getEmptyFormByType(formHolder.type);
     dispatch(addForm({ formHolderId: formHolder.id, form: newForm }));
+    await updateFormHolder({ ...formHolder, data: [...formHolder.data, newForm] });
     dispatch(setSelectedForm({ formHolderId: formHolder.id, form: newForm }));
   };
 
-  const handleDragEnd = (event: DragEndEvent) => {
+  const handleDragEnd = async (event: DragEndEvent) => {
     const { active, over } = event;
 
     if (over && active.id !== over.id) {
       const oldIndex = formHolder.data.findIndex((item) => item.id === String(active.id));
       const newIndex = formHolder.data.findIndex((item) => item.id === String(over.id));
       const newData = arrayMove(formHolder.data, oldIndex, newIndex);
-      dispatch(
-        updateFormHolder({
-          ...formHolder,
-          data: newData,
-        })
-      );
+      const updated = { ...formHolder, data: newData };
+      dispatch(updateFormHolderAction(updated));
+      await updateFormHolder(updated);
     }
   };
 
