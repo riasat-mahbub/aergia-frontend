@@ -53,7 +53,8 @@ const createWindow = () => {
   });
 
   if (app.isPackaged) {
-    const indexPath = path.join(__dirname, '../dist/index.html');
+    // main.js is at dist/electron/main.js, so go up one level to dist/
+    const indexPath = path.join(__dirname, '../index.html');
     console.log('Loading from:', indexPath);
     console.log('File exists:', fs.existsSync(indexPath));
     mainWindow.loadFile(indexPath).catch(err => {
