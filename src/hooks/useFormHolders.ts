@@ -20,16 +20,16 @@ export function useFormHolders() {
   const existingFormHolders = useSelector((state: RootState) => state.forms.formHolders);
 
   useEffect(() => {
-    if (!cvId) return;
+    if (!cvId) {
+      // Clear formHolders when no CV is selected
+      if (existingFormHolders.length > 0) {
+        dispatch(setFormHolders([]));
+      }
+      return;
+    }
     
     // Skip if already loaded for this CV
     if (hasLoadedRef.current === cvId) return;
-    
-    // Skip if we already have formHolders in Redux (prevents overwrite on remount)
-    if (existingFormHolders.length > 0) {
-      hasLoadedRef.current = cvId;
-      return;
-    }
 
     const loadFormHolders = async () => {
       setIsLoading(true);
@@ -51,13 +51,16 @@ export function useFormHolders() {
 
         formHolders.sort((a,b) => (a.order > b.order) ? 1 : ((b.order > a.order) ? -1 : 0))
         dispatch(setFormHolders(formHolders));
+      } else {
+        // Clear formHolders if no data returned (CV deleted or error)
+        dispatch(setFormHolders([]));
       }
       
       setIsLoading(false);
     };
 
     loadFormHolders();
-  }, [cvId, execute, dispatch, api.formGroups, existingFormHolders.length]);
+  }, [cvId, execute, dispatch, api.formGroups]);
 
   const saveFormHolder = async (title: string, type: string): Promise<FormHolder | null> => {
     if (!cvId) return null;
