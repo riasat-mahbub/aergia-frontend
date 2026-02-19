@@ -1,4 +1,6 @@
 import { ResumeForm } from "@/types/ResumeFormTypes";
+import { DateFormat } from "@/types/FormHolderTypes";
+import { formatDateRange, getDefaultDateFormat } from "./dateUtils";
 
 interface TemplateNode {
   type: string;
@@ -10,6 +12,14 @@ interface TemplateNode {
   source?: string;
   template?: TemplateNode;
   visible?: boolean;
+  dateFormat?: DateFormat;
+  startDate?: string;
+  endDate?: string;
+  isCurrent?: string;
+}
+
+interface RenderContext {
+  dateFormat: DateFormat;
 }
 
 export class TemplateRenderer {
@@ -69,7 +79,12 @@ export class TemplateRenderer {
     }
   }
 
-  static renderNode(node: TemplateNode, data: any, locals: Record<string, any> = {}): JSX.Element | null {
+  static renderNode(
+    node: TemplateNode, 
+    data: any, 
+    locals: Record<string, any> = {},
+    context: RenderContext = { dateFormat: getDefaultDateFormat() }
+  ): React.ReactNode {
     if (!node) return null;
     if (node.visible === false) return null;
     if (node.if && !this.evaluateCondition(node.if, data, locals)) return null;
@@ -79,7 +94,7 @@ export class TemplateRenderer {
     switch (node.type) {
       case 'Div': {
         const children = node.children?.map((child, i) => (
-          <span key={i}>{this.renderNode(child, data, locals)}</span>
+          <span key={i}>{this.renderNode(child, data, locals, context)}</span>
         ));
         if (!children || children.every(c => !c)) return null;
         return <div className={className}>{children}</div>;
@@ -89,6 +104,22 @@ export class TemplateRenderer {
         const value = this.getValue(node.bind || '', data, locals) || '';
         if (!value) return null;
         return <p className={className}>{String(value)}</p>;
+      }
+
+      case 'Date': {
+        const startDate = this.getValue(node.startDate || '', data, locals) || '';
+        const endDate = this.getValue(node.endDate || '', data, locals) || '';
+        const isCurrent = this.getValue(node.isCurrent || '', data, locals) || false;
+        
+        if (!startDate && !endDate) return null;
+        
+        const formattedDate = formatDateRange(
+          startDate, 
+          endDate, 
+          context.dateFormat,
+          Boolean(isCurrent)
+        );
+        return <p className={className}>{formattedDate}</p>;
       }
         
       case 'Html': {
@@ -124,7 +155,7 @@ export class TemplateRenderer {
           <>
             {arrayData.map((item, i) => {
               const newLocals = { ...locals, [itemName]: item };
-              return <span key={i}>{node.template && this.renderNode(node.template, data, newLocals)}</span>;
+              return <span key={i}>{node.template && this.renderNode(node.template, data, newLocals, context)}</span>;
             })}
           </>
         );
@@ -135,14 +166,22 @@ export class TemplateRenderer {
     }
   }
 
-  static renderStructure(structure: TemplateNode, formData: ResumeForm[]): JSX.Element[] {
+  static renderStructure(
+    structure: TemplateNode, 
+    formData: ResumeForm[],
+    dateFormat?: DateFormat
+  ): React.ReactNode[] {
     if (!structure || !formData) return [];
+    
+    const context: RenderContext = {
+      dateFormat: dateFormat || getDefaultDateFormat()
+    };
     
     return formData
       .filter(f => f.visible !== false)
       .map((form, i) => (
         <div key={form.id || i}>
-          {this.renderNode(structure, form, {})}
+          {this.renderNode(structure, form, {}, context)}
         </div>
       ));
   }

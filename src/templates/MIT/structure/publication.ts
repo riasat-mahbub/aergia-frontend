@@ -12,9 +12,11 @@ export default {
           bind: "data.title"
         },
         {
-          type: "Text",
+          type: "Date",
           style: ".date",
-          bind: "data.publicationDate"
+          startDate: "data.publicationDate",
+          endDate: "data.publicationDate",
+          if: "data.publicationDate"
         }
       ]
     },

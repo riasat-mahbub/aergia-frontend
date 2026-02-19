@@ -121,6 +121,10 @@ export function formatDateRange(
     return `${startFormatted} - Present`;
   }
 
+  if (startDate === endDate) {
+    return startFormatted;
+  }
+
   const endFormatted = formatDate(endDate, format);
   return `${startFormatted} - ${endFormatted}`;
 }

@@ -12,9 +12,11 @@ export default {
           bind: "data.name"
         },
         {
-          type: "Text",
+          type: "Date",
           style: ".date",
-          bind: "data.issueDate"
+          startDate: "data.issueDate",
+          endDate: "data.issueDate",
+          if: "data.issueDate"
         }
       ]
     },
@@ -25,7 +27,7 @@ export default {
     },
     {
       type: "Text",
-      style: ".description",
+      style: ".credentialId",
       bind: "data.credentialId"
     }
   ]

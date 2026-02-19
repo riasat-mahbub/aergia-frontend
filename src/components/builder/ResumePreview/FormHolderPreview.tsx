@@ -1,6 +1,7 @@
 import { FormHolder } from "@/types/FormHolderTypes";
 import { TemplateRenderer } from "@/utils/templateRenderer";
 import { getMITTemplate } from "@/templates/MIT";
+import { getDefaultDateFormat } from "@/utils/dateUtils";
 
 interface FormHolderPreviewProps {
   formHolder: FormHolder;
@@ -9,9 +10,8 @@ interface FormHolderPreviewProps {
 
 export default function FormHolderPreview({
   formHolder,
-  themeColor,
 }: FormHolderPreviewProps) {
-  const { type, title, data, id } = formHolder;
+  const { type, title, data, id, dateFormat } = formHolder;
 
   const template = getMITTemplate(type);
   const isProfile = type === "profile";
@@ -21,7 +21,7 @@ export default function FormHolderPreview({
       {!isProfile && (
         <p className="sectionTitle">{title}</p>
       )}
-      {TemplateRenderer.renderStructure(template, data)}
+      {TemplateRenderer.renderStructure(template, data, dateFormat || getDefaultDateFormat())}
     </div>
   );
 }
