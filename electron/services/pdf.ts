@@ -288,6 +288,7 @@ export class PdfService {
         margin: 0;
         line-height: inherit;
         font-family: Arial, Helvetica, sans-serif;
+        padding: 32px;
       }
       
       hr {
