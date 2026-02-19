@@ -12,9 +12,11 @@
           "bind": "data.title"
         },
         {
-          "type": "Text",
+          "type": "Date",
           "style": ".date",
-          "bind": "data.dateReceived"
+          "startDate": "data.dateReceived",
+          "endDate": "data.dateReceived",
+          "if": "data.dateReceived"
         }
       ]
     },

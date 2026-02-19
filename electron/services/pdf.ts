@@ -2,7 +2,12 @@ import { BrowserWindow } from 'electron';
 import { formGroupStore, cvStore } from '../store.js';
 import { TemplateService } from './template.js';
 import { CssJsonService } from './cssJson.js';
-import { FormGroup, TemplateStructure, TemplateStyle } from '../types.js';
+import { formatDateRange, getDefaultDateFormat } from './dateUtils.js';
+import { FormGroup, TemplateStructure, TemplateStyle, DateFormat } from '../types.js';
+
+interface RenderContext {
+  dateFormat: DateFormat;
+}
 
 export class PdfService {
   static async generatePdf(cvId: string): Promise<Buffer | null> {
@@ -99,25 +104,28 @@ export class PdfService {
       }
 
       const formData = formGroup.data || [];
+      const dateFormat = formGroup.dateFormat || getDefaultDateFormat();
 
       content += `<div class="th-${formGroup.id}">`;
       if (formGroup.type !== 'profile') {
         content += `<p class="sectionTitle">${this.escapeHtml(formGroup.title)}</p>`;
       }
-      content += this.renderStructure(structure as TemplateStructure, formData);
+      content += this.renderStructure(structure as TemplateStructure, formData, dateFormat);
       content += '</div>';
     }
 
     return content;
   }
 
-  private static renderStructure(structure: TemplateStructure, formData: Record<string, any>[]): string {
+  private static renderStructure(structure: TemplateStructure, formData: Record<string, any>[], dateFormat: DateFormat): string {
     if (!structure || !formData) return '';
+
+    const context: RenderContext = { dateFormat };
 
     let html = '';
 
     for (const form of formData.filter(f => f.visible !== false)) {
-      html += this.renderNode(structure, form, {});
+      html += this.renderNode(structure, form, {}, context);
     }
 
     return html;
@@ -126,7 +134,8 @@ export class PdfService {
   private static renderNode(
     node: TemplateStructure,
     data: Record<string, any>,
-    locals: Record<string, any> = {}
+    locals: Record<string, any> = {},
+    context: RenderContext = { dateFormat: getDefaultDateFormat() }
   ): string {
     if (!node) return '';
     if (node.visible === false) return '';
@@ -139,7 +148,7 @@ export class PdfService {
         let content = '';
         if (node.children) {
           for (const child of node.children) {
-            content += this.renderNode(child, data, locals);
+            content += this.renderNode(child, data, locals, context);
           }
         }
         if (!content.trim()) return '';
@@ -150,6 +159,22 @@ export class PdfService {
         const value = this.getValue(node.bind || '', data, locals) || '';
         if (!value) return '';
         return `<p class="${className}">${this.escapeHtml(String(value))}</p>`;
+      }
+
+      case 'Date': {
+        const startDate = this.getValue((node as any).startDate || '', data, locals) || '';
+        const endDate = this.getValue((node as any).endDate || '', data, locals) || '';
+        const isCurrent = this.getValue((node as any).isCurrent || '', data, locals) || false;
+        
+        if (!startDate && !endDate) return '';
+        
+        const formattedDate = formatDateRange(
+          startDate, 
+          endDate, 
+          context.dateFormat,
+          Boolean(isCurrent)
+        );
+        return `<p class="${className}">${this.escapeHtml(formattedDate)}</p>`;
       }
 
       case 'Html': {
@@ -185,7 +210,7 @@ export class PdfService {
         for (const item of arrayData) {
           const newLocals = { ...locals, [itemName]: item };
           if (node.template) {
-            mapContent += this.renderNode(node.template, data, newLocals);
+            mapContent += this.renderNode(node.template, data, newLocals, context);
           }
         }
         return mapContent;

@@ -12,26 +12,12 @@
           "bind": "data.organization"
         },
         {
-          "type": "Div",
-          "style": ".dateRow",
-          "children": [
-            {
-              "type": "Text",
-              "style": ".date",
-              "bind": "data.startDate"
-            },
-            {
-              "type": "Raw",
-              "style": ".date",
-              "bind": "-",
-              "if": "data.startDate && data.endDate"
-            },
-            {
-              "type": "Text",
-              "style": ".date",
-              "bind": "data.endDate"
-            }
-          ]
+          "type": "Date",
+          "style": ".date",
+          "startDate": "data.startDate",
+          "endDate": "data.endDate",
+          "isCurrent": "data.isCurrentRole",
+          "if": "data.startDate"
         }
       ]
     },
