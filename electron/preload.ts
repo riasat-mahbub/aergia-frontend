@@ -59,4 +59,9 @@ contextBridge.exposeInMainWorld('electronAPI', {
     const buffer = Buffer.from(pdfData);
     return await ipcRenderer.invoke('save-pdf', buffer, defaultName);
   },
+
+  // Import
+  import: {
+    fromPdf: () => ipcRenderer.invoke('import:fromPdf'),
+  },
 });
