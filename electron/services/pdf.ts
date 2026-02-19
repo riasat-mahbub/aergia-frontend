@@ -94,13 +94,15 @@ export class PdfService {
     let content = '';
 
     for (const formGroup of formGroups.filter(fg => fg.visible !== false)) {
-      let structure = formGroup.structure;
-      if (!structure) {
-        try {
-          structure = await TemplateService.getStructure(template, formGroup.type);
-        } catch {
-          continue;
-        }
+      // Always use template structure for consistent rendering with preview
+      // This ensures Date nodes and other template updates are reflected
+      let structure: TemplateStructure | null = null;
+      try {
+        structure = await TemplateService.getStructure(template, formGroup.type);
+      } catch {
+        // Fall back to stored structure if template not found
+        structure = formGroup.structure as TemplateStructure | null;
+        if (!structure) continue;
       }
 
       const formData = formGroup.data || [];
@@ -110,7 +112,7 @@ export class PdfService {
       if (formGroup.type !== 'profile') {
         content += `<p class="sectionTitle">${this.escapeHtml(formGroup.title)}</p>`;
       }
-      content += this.renderStructure(structure as TemplateStructure, formData, dateFormat);
+      content += this.renderStructure(structure, formData, dateFormat);
       content += '</div>';
     }
 
